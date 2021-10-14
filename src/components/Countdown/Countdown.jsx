@@ -100,8 +100,8 @@ export default class Countdown extends Component {
   render() {
     return (
       <div className="countdown">
-        <div id="timer" className="countdown-label">
-          <img className="url-icon icon-up2" alt="" src={calendar} /> {this.getPollLabel()}
+        <div id="timer" className="countdown-label" title={new Date(this.props.votingPeriodEnds * 1000).toString()}>
+          <img className="url-icon icon-up2" alt="" src={calendar}/> {this.getPollLabel()}
         </div>
         <div className="countdown-timer-bar">
           <div className={this.getStyle()} style={{ width: this.getWidth() }} />

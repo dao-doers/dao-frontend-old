@@ -1,0 +1,17 @@
+{
+	"folders": [
+		{
+			"path": "../daohaus-supergraph"
+		},
+		{
+			"path": "../graph-node"
+		},
+		{
+			"path": "."
+		},
+		{
+			"path": "../moloch"
+		}
+	],
+	"settings": {}
+}

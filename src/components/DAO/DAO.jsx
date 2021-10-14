@@ -45,7 +45,11 @@ const DAOQuery = ({ publicAddress, width, height, format }) => {
   }
   if (error) return null /* <div className="empty failure">{parser(i18n.t('failure-short', { errorMessage: error }))}</div>; */
 
-  const daoTitle = findLast(data.moloches, { id: publicAddress }).title;
+  console.log('findLast', {
+    findLast,
+    found: findLast(data.moloches, { id: publicAddress })
+  });
+  const daoTitle = findLast(data.moloches, { id: publicAddress.toLowerCase() }).title;
   let label;
   if (!daoTitle) {
     label = shortenCryptoName(publicAddress);

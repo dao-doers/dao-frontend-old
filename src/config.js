@@ -5,7 +5,7 @@ export const config = {
   },
   graph: {
     tokens: 'https://api.thegraph.com/subgraphs/name/protofire/token-registry',
-    moloch: 'https://api.thegraph.com/subgraphs/name/odyssy-automaton/daohaus',
+    moloch: 'http://144.126.223.15:8000/subgraphs/name/odyssy-automaton/daohaus',
     ens: 'https://api.thegraph.com/subgraphs/name/ensdomains/ens',
   },
   keys: {

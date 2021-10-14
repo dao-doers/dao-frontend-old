@@ -44,6 +44,7 @@ import thumbDown from 'images/rejected.svg';
 import thumbDownActive from 'images/rejected-active.svg';
 
 import 'styles/Dapp.css';
+import { sponsorProposal } from 'components/ProposalLauncher/utils';
 
 /**
  * @summary retrieves the corresponding query for the timeline.
@@ -246,7 +247,7 @@ const Feed = (props) => {
       const voterCount = (Number(totalVoters) > 0) ? i18n.t('see-proposal-vote-count', { totalVoters, voterLabel }) : i18n.t('no-voters')
 
       const proposalValue = _getProposalValue(proposal);
-      const abiLibrary = (proposal.molochVersion === '1') ? 'moloch' : 'moloch2';
+      const abiLibrary = 'moloch2';
 
       return (
         <Post
@@ -356,8 +357,10 @@ const Feed = (props) => {
                 :
                 null
               }
-              {(isUnsponsored) ?
+              {(isUnsponsored) ? <>
+                <button onClick={() => sponsorProposal(connectedAccount, daoAddress, proposal.proposalId)}>Sponsor</button>
                 <Flag styleClass={'warning period period-unsponsored'} url={url} label={i18n.t('moloch-flag-unsponsored')} tooltip={i18n.t('moloch-open-proposal')} />
+              </>
                 :
                 null
               }

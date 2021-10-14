@@ -76,7 +76,7 @@ export default class Proposal extends Component {
         return molochClient
         .query({
             query: gql `{
-                    moloches( where: {id: "${address}"} ) {
+                    moloches( where: {id: "${address.toLowerCase()}"} ) {
                         title
                         version
                         tokens {

@@ -4,15 +4,14 @@ import PropTypes from 'prop-types';
 import { defaults } from 'lib/const';
 import { noWallet, alreadyVoted, pollClosed, notSynced, notMember, noAddress, walletError } from 'components/Choice/messages';
 import { abiLibrary } from 'lib/abi';
+import { canVote, hasVoted, execute } from './utils';
 
-import { config } from 'config';
 import logo from 'images/logo.png';
 
 import { getDescription } from 'components/Post/Post';
 import i18n from 'i18n';
 import 'styles/Dapp.css';
 
-const Web3 = require('web3');
 const numeral = require('numeral');
 
 /**
@@ -61,58 +60,14 @@ export default class Choice extends Component {
   }
 
   pollOpen() {
-    const now = parseInt(this.props.now / 1000, 10);
+    const now = parseInt(this.props.now, 10);
+    console.log({
+      now,
+      begins: this.props.votingPeriodBegins,
+      ends: this.props.votingPeriodEnds
+    });
     return ((this.props.votingPeriodBegins < now) && (this.props.votingPeriodEnds > now));
   }
-
-  canVote = async (accountAddress) => {
-    const web3 = new Web3(window.web3.currentProvider);
-    const dao = await new web3.eth.Contract(abiLibrary[this.props.abi], this.props.publicAddress);
-    const response = await dao.methods.members(web3.utils.toChecksumAddress(accountAddress)).call({}, (err, res) => {
-      if (err) {
-        walletError(err);
-        return err;
-      }
-      return res;
-    });
-    return response.exists;
-  };
-
-  hasVoted = async (accountAddress) => {
-    const web3 = new Web3(window.web3.currentProvider);
-    const dao = await new web3.eth.Contract(abiLibrary[this.props.abi], this.props.publicAddress);
-    const response = await dao.methods.getMemberProposalVote(web3.utils.toChecksumAddress(accountAddress), this.props.proposalIndex).call({}, (err, res) => {
-      if (err) {
-        walletError(err);
-        return err;
-      }
-      return res;
-    });
-    return (response === 0 || response === '0');
-  };
-
-  execute = async () => {
-    const web3 = new Web3(window.web3.currentProvider);
-    const dao = await new web3.eth.Contract(abiLibrary[this.props.abi], this.props.publicAddress);
-    await dao.methods.submitVote(this.props.proposalIndex, this.props.voteValue).send({ from: this.props.accountAddress }, (err, res) => {
-      if (err) {
-        walletError(err);
-        return err;
-      }
-      if (res) {
-        window.showModal.value = false;
-        window.modal = {
-          icon: logo,
-          title: i18n.t('vote-cast'),
-          message: i18n.t('voting-interaction', { etherscan: `${config.web.explorer}/tx/${res}` }),
-          cancelLabel: i18n.t('close'),
-          mode: 'ALERT'
-        }
-        window.showModal.value = true;
-      }
-      return res;
-    });
-  };
 
   vote = async () => {
     // blockchain sync
@@ -131,12 +86,12 @@ export default class Choice extends Component {
     }
 
     // dao membership
-    if (!await this.canVote(this.props.accountAddress)) {
+    if (!await canVote(this.props.accountAddress, this.props.publicAddress)) {
       return notMember();
     }
 
     // already voted
-    if (!await this.hasVoted(this.props.accountAddress)) {
+    if (!await hasVoted(this.props.accountAddress, this.props.proposalIndex, this.props.publicAddress)) {
       return alreadyVoted();
     }
 
@@ -167,7 +122,7 @@ export default class Choice extends Component {
       mode: 'AWAIT'
     }
     window.showModal.value = true;
-    return await this.execute();
+    return await execute(this.props.proposalIndex, this.props.voteValue, this.props.accountAddress, this.props.publicAddress);
   }
 
   render() {
