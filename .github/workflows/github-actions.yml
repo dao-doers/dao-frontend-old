@@ -13,7 +13,7 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
     - run: yarn
-    - run: CI=false yarn build
+    - run: CI=false yarn build:dev
     - name: Deploy to Skynet
       if: github.ref == 'refs/heads/master'
       uses: SkynetLabs/deploy-to-skynet-action@v2
