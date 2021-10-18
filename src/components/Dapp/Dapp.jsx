@@ -13,39 +13,16 @@ import ProposalLauncher from 'components/ProposalLauncher/ProposalLauncher';
 
 // wallets
 import Web3Modal from 'web3modal';
-import WalletConnectProvider from '@walletconnect/web3-provider';
-import Portis from '@portis/web3';
 
 // settings
 import { defaults } from 'lib/const';
 import { config } from 'config'
 
-import GA from 'utils/Analytics'
 import 'styles/Dapp.css';
 
 const Web3 = require('web3');
-const Fortmatic = require('fortmatic');
 
-const providerOptions = {
-  fortmatic: {
-    package: Fortmatic,
-    options: {
-      key: config.keys.fortmatic,
-    },
-  },
-  walletconnect: {
-    package: WalletConnectProvider,
-    options: {
-      infuraId: config.keys.infura,
-    },
-  },
-  portis: {
-    package: Portis,
-    options: {
-      id: config.keys.portis
-    }
-  }
-};
+const providerOptions = {};
 
 const INITIAL_STATE = {
   fetching: false,
@@ -243,7 +220,6 @@ export default class Dapp extends Component {
     return (
       <>
         <Router>
-          {GA.init() && <GA.RouteTracker />}
           <Switch>
             {routes.map((route, index) => (
               <Route

@@ -1,23 +1,40 @@
 /* config-overrides.js */
 
-module.exports = function override(config, env) {
+module.exports = {
+    webpack: function override(config, env) {
+      console.log({
+          configBefore: config,
+          envBefore: env
+      });
+
+      config.mode = 'development';
+      config.optimization.minimize = false;
+
+      // Consolidate chunk files instead
+  config.optimization.splitChunks = {
+      cacheGroups: {
+        default: false,
+      },
+    };
+
+    config.optimization.runtimeChunk = false;
+
+    config.output.filename = '[name].js';
+
     console.log({
-        config
-    });
+      configAfter: config
+  });
 
-    config.optimization.minimize = false;
+      process.env.NODE_ENV = 'development';
 
-    // Consolidate chunk files instead
-config.optimization.splitChunks = {
-    cacheGroups: {
-      default: false,
-    },
-  };
-
-  config.optimization.runtimeChunk = false;
-
-  config.output.filename = '[name].js';
-
-    //do stuff with the webpack config...
-    return config;
+      //do stuff with the webpack config...
+      return config;
+  },
+  paths: function(paths, env) {
+    // console.log({
+    //   paths
+    // });
+    // ...add your paths config
+    return paths;
+  },
 }

@@ -9,9 +9,7 @@ export const config = {
     ens: 'https://api.thegraph.com/subgraphs/name/ensdomains/ens',
   },
   keys: {
-    fortmatic: 'pk_live_0826872BC201129A',
-    portis: '5e0569f8-ac4b-47ed-a2c6-469ceeccf696',
-    analytics: 'UA-69508804-1'
+    fortmatic: 'pk_live_0826872BC201129A'
   },
   component: {
     toggle: {

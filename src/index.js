@@ -3,9 +3,7 @@ import ReactDOM from 'react-dom';
 import Dapp from 'components/Dapp/Dapp';
 
 ReactDOM.render(
-  <React.StrictMode>
-    <Dapp />
-  </React.StrictMode>,
+  <Dapp />,
   document.getElementById('root')
 );
 
