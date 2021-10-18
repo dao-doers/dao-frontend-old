@@ -1,0 +1,38 @@
+{
+  "files": {
+    "main.css": "./static/css/main.b3d12ba1.css",
+    "main.js": "./main.js",
+    "main.css.map": "./static/css/main.b3d12ba1.css.map",
+    "main.js.map": "./main.js.map",
+    "index.html": "./index.html",
+    "static/media/approved-active.svg": "./static/media/approved-active.e5dcab01.svg",
+    "static/media/approved.svg": "./static/media/approved.4f1ee8fe.svg",
+    "static/media/arrow-down-active.svg": "./static/media/arrow-down-active.e5d33157.svg",
+    "static/media/arrow-down.svg": "./static/media/arrow-down.5ca471eb.svg",
+    "static/media/arrow-up-active.svg": "./static/media/arrow-up-active.6e4975c4.svg",
+    "static/media/back.svg": "./static/media/back.c43d76d8.svg",
+    "static/media/calendar.svg": "./static/media/calendar.3ecbe78a.svg",
+    "static/media/ethereum-active.svg": "./static/media/ethereum-active.e9df4e76.svg",
+    "static/media/ethereum.svg": "./static/media/ethereum.e53f716d.svg",
+    "static/media/flag.svg": "./static/media/flag.ec4f6409.svg",
+    "static/media/hand-active.svg": "./static/media/hand-active.d7a38072.svg",
+    "static/media/hand.svg": "./static/media/hand.787a5de8.svg",
+    "static/media/logo-white.png": "./static/media/logo-white.c701af99.png",
+    "static/media/logo.png": "./static/media/logo.d5454211.png",
+    "static/media/not-found.svg": "./static/media/not-found.653a3cbc.svg",
+    "static/media/open-active.svg": "./static/media/open-active.f3131a71.svg",
+    "static/media/open.svg": "./static/media/open.22909c66.svg",
+    "static/media/paper-active.svg": "./static/media/paper-active.3abb6989.svg",
+    "static/media/paper.svg": "./static/media/paper.0dae3bcb.svg",
+    "static/media/rejected-active.svg": "./static/media/rejected-active.fd8ecd0b.svg",
+    "static/media/rejected.svg": "./static/media/rejected.602c9c6e.svg",
+    "static/media/signout.svg": "./static/media/signout.ff5d3253.svg",
+    "static/media/tweet-active.svg": "./static/media/tweet-active.50eb1de7.svg",
+    "static/media/tweet.svg": "./static/media/tweet.e0106cb8.svg",
+    "static/media/twitter-card.png": "./static/media/twitter-card.84f04091.png"
+  },
+  "entrypoints": [
+    "static/css/main.b3d12ba1.css",
+    "main.js"
+  ]
+}
