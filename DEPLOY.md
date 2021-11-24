@@ -58,17 +58,19 @@ services:
   proxy:
     image: fsouza/docker-ssl-proxy:latest
     ports:
-      - '443:443'
+      - '8443:8443'
     depends_on:
       - graph-node
     labels:
       com.dnsdock.name: proxy
       com.dnsdock.image: projectname
     environment:
-      DOMAIN: localhost
-      SSL_PORT: 443
+      DOMAIN: nervosdao.community
+      SSL_PORT: 8443
       TARGET_PORT: 8000
       TARGET_HOST: 172.31.23.246
+    volumes:
+      - ./data/https:/etc/nginx/certs
 ```
 
 Now run:
