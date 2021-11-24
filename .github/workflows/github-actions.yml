@@ -12,8 +12,8 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-    - run: yarn
-    - run: CI=false yarn build
+    - run: npm ci
+    - run: CI=false npm run build
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v1
       with:
