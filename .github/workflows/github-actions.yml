@@ -21,4 +21,4 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: eu-central-1
     - name: Deploy
-      run: aws s3 sync ./build s3://community-dao
+      run: aws s3 sync ./build s3://nervosdao.community
