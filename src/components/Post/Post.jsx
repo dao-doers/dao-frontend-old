@@ -8,8 +8,8 @@ import { wrapURLs } from 'utils/strings';
 import { includeInSearch } from 'components/Search/Search';
 import Account from 'components/Account/Account';
 import DAO from 'components/DAO/DAO';
-
 import 'styles/Dapp.css';
+import { ToEthAddress } from 'components/ToEthAddress/ToEthAddress';
 
 /**
 * @summary quick function to determine if a string is a JSON
@@ -54,12 +54,35 @@ const _getDescription = (description) => {
 * @summary renders a post in the timeline
 */
 class Post extends Component {
+  _isMounted = false;
   constructor(props) {
     super(props);
     this.state = _getDescription(this.props.description);
+    this.state = {
+      ethAddress: "",
+    };
   }
 
+  componentDidMount() {
+    this._isMounted = true;
+    
+    ToEthAddress(this.props.memberAddress)
+    .then(address => {
+      if (this._isMounted) {
+        this.setState({
+          ethAddress: address
+        });
+      }
+    });
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false;
+  }
+  
   render() {
+    console.log('YOUR ETH WALLET IS:', this.state.ethAddress)
+
     const searchCache = i18n.t('search-post-preview', {
       title: typeof this.state.title === 'string' ? parser(this.state.title) : this.state.title,
       description: typeof this.state.description === 'string' ? parser(this.state.description) : this.state.description,
