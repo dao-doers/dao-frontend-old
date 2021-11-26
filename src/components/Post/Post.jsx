@@ -94,7 +94,7 @@ class Post extends Component {
       <div className="vote vote-search vote-feed nondraggable vote-poll">
         <div className="checkbox checkbox-custom">
           <div className="meta meta-search meta-bar">
-            <Account publicAddress={this.state.isFetching ? ethAddress : 'Loading...'} width="16px" height="16px" /> (Polyjuice address)
+            <Account publicAddress={this.state.isFetching ? ethAddress : 'Loading...'} width="16px" height="16px" />
             <DAO publicAddress={this.props.daoAddress} width="16px" height="16px" />
           </div>
           <div className="option-proposal">
