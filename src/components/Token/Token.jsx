@@ -21,18 +21,10 @@ const _check404 = (image_url) => {
   }
 }
 
-const NanValue = function (entry) {
-  if(entry === "NaN") {
-      return 0.00;
-  } else {
-      return entry;
-  }
-}
-
 const _getBalanceLabel = (quantity, decimals) => {
   const zeroes = (!decimals) ? 0 : Number(decimals);
 
-  return NanValue(numeral(new BigNumber(quantity).dividedBy(Math.pow(10, zeroes)).toNumber()).format('0,0.[00]'));
+  return numeral(new BigNumber(quantity).dividedBy(Math.pow(10, zeroes)).toNumber()).format('0,0.[00]');
 }
 
 /**
