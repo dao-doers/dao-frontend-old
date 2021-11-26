@@ -60,6 +60,7 @@ class Post extends Component {
     this.state = _getDescription(this.props.description);
     this.state = {
       ethAddress: "",
+      isFetching: false
     };
   }
 
@@ -72,6 +73,7 @@ class Post extends Component {
         this.setState({
           ethAddress: address
         });
+        this.setState({ isFetching: true });
       }
     });
   }
@@ -81,8 +83,7 @@ class Post extends Component {
   }
   
   render() {
-    console.log('YOUR ETH WALLET IS:', this.state.ethAddress)
-
+    const {ethAddress} = this.state
     const searchCache = i18n.t('search-post-preview', {
       title: typeof this.state.title === 'string' ? parser(this.state.title) : this.state.title,
       description: typeof this.state.description === 'string' ? parser(this.state.description) : this.state.description,
@@ -93,7 +94,7 @@ class Post extends Component {
       <div className="vote vote-search vote-feed nondraggable vote-poll">
         <div className="checkbox checkbox-custom">
           <div className="meta meta-search meta-bar">
-            <Account publicAddress={this.props.memberAddress} width="16px" height="16px" /> (Polyjuice address)
+            <Account publicAddress={this.state.isFetching ? ethAddress : 'Loading...'} width="16px" height="16px" /> (Polyjuice address)
             <DAO publicAddress={this.props.daoAddress} width="16px" height="16px" />
           </div>
           <div className="option-proposal">
