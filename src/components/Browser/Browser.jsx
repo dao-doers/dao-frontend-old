@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import { defaults } from 'lib/const';
 import { withRouter } from 'react-router-dom';
 
-import Search from 'components/Search/Search';
 import Account from 'components/Account/Account';
 import DAO from 'components/DAO/DAO';
 import Timeline from 'components/Timeline/Timeline';
@@ -140,32 +139,6 @@ class Browser extends Component {
     if (this.props.match.params.search) {
       return <Timeline param={this.props.match.params.search} view={routerView.SEARCH} format="searchBar" />;
     }
-
-    if (this.props.match.params.token) {
-      return (
-        <Search
-          contextTag={{
-            id: this.props.match.params.token,
-            text: i18n.t('search-token', { searchTerm: this.props.match.params.token.toUpperCase() }),
-          }}
-        />
-      );
-    }
-
-    if (this.props.match.params.date) {
-      let options = { year: 'numeric', month: 'short', day: 'numeric' };
-      var today = new Date(this.props.match.params.date);
-      return (
-        <Search
-          contextTag={{
-            id: this.props.match.params.date,
-            text: i18n.t('search-date', { searchTerm: today.toLocaleDateString('en-US', options) }),
-          }}
-        />
-      );
-    }
-
-    return <Search />;
   }
 
   render() {
