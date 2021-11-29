@@ -8,8 +8,8 @@ import { wrapURLs } from 'utils/strings';
 import { includeInSearch } from 'components/Search/Search';
 import Account from 'components/Account/Account';
 import DAO from 'components/DAO/DAO';
-
 import 'styles/Dapp.css';
+import { ToEthAddress } from 'components/ToEthAddress/ToEthAddress';
 
 /**
 * @summary quick function to determine if a string is a JSON
@@ -54,12 +54,36 @@ const _getDescription = (description) => {
 * @summary renders a post in the timeline
 */
 class Post extends Component {
+  _isMounted = false;
   constructor(props) {
     super(props);
     this.state = _getDescription(this.props.description);
+    this.state = {
+      ethAddress: "",
+      isFetching: false
+    };
   }
 
+  componentDidMount() {
+    this._isMounted = true;
+    
+    ToEthAddress(this.props.memberAddress)
+    .then(address => {
+      if (this._isMounted) {
+        this.setState({
+          ethAddress: address
+        });
+        this.setState({ isFetching: true });
+      }
+    });
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false;
+  }
+  
   render() {
+    const {ethAddress} = this.state
     const searchCache = i18n.t('search-post-preview', {
       title: typeof this.state.title === 'string' ? parser(this.state.title) : this.state.title,
       description: typeof this.state.description === 'string' ? parser(this.state.description) : this.state.description,
@@ -70,7 +94,7 @@ class Post extends Component {
       <div className="vote vote-search vote-feed nondraggable vote-poll">
         <div className="checkbox checkbox-custom">
           <div className="meta meta-search meta-bar">
-            <Account publicAddress={this.props.memberAddress} width="16px" height="16px" /> (Polyjuice address)
+            <Account publicAddress={this.state.isFetching ? ethAddress : 'Loading...'} width="16px" height="16px" />
             <DAO publicAddress={this.props.daoAddress} width="16px" height="16px" />
           </div>
           <div className="option-proposal">

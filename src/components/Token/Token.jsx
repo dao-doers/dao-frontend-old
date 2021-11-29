@@ -23,6 +23,7 @@ const _check404 = (image_url) => {
 
 const _getBalanceLabel = (quantity, decimals) => {
   const zeroes = (!decimals) ? 0 : Number(decimals);
+
   return numeral(new BigNumber(quantity).dividedBy(Math.pow(10, zeroes)).toNumber()).format('0,0.[00]');
 }
 
