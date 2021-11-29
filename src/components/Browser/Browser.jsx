@@ -124,9 +124,9 @@ class Browser extends Component {
   }
 
   renderTitle() {
-    if (this.props.match.params.address) {
-      return <Account publicAddress={this.props.match.params.address} format="searchBar" />;
-    }
+    // if (this.props.match.params.address) {
+    //   return <Account publicAddress={this.props.match.params.address} format="searchBar" />;
+    // }
 
     if (this.props.match.params.dao) {
       return <DAO publicAddress={this.props.match.params.dao} format="searchBar" />;
