@@ -7,8 +7,8 @@ import Flag from 'components/Flag/Flag';
 import 'styles/Dapp.css';
 
 /**
-* @summary renders a post in the timeline
-*/
+ * @summary renders a post in the timeline
+ */
 export default class Period extends Component {
   static propTypes = {
     now: PropTypes.number,
@@ -16,8 +16,8 @@ export default class Period extends Component {
     votingPeriodEnds: PropTypes.string,
     gracePeriodEnds: PropTypes.string,
     url: PropTypes.string,
-    status: PropTypes.string
-  }
+    status: PropTypes.string,
+  };
 
   getStyle() {
     if (this.props.now > this.props.gracePeriodEnds) {
@@ -43,7 +43,12 @@ export default class Period extends Component {
 
   render() {
     return (
-      <Flag styleClass={this.getStyle()} url={this.props.url} label={this.getLabel()} tooltip={i18n.t('moloch-open-proposal')} />
+      <Flag
+        styleClass={this.getStyle()}
+        url={this.props.url}
+        label={this.getLabel()}
+        tooltip={i18n.t('moloch-open-proposal')}
+      />
     );
   }
 }

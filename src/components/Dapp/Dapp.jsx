@@ -1,9 +1,5 @@
 import React, { Component } from 'react';
-import {
-  HashRouter as Router,
-  Switch,
-  Route
-} from 'react-router-dom';
+import { HashRouter as Router, Switch, Route } from 'react-router-dom';
 
 // dapp
 import Browser from 'components/Browser/Browser';
@@ -16,7 +12,7 @@ import Web3Modal from 'web3modal';
 
 // settings
 import { defaults } from 'lib/const';
-import { config } from 'config'
+import { config } from 'config';
 
 import 'styles/Dapp.css';
 
@@ -37,7 +33,7 @@ const INITIAL_STATE = {
   showProposalLauncher: false,
   pendingRequest: false,
   result: null,
-  mobile: (window.innerWidth < 768),
+  mobile: window.innerWidth < 768,
 };
 
 const routes = [
@@ -77,8 +73,8 @@ const routes = [
 export const ConnectedAccount = React.createContext('');
 
 /**
-* @summary Dapp layout with routing and wallet configuration.
-*/
+ * @summary Dapp layout with routing and wallet configuration.
+ */
 export default class Dapp extends Component {
   constructor(props) {
     super(props);
@@ -102,11 +98,11 @@ export default class Dapp extends Component {
       this.onConnect();
     }
     window.addEventListener('resize', this.resize);
-    
+
     // modal
     window.showModal = {
       valueInternal: false,
-      valueListener: function (val) { },
+      valueListener: function (val) {},
       set value(val) {
         this.valueInternal = val;
         this.valueListener(val);
@@ -116,12 +112,12 @@ export default class Dapp extends Component {
       },
       registerListener: function (listener) {
         this.valueListener = listener;
-      }
-    }
+      },
+    };
     // proposal launcher
     window.showProposalLauncher = {
       valueInternal: false,
-      valueListener: function (val) { },
+      valueListener: function (val) {},
       set value(val) {
         this.valueInternal = val;
         this.valueListener(val);
@@ -131,8 +127,8 @@ export default class Dapp extends Component {
       },
       registerListener: function (listener) {
         this.valueListener = listener;
-      }
-    }
+      },
+    };
 
     const instance = this;
     window.showModal.registerListener(function (val) {
@@ -145,14 +141,14 @@ export default class Dapp extends Component {
   }
 
   componentWillUnmount() {
-    window.removeEventListener('resize', this.resize)
+    window.removeEventListener('resize', this.resize);
   }
 
   showModal(val) {
     this.setState({ showModal: val });
   }
 
-  showProposalLauncher(val){
+  showProposalLauncher(val) {
     this.setState({ showProposalLauncher: val });
   }
 
@@ -178,20 +174,22 @@ export default class Dapp extends Component {
     if (!provider.on) {
       return;
     }
-    provider.on('close', () => { this.reset(); });
+    provider.on('close', () => {
+      this.reset();
+    });
 
-    provider.on('accountsChanged', async (accounts) => {
+    provider.on('accountsChanged', async accounts => {
       this.setState({ address: accounts[0] });
       this.render();
     });
 
-    provider.on('chainChanged', async (chainId) => {
+    provider.on('chainChanged', async chainId => {
       const { web3 } = this.state;
       const networkId = await web3.eth.net.getId();
       this.setState({ chainId, networkId });
     });
 
-    provider.on('networkChanged', async (networkId) => {
+    provider.on('networkChanged', async networkId => {
       const { web3 } = this.state;
       const chainId = await web3.eth.chainId();
       this.setState({ chainId, networkId });
@@ -226,35 +224,33 @@ export default class Dapp extends Component {
                 key={index}
                 path={route.path}
                 exact={route.exact}
-                children={  
+                children={
                   <>
-                    {(this.state.showModal) ?
-                      <Modal visible={this.state.showModal} modal={window.modal} mode={window.modal.mode}/>
-                      :
-                      null
-                    }
-                    {this.state.showProposalLauncher ?
-                      <ProposalLauncher visible={this.state.showProposalLauncher} accountAddress={this.state.address} address={window.proposalLauncher.address}/>
-                      :
-                      null
-                    }
+                    {this.state.showModal ? (
+                      <Modal visible={this.state.showModal} modal={window.modal} mode={window.modal.mode} />
+                    ) : null}
+                    {this.state.showProposalLauncher ? (
+                      <ProposalLauncher
+                        visible={this.state.showProposalLauncher}
+                        accountAddress={this.state.address}
+                        address={window.proposalLauncher.address}
+                      />
+                    ) : null}
                     <div id="dapp" className="dapp">
                       <Browser address={this.state.address} walletConnect={this.onConnect} walletReset={this.reset} />
                       <ConnectedAccount.Provider value={this.state.address}>
                         <Layout address={this.state.address} />
                       </ConnectedAccount.Provider>
                     </div>
-                    {(this.state.mobile || (window.innerWidth < 768)) ?
+                    {this.state.mobile || window.innerWidth < 768 ? (
                       <Layout address={this.state.address} mobileMenu={true} />
-                      :
-                      null
-                    }                  
+                    ) : null}
                   </>
                 }
               />
             ))}
           </Switch>
-      </Router>
+        </Router>
       </>
     );
   }

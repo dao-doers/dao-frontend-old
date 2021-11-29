@@ -1,6 +1,6 @@
 /**
-* @summary rules applied to overall app
-*/
+ * @summary rules applied to overall app
+ */
 const _rules = {
   TITLE_MAX_LENGTH: 0, // length of contract titles
   MAX_TAGS_PER_CONTRACT: 6, // max amount of tags per contract
@@ -10,8 +10,8 @@ const _rules = {
 };
 
 /**
-* @summary default blocktimes
-*/
+ * @summary default blocktimes
+ */
 const _blocktimes = {
   ETHEREUM_DAY: 5800,
   ETHEREUM_WEEK: 40600,
@@ -22,8 +22,8 @@ const _blocktimes = {
 };
 
 /**
-* @summary settings applied to transactions and delegations
-*/
+ * @summary settings applied to transactions and delegations
+ */
 const _defaultSettings = {
   delegations: {
     condition: {
@@ -37,8 +37,8 @@ const _defaultSettings = {
 };
 
 /**
-* @summary gui settings for mobile and desktop rendering
-*/
+ * @summary gui settings for mobile and desktop rendering
+ */
 const _gui = {
   MIN_AGORA_WIDTH: 360, // pixel min width for agora when resizing
   MIN_CONTRACT_WIDTH: 360, // pix min width for contract when resizing
@@ -54,8 +54,8 @@ const _gui = {
 };
 
 /**
-* @summary timers for animation and other operations
-*/
+ * @summary timers for animation and other operations
+ */
 const _timers = {
   SERVER_INTERVAL: 10, // time in ms to communicate with server for contenteditable stuff.
   ANIMATION_DURATION: 250, // pace of animations
@@ -65,8 +65,8 @@ const _timers = {
 };
 
 /**
-* @summary just default values
-*/
+ * @summary just default values
+ */
 const _defaults = {
   BLOCKCHAIN: 'ETHEREUM',
   TOKEN: 'SHARES',
@@ -89,8 +89,8 @@ const _view = {
   PROPOSAL: 'proposal',
   TOKEN: 'token',
   DATE: 'date',
-  SEARCH: 'search'
-}
+  SEARCH: 'search',
+};
 
 const _period = {
   QUEUE: 'queue',
@@ -99,8 +99,8 @@ const _period = {
   READY: 'ready',
   KICKED: 'kicked',
   REJECTED: 'rejected',
-  APPROVED: 'approved'
-}
+  APPROVED: 'approved',
+};
 
 const _replicaThreshold = {
   VERY: 0.66,

@@ -13,7 +13,7 @@ const _showMain = () => {
     document.getElementById('main-feed').style.display = 'inline-block';
     document.getElementById('alternative-feed').style.display = 'none';
   }
-}
+};
 
 const _showAlternative = () => {
   if (document.getElementById('main-feed') && document.getElementById('alternative-feed')) {
@@ -21,19 +21,21 @@ const _showAlternative = () => {
     document.getElementById('alternative-feed').style.display = 'flex';
     document.getElementById('alternative-feed').style.minHeight = '0px';
   }
-}
+};
 
 /**
-* @summary displays the contents of a poll
-*/
+ * @summary displays the contents of a poll
+ */
 export default class TabMenu extends Component {
   static propTypes = {
-    tabs: PropTypes.arrayOf(PropTypes.shape({
-      key: PropTypes.number.isRequired,
-      label: PropTypes.string.isRequired,
-      action: PropTypes.func.isRequired,
-      selected: PropTypes.bool,
-    })).isRequired,
+    tabs: PropTypes.arrayOf(
+      PropTypes.shape({
+        key: PropTypes.number.isRequired,
+        label: PropTypes.string.isRequired,
+        action: PropTypes.func.isRequired,
+        selected: PropTypes.bool,
+      }),
+    ).isRequired,
   };
 
   constructor(props) {
@@ -41,7 +43,7 @@ export default class TabMenu extends Component {
 
     this.state = {
       scrollUp: false,
-      selectedTab: 0
+      selectedTab: 0,
     };
 
     this.handleScroll = this.handleScroll.bind(this);
@@ -52,19 +54,23 @@ export default class TabMenu extends Component {
   async componentDidMount() {
     const viewport = document.getElementById('content');
     viewport.addEventListener('scroll', this.handleScroll, false);
-    window.addEventListener('resize', this.resize)
+    window.addEventListener('resize', this.resize);
   }
 
   componentWillUnmount() {
     const viewport = document.getElementById('content');
     viewport.removeEventListener('scroll', this.handleScroll, false);
-    window.removeEventListener('resize', this.resize)
+    window.removeEventListener('resize', this.resize);
   }
 
   resize() {
-    if (window.innerWidth > 991 && (document.getElementById('main-feed').style.display === 'none' || document.getElementById('alternative-feed').style.display === 'none')) {
+    if (
+      window.innerWidth > 991 &&
+      (document.getElementById('main-feed').style.display === 'none' ||
+        document.getElementById('alternative-feed').style.display === 'none')
+    ) {
       document.getElementById('main-feed').style.display = 'inline-block';
-      document.getElementById('alternative-feed').style.display = 'flex';      
+      document.getElementById('alternative-feed').style.display = 'flex';
     } else if (window.innerWidth <= 991) {
       if (document.getElementById('main-feed').style.display === 'none') {
         this.setState({ selectedTab: 1 });
@@ -110,20 +116,20 @@ export default class TabMenu extends Component {
     const viewport = document.getElementById('content');
     const st = viewport.scrollTop;
 
-    if ((st > lastScrollTop) && (st > 60) && !this.state.scrollUp) {
+    if (st > lastScrollTop && st > 60 && !this.state.scrollUp) {
       this.setState({ scrollUp: true });
-    } else if ((st <= lastScrollTop) && this.state.scrollUp) {
+    } else if (st <= lastScrollTop && this.state.scrollUp) {
       this.setState({ scrollUp: false });
     }
     lastScrollTop = st <= 0 ? 0 : st;
   }
 
   getTabs(selected) {
-    return this.props.tabs.map((item) => {
+    return this.props.tabs.map(item => {
       return (
-        <Tab key={item.key} id={item.key} label={item.label} action={item.action} selected={(selected === item.key)} />
+        <Tab key={item.key} id={item.key} label={item.label} action={item.action} selected={selected === item.key} />
       );
-    })
+    });
   }
 
   render() {
@@ -135,7 +141,7 @@ export default class TabMenu extends Component {
       </>
     );
   }
-};
+}
 
 export const showMain = _showMain;
 export const showAlternative = _showAlternative;

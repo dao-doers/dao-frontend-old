@@ -1,4 +1,3 @@
-
 import { gql } from 'apollo-boost';
 
 const VOTE_DATA = `

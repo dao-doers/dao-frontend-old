@@ -1,0 +1,11 @@
+yarn.lock
+public/
+build/
+node_modules/
+package.json
+package-lock.json
+.gitignore
+.prettierignore
+.env
+.env.development
+.prettierrc 

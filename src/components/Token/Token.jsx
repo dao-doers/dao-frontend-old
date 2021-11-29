@@ -3,14 +3,14 @@ import BigNumber from 'bignumber.js/bignumber';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
-import { config } from 'config'
+import { config } from 'config';
 import web3 from 'web3';
 
 import 'styles/Dapp.css';
 
 const numeral = require('numeral');
 
-const _check404 = (image_url) => {
+const _check404 = image_url => {
   try {
     var http = new XMLHttpRequest();
     http.open('HEAD', image_url, false);
@@ -19,18 +19,18 @@ const _check404 = (image_url) => {
   } catch (e) {
     console.clear();
   }
-}
+};
 
 const _getBalanceLabel = (quantity, decimals) => {
-  const zeroes = (!decimals) ? 0 : Number(decimals);
+  const zeroes = !decimals ? 0 : Number(decimals);
 
   return numeral(new BigNumber(quantity).dividedBy(Math.pow(10, zeroes)).toNumber()).format('0,0.[00]');
-}
+};
 
 /**
-* @summary renders a post in the timeline
-*/
-const Token = (props) => {
+ * @summary renders a post in the timeline
+ */
+const Token = props => {
   const balance = _getBalanceLabel(props.quantity, props.decimals);
 
   let imageExists = false;
@@ -41,27 +41,23 @@ const Token = (props) => {
   }
 
   const tokenLink = (
-    <Link to={`/token/${props.symbol.toLowerCase()}`} className="token-ticker" onClick={(e) => { e.stopPropagation(); }}>
-      {(props.publicAddress && imageExists) ?
-        <img className="token-icon" src={image} alt="" />
-        :
-        null
-      }
+    <Link
+      to={`/token/${props.symbol.toLowerCase()}`}
+      className="token-ticker"
+      onClick={e => {
+        e.stopPropagation();
+      }}
+    >
+      {props.publicAddress && imageExists ? <img className="token-icon" src={image} alt="" /> : null}
       {props.symbol}
     </Link>
   );
 
   return (
     <div className="token">
-      {(props.symbol !== 'SHARES') ?
-        tokenLink
-        :
-        null
-      }
+      {props.symbol !== 'SHARES' ? tokenLink : null}
       <div className="token-balance">
-        <div className="token-score">
-          {balance}
-        </div>
+        <div className="token-score">{balance}</div>
       </div>
     </div>
   );

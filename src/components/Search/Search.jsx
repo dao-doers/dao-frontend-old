@@ -47,12 +47,15 @@ const _dynamicTitle = (label) => {
 };
 */
 
-const _getTags = (contextTag) => {
+const _getTags = contextTag => {
   if (!contextTag) {
     return [];
   }
   const finalTag = contextTag;
-  finalTag.text = (contextTag.text.length > gui.MAX_LENGTH_TAG_LABELS) ? `${contextTag.text.substring(0, gui.MAX_LENGTH_TAG_LABELS)}...` : contextTag.text;
+  finalTag.text =
+    contextTag.text.length > gui.MAX_LENGTH_TAG_LABELS
+      ? `${contextTag.text.substring(0, gui.MAX_LENGTH_TAG_LABELS)}...`
+      : contextTag.text;
   return [finalTag];
 };
 
@@ -70,7 +73,7 @@ const _replacementText = (tag) => {
 class Search extends React.Component {
   static propTypes = {
     contextTag: PropTypes.object,
-  }
+  };
 
   constructor(props) {
     super(props);
@@ -90,7 +93,9 @@ class Search extends React.Component {
   componentDidMount() {
     if (document.getElementsByClassName('ReactTags__tagInputField')[0]) {
       document.getElementsByClassName('ReactTags__tagInputField')[0].addEventListener('paste', this.handlePaste);
-      document.getElementsByClassName('ReactTags__tagInputField')[0].addEventListener('keydown', this.handleInputChange);
+      document
+        .getElementsByClassName('ReactTags__tagInputField')[0]
+        .addEventListener('keydown', this.handleInputChange);
       document.getElementsByClassName('ReactTags__tagInputField')[0].blur();
     }
   }
@@ -115,12 +120,12 @@ class Search extends React.Component {
   }
 
   mobileContext() {
-    return ((window.innerWidth < 768) && (this.state.tags.length > 0));
+    return window.innerWidth < 768 && this.state.tags.length > 0;
   }
 
   handleInputChange(e) {
     const text = document.getElementsByClassName('ReactTags__tagInputField')[0].value;
-    const suggestionSelected = (document.getElementsByClassName('ReactTags__activeSuggestion').length > 0);
+    const suggestionSelected = document.getElementsByClassName('ReactTags__activeSuggestion').length > 0;
     if (e.keyCode === 13 && e.isTrusted && text.length > 0 && !suggestionSelected) {
       this.parseQuery(text);
     }
@@ -133,7 +138,7 @@ class Search extends React.Component {
     } else if (web3.utils.isAddress(text)) {
       this.props.history.push(`/address/${text}`);
     } else {
-      this.props.history.push(`/search/${escape(text)}`);;
+      this.props.history.push(`/search/${escape(text)}`);
     }
   }
 
@@ -151,12 +156,14 @@ class Search extends React.Component {
             <div className="ReactTags__selected">
               <span className="tag-wrapper ReactTags__tag">
                 {this.state.tags[0].text}
-                <div className="ReactTags__remove" onClick={this.removeTag}>×</div>
+                <div className="ReactTags__remove" onClick={this.removeTag}>
+                  ×
+                </div>
               </span>
             </div>
           </div>
         </div>
-      )
+      );
     }
 
     return (
@@ -166,7 +173,7 @@ class Search extends React.Component {
           suggestions={suggestions}
           delimiters={delimiters}
           handleAddition={this.handleAddition}
-          placeholder={(window.innerWidth < 768) ? i18n.t('search-short') : i18n.t('search-daos')}
+          placeholder={window.innerWidth < 768 ? i18n.t('search-short') : i18n.t('search-daos')}
         />
       </div>
     );
