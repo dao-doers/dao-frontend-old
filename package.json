@@ -48,7 +48,6 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "lint": "next lint",
     "lint-fix": "eslint ./ --fix",
     "prettier:check": "prettier --check ./",
     "prettier:fix": "prettier --write ./"
