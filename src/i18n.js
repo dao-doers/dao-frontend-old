@@ -5,19 +5,17 @@ import english from 'lang/en.json';
 
 const resources = {
   en: {
-    translation: english
-  }
+    translation: english,
+  },
 };
 
-i18n
-  .use(initReactI18next)
-  .init({
-    resources,
-    lng: 'en',
+i18n.use(initReactI18next).init({
+  resources,
+  lng: 'en',
 
-    interpolation: {
-      escapeValue: false
-    }
-  });
+  interpolation: {
+    escapeValue: false,
+  },
+});
 
 export default i18n;

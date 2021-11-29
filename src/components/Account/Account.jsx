@@ -9,7 +9,7 @@ import { shortenCryptoName } from 'utils/strings';
 import Search, { includeInSearch } from 'components/Search/Search';
 
 import i18n from 'i18n';
-import { config } from 'config'
+import { config } from 'config';
 import 'styles/Dapp.css';
 
 const makeBlockie = require('ethereum-blockies-base64');
@@ -34,10 +34,10 @@ const ENS_ACCOUNT = gql`
 `;
 
 /**
-* @summary writes name based on ENS settings
-* @param {object} data obtained from graph protocol
-* @param {string} publicAddress to parse
-*/
+ * @summary writes name based on ENS settings
+ * @param {object} data obtained from graph protocol
+ * @param {string} publicAddress to parse
+ */
 const getENSName = (data, publicAddress) => {
   if (data.domains.length > 0) {
     return data.domains[0].name;
@@ -46,8 +46,8 @@ const getENSName = (data, publicAddress) => {
 };
 
 /**
-* @summary renders a post in the timeline
-*/
+ * @summary renders a post in the timeline
+ */
 const AccountQuery = ({ publicAddress, width, height, format, hidden }) => {
   const [getAccount, { data, loading, error }] = useLazyQuery(ENS_ACCOUNT, { variables: { publicAddress } });
   let label;
@@ -81,22 +81,14 @@ const AccountQuery = ({ publicAddress, width, height, format, hidden }) => {
         </div>
       );
     }
-    if (error) return (
-      <>
-        {(format === 'searchBar') ?
-          <Search />
-          :
-          null
-        }
-      </>
-    );
+    if (error) return <>{format === 'searchBar' ? <Search /> : null}</>;
 
     if (data) {
       label = getENSName(data, publicAddress);
-      includeInSearch(url, (data.domains.length > 0) ? data.domains[0].name : publicAddress, 'search-user');
+      includeInSearch(url, data.domains.length > 0 ? data.domains[0].name : publicAddress, 'search-user');
 
       if (format === 'searchBar') {
-        return <Search contextTag={{ id: publicAddress, text: i18n.t('search-user', { searchTerm: label }) }} />
+        return <Search contextTag={{ id: publicAddress, text: i18n.t('search-user', { searchTerm: label }) }} />;
       }
     }
   } else {
@@ -109,18 +101,36 @@ const AccountQuery = ({ publicAddress, width, height, format, hidden }) => {
   return (
     <div className="identity">
       <div className="avatar-editor">
-        <img src={image} className={`symbol profile-pic ${(format === 'plainText') ? 'plain' : null}`} alt="" style={{ width: finalWidth, height: finalHeight }} />
-        {(format === 'plainText') ?
-          <Link to={url} title={publicAddress} onClick={(e) => { e.stopPropagation(); }}>
+        <img
+          src={image}
+          className={`symbol profile-pic ${format === 'plainText' ? 'plain' : null}`}
+          alt=""
+          style={{ width: finalWidth, height: finalHeight }}
+        />
+        {format === 'plainText' ? (
+          <Link
+            to={url}
+            title={publicAddress}
+            onClick={e => {
+              e.stopPropagation();
+            }}
+          >
             {label}
           </Link>
-          :
+        ) : (
           <div className="identity-peer">
-            <Link to={url} title={publicAddress} className="identity-label identity-label-micro" onClick={(e) => { e.stopPropagation(); }}>
+            <Link
+              to={url}
+              title={publicAddress}
+              className="identity-label identity-label-micro"
+              onClick={e => {
+                e.stopPropagation();
+              }}
+            >
               {label}
             </Link>
           </div>
-        }
+        )}
       </div>
     </div>
   );
@@ -134,14 +144,19 @@ AccountQuery.propTypes = {
   hidden: PropTypes.bool,
 };
 
-
 /**
-* @summary renders a post in the timeline
-*/
-const Account = (props) => {
+ * @summary renders a post in the timeline
+ */
+const Account = props => {
   return (
     <ApolloProvider client={client}>
-      <AccountQuery publicAddress={props.publicAddress} width={props.width} height={props.height} format={props.format} hidden={props.hidden} />
+      <AccountQuery
+        publicAddress={props.publicAddress}
+        width={props.width}
+        height={props.height}
+        format={props.format}
+        hidden={props.hidden}
+      />
     </ApolloProvider>
   );
 };

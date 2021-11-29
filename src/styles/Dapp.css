@@ -295,8 +295,8 @@ select {
  *    specificity and defer to the .w-button selector
  */
 button,
-html input[type="button"],
-input[type="reset"] {
+html input[type='button'],
+input[type='reset'] {
   -webkit-appearance: button;
   /* 2 */
   cursor: pointer;
@@ -331,8 +331,8 @@ input {
  * 1. Address box sizing set to `content-box` in IE 8/9/10.
  * 2. Remove excess padding in IE 8/9/10.
  */
-input[type="checkbox"],
-input[type="radio"] {
+input[type='checkbox'],
+input[type='radio'] {
   box-sizing: border-box;
   /* 1 */
   padding: 0;
@@ -343,15 +343,15 @@ input[type="radio"] {
  * `font-size` values of the `input`, it causes the cursor style of the
  * decrement button to change from `default` to `text`.
  */
-input[type="number"]::-webkit-inner-spin-button,
-input[type="number"]::-webkit-outer-spin-button {
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
   height: auto;
 }
 /**
  * 1. Address `appearance` set to `searchfield` in Safari and Chrome.
  * 2. Address `box-sizing` set to `border-box` in Safari and Chrome.
  */
-input[type="search"] {
+input[type='search'] {
   -webkit-appearance: textfield;
   /* 1 */
   box-sizing: content-box;
@@ -362,8 +362,8 @@ input[type="search"] {
  * Safari (but not Chrome) clips the cancel button when the search input has
  * padding (and `textfield` appearance).
  */
-input[type="search"]::-webkit-search-cancel-button,
-input[type="search"]::-webkit-search-decoration {
+input[type='search']::-webkit-search-cancel-button,
+input[type='search']::-webkit-search-decoration {
   -webkit-appearance: none;
 }
 /**
@@ -412,17 +412,17 @@ th {
 }
 
 @font-face {
-  font-family: "webflow-icons";
+  font-family: 'webflow-icons';
   src: url(data:application/x-font-ttf;charset=utf-8;base64,AAEAAAALAIAAAwAwT1MvMg6SAy0AAAC8AAAAYGNtYXAaVcxaAAABHAAAAExnYXNwAAAAEAAAAWgAAAAIZ2x5ZgscV1gAAAFwAAABhGhlYWQCkFKvAAAC9AAAADZoaGVhB0MDyQAAAywAAAAkaG10eBIAA10AAANQAAAAIGxvY2EBMADyAAADcAAAABJtYXhwAAwATQAAA4QAAAAgbmFtZWTuiIAAAAOkAAABe3Bvc3QAAwAAAAAFIAAAACAAAwQAAZAABQAAApkCzAAAAI8CmQLMAAAB6wAzAQkAAAAAAAAAAAAAAAAAAAABEAAAAAAAAAAAAAAAAAAAAABAAADmAwPA/8D/wAPAAEAAAAABAAAAAAAAAAAAAAAgAAAAAAACAAAAAwAAABQAAwABAAAAFAAEADgAAAAKAAgAAgACAAEAIOYD//3//wAAAAAAIOYA//3//wAB/+MaBAADAAEAAAAAAAAAAAAAAAEAAf//AA8AAQAAAAAAAAAAAAIAADc5AQAAAAABAAAAAAAAAAAAAgAANzkBAAAAAAEAAAAAAAAAAAACAAA3OQEAAAAAAQEgAAADIAOAAAUAAAkBBwkBFwMg/kBAAYD+gEABwAHAQP6A/oBAAAEA4AAAAuADgAAFAAATARcJAQfgAcBA/oABgEABwAHAQP6A/oBAAAADAMAA4ANAAsAAGAAxAEoAAAEhIg4CHQEUHgIzITI+Aj0BNC4CIxUhIg4CHQEUHgIzITI+Aj0BNC4CIxUhIg4CHQEUHgIzITI+Aj0BNC4CIwMg/cAHCwkFBQkLBwJABwsJBQUJCwf9wAcLCQUFCQsHAkAHCwkFBQkLB/3ABwsJBQUJCwcCQAcLCQUFCQsHAsAFCQsHIAcLCQUFCQsHIAcLCQXABQkLByAHCwkFBQkLByAHCwkFwAUJCwcgBwsJBQUJCwcgBwsJBQAAAAABAJ0AtAOBApUABQAACQIHCQEDJP7r/upcAXEBcgKU/usBFFv+egGGAAAAAAEAAAABAADSLAJOXw889QALBAAAAAAAz/iHGQAAAADP+IcZAAAAAAOBA4AAAAAIAAIAAAAAAAAAAQAAA8D/wAAABAAAAAAAA4EAAQAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAACAAAABAABIAQAAOAEAADABAAAnQAAAAAACgAUAB4AMgBGAKwAwgAAAAEAAAAIAEsAAwAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAOAK4AAQAAAAAAAQAaAAAAAQAAAAAAAgAOAHEAAQAAAAAAAwAaADAAAQAAAAAABAAaAH8AAQAAAAAABQAWABoAAQAAAAAABgANAEoAAQAAAAAACgA0AJkAAwABBAkAAQAaAAAAAwABBAkAAgAOAHEAAwABBAkAAwAaADAAAwABBAkABAAaAH8AAwABBAkABQAWABoAAwABBAkABgAaAFcAAwABBAkACgA0AJkAdwBlAGIAZgBsAG8AdwAtAGkAYwBvAG4AcwBWAGUAcgBzAGkAbwBuACAAMQAuADAAdwBlAGIAZgBsAG8AdwAtAGkAYwBvAG4Ac3dlYmZsb3ctaWNvbnMAdwBlAGIAZgBsAG8AdwAtAGkAYwBvAG4AcwBSAGUAZwB1AGwAYQByAHcAZQBiAGYAbABvAHcALQBpAGMAbwBuAHMARgBvAG4AdAAgAGcAZQBuAGUAcgBhAHQAZQBkACAAYgB5ACAASQBjAG8ATQBvAG8AbgAuAAADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA)
-      format("truetype"),
+      format('truetype'),
     url(data:application/font-woff;charset=utf-8;base64,d09GRk9UVE8AAAVcAAoAAAAABRQAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAABDRkYgAAAA9AAAAZMAAAGTuzUomU9TLzIAAAKIAAAAYAAAAGAOkgMtY21hcAAAAugAAABMAAAATBpVzFpnYXNwAAADNAAAAAgAAAAIAAAAEGhlYWQAAAM8AAAANgAAADYCkFKvaGhlYQAAA3QAAAAkAAAAJAdDA8lobXR4AAADmAAAACAAAAAgEgADXW1heHAAAAO4AAAABgAAAAYACFAAbmFtZQAAA8AAAAF7AAABe2TuiIBwb3N0AAAFPAAAACAAAAAgAAMAAAEABAQAAQEBDndlYmZsb3ctaWNvbnMAAQIAAQA6+BwC+BsD+BgEHgoACXf/i4seCgAJd/+LiwwHi0v6lPpUBR0AAACaDx0AAACfER0AAAAJHQAAAYoSAAkBAQ4bHR8iJywxNndlYmZsb3ctaWNvbnN3ZWJmbG93LWljb25zdTB1MXUyMHVFNjAwdUU2MDF1RTYwMnVFNjAzAAACAYkABgAIAQEEBwoNJDvH4P6UDv6UDv6UDvyUDvm0+FQV/FT4VEtL+BT8FPwU/BTLSwUO93T4VBX4VPhUy0v8FPwU+BT8FEtLBQ75tPlUFfzUiwV5i319i3kIi2sFi3mZfZ2LCPjUiwWdi5mZi50Ii6sFi519mXmLCIv7VBX81IsFeYt9fYt5CItrBYt5mX2diwj41IsFnYuZmYudCIurBYudfZl5iwiL+1QV/NSLBXmLfX2LeQiLawWLeZl9nYsI+NSLBZ2LmZmLnQiLqwWLnX2ZeYsIDvm4+SkV+6n7qvuq96ovLvgG/Bj4BvgYBQ76lBT6lBWLDAoAAAMEAAGQAAUAAAKZAswAAACPApkCzAAAAesAMwEJAAAAAAAAAAAAAAAAAAAAARAAAAAAAAAAAAAAAAAAAAAAQAAA5gMDwP/A/8ADwABAAAAAAQAAAAAAAAAAAAAAIAAAAAAAAgAAAAMAAAAUAAMAAQAAABQABAA4AAAACgAIAAIAAgABACDmA//9//8AAAAAACDmAP/9//8AAf/jGgQAAwABAAAAAAAAAAAAAAABAAH//wAPAAEAAAABAAC1pQTjXw889QALBAAAAAAAz/iHGQAAAADP+IcZAAAAAAOBA4AAAAAIAAIAAAAAAAAAAQAAA8D/wAAABAAAAAAAA4EAAQAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAACAAAABAABIAQAAOAEAADABAAAnQAAUAAACAAAAAAADgCuAAEAAAAAAAEAGgAAAAEAAAAAAAIADgBxAAEAAAAAAAMAGgAwAAEAAAAAAAQAGgB/AAEAAAAAAAUAFgAaAAEAAAAAAAYADQBKAAEAAAAAAAoANACZAAMAAQQJAAEAGgAAAAMAAQQJAAIADgBxAAMAAQQJAAMAGgAwAAMAAQQJAAQAGgB/AAMAAQQJAAUAFgAaAAMAAQQJAAYAGgBXAAMAAQQJAAoANACZAHcAZQBiAGYAbABvAHcALQBpAGMAbwBuAHMAVgBlAHIAcwBpAG8AbgAgADEALgAwAHcAZQBiAGYAbABvAHcALQBpAGMAbwBuAHN3ZWJmbG93LWljb25zAHcAZQBiAGYAbABvAHcALQBpAGMAbwBuAHMAUgBlAGcAdQBsAGEAcgB3AGUAYgBmAGwAbwB3AC0AaQBjAG8AbgBzAEYAbwBuAHQAIABnAGUAbgBlAHIAYQB0AGUAZAAgAGIAeQAgAEkAYwBvAE0AbwBvAG4ALgAAAwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==)
-      format("woff");
+      format('woff');
   font-weight: normal;
   font-style: normal;
 }
-[class^="w-icon-"],
-[class*=" w-icon-"] {
-  font-family: "webflow-icons";
+[class^='w-icon-'],
+[class*=' w-icon-'] {
+  font-family: 'webflow-icons';
   speak: none;
   font-style: normal;
   font-weight: normal;
@@ -538,7 +538,7 @@ body {
   padding-left: 0px;
   background-color: var(--background-color);
   background-image: none;
-  font-family: "Open Sans", sans-serif;
+  font-family: 'Open Sans', sans-serif;
   color: rgba(0, 0, 0, 0.87);
   font-size: 18px;
   line-height: 28px;
@@ -1343,13 +1343,7 @@ blockquote {
   border: 5px solid #f5f5f5;
   border-radius: 8px;
   background-color: #fff;
-  background-image: -webkit-gradient(
-    linear,
-    left top,
-    left bottom,
-    color-stop(64%, #fff),
-    to(#ececec)
-  );
+  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(64%, #fff), to(#ececec));
   background-image: linear-gradient(180deg, #fff 64%, #ececec);
 }
 
@@ -1622,24 +1616,12 @@ blockquote {
   margin: -5px -5px -5px -10px;
   padding: 5px 5px 5px 10px;
   border-radius: 50px;
-  background-image: -webkit-gradient(
-    linear,
-    left top,
-    right top,
-    color-stop(48%, #b7f3e1),
-    color-stop(0, transparent)
-  );
+  background-image: -webkit-gradient(linear, left top, right top, color-stop(48%, #b7f3e1), color-stop(0, transparent));
   background-image: linear-gradient(90deg, #b7f3e1 48%, transparent 0);
 }
 
 .checkbox.checkbox-result.unauthorized {
-  background-image: -webkit-gradient(
-    linear,
-    left top,
-    right top,
-    color-stop(48%, #fdc5c5),
-    color-stop(0, transparent)
-  );
+  background-image: -webkit-gradient(linear, left top, right top, color-stop(48%, #fdc5c5), color-stop(0, transparent));
   background-image: linear-gradient(90deg, #fdc5c5 48%, transparent 0);
 }
 
@@ -2559,7 +2541,7 @@ blockquote {
   margin-bottom: 0px;
   margin-left: 0px;
   padding: 0px;
-  font-family: "Open Sans", sans-serif;
+  font-family: 'Open Sans', sans-serif;
   font-size: 16px;
   line-height: 24px;
 }
@@ -4142,13 +4124,7 @@ blockquote {
   padding-bottom: 0px;
   border-bottom: 1px solid #cacaca;
   background-color: #d6d6d6;
-  background-image: -webkit-gradient(
-    linear,
-    left bottom,
-    left top,
-    from(#d6d6d6),
-    color-stop(65%, #ddd)
-  );
+  background-image: -webkit-gradient(linear, left bottom, left top, from(#d6d6d6), color-stop(65%, #ddd));
   background-image: linear-gradient(0deg, #d6d6d6, #ddd 65%);
 }
 
@@ -4365,7 +4341,7 @@ blockquote {
   margin-right: 15px;
   margin-left: 10px;
   float: left;
-  font-family: "Open Sans", sans-serif;
+  font-family: 'Open Sans', sans-serif;
 }
 
 .avatar-wrapper {
@@ -4564,22 +4540,14 @@ blockquote {
   height: 15px;
   margin-top: 8px;
   opacity: 0.5;
-  background: linear-gradient(
-    90deg,
-    var(--main-placeholder-color),
-    var(--main-link-color)
-  );
+  background: linear-gradient(90deg, var(--main-placeholder-color), var(--main-link-color));
 }
 
 .option-placeholder.token-placeholder {
   height: 15px;
   opacity: 0.5;
   margin-top: -2px;
-  background: linear-gradient(
-    90deg,
-    var(--main-placeholder-color),
-    var(--main-link-color)
-  );
+  background: linear-gradient(90deg, var(--main-placeholder-color), var(--main-link-color));
 }
 
 .option-placeholder.short {
@@ -5005,8 +4973,7 @@ blockquote {
   float: left;
   border-style: solid none solid solid;
   border-width: 1px;
-  border-color: rgba(90, 0, 117, 0.17) transparent rgba(90, 0, 117, 0.17)
-    rgba(90, 0, 117, 0.17);
+  border-color: rgba(90, 0, 117, 0.17) transparent rgba(90, 0, 117, 0.17) rgba(90, 0, 117, 0.17);
   border-top-left-radius: 5px;
   border-bottom-left-radius: 5px;
   background-color: #fff;
@@ -5208,13 +5175,7 @@ blockquote {
 }
 
 .body-2 {
-  background-image: -webkit-gradient(
-    linear,
-    left top,
-    left bottom,
-    from(#fff),
-    to(#cecece)
-  );
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#cecece));
   background-image: linear-gradient(180deg, #fff, #cecece);
 }
 
@@ -6492,7 +6453,7 @@ input:-webkit-autofill:active {
   }
 }
 
-input[type="file"] {
+input[type='file'] {
   display: none;
 }
 
@@ -6569,7 +6530,7 @@ body {
 
   &:after {
     /*Add another block-level blank space*/
-    content: "";
+    content: '';
     display: block;
 
     /*Make it a small rectangle so the border will create an L-shape*/
@@ -6624,8 +6585,7 @@ body,
 h4,
 h1,
 h2 {
-  font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto,
-    "Helvetica Neue", Arial, sans-serif;
+  font-family: -apple-system, system-ui, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
 }
 
 .split-anon {

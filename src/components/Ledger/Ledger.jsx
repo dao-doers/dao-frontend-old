@@ -8,7 +8,7 @@ import 'styles/Dapp.css';
 // scroll settings
 let lastScrollTop = 0;
 
-const _getScrollClass = (isUp) => {
+const _getScrollClass = isUp => {
   if (isUp) {
     return `content content-agora content-up`;
   }
@@ -16,8 +16,8 @@ const _getScrollClass = (isUp) => {
 };
 
 /**
-* @summary displays the contents of a poll
-*/
+ * @summary displays the contents of a poll
+ */
 export default class Ledger extends Component {
   static propTypes = {
     address: PropTypes.string,
@@ -25,10 +25,7 @@ export default class Ledger extends Component {
     proposalId: PropTypes.string,
     first: PropTypes.number,
     skip: PropTypes.number,
-    children: PropTypes.oneOfType([
-      PropTypes.arrayOf(PropTypes.node),
-      PropTypes.node,
-    ]),
+    children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
   };
 
   constructor() {
@@ -59,15 +56,15 @@ export default class Ledger extends Component {
         return i18n.t('moloch-ledger-address-votes');
       default:
     }
-    return i18n.t('recent-votes')
+    return i18n.t('recent-votes');
   }
 
   handleScroll() {
     const st = document.getElementById('dapp').scrollTop;
 
-    if ((st > lastScrollTop) && (st > 60) && !this.state.scrollUp) {
+    if (st > lastScrollTop && st > 60 && !this.state.scrollUp) {
       this.setState({ scrollUp: true });
-    } else if ((st <= lastScrollTop) && this.state.scrollUp) {
+    } else if (st <= lastScrollTop && this.state.scrollUp) {
       this.setState({ scrollUp: false });
     }
     lastScrollTop = st <= 0 ? 0 : st;
@@ -75,14 +72,24 @@ export default class Ledger extends Component {
 
   render() {
     return (
-      <div id="agora" className={_getScrollClass(this.state.scrollUp)}> {/* style={{ top: this.state.top }}>*/}
+      <div id="agora" className={_getScrollClass(this.state.scrollUp)}>
+        {' '}
+        {/* style={{ top: this.state.top }}>*/}
         <div id="ledger" className="ledger">
           <div className="ledger-title">
             <h4>{this.titleLabel()}</h4>
           </div>
           <div className="shadow-top" />
           <div className="ledger-wrapper">
-            <Vote address={this.props.address} view={this.props.view} proposalId={this.props.proposalId} first={this.props.first} skip={this.props.skip} orderBy={'createdAt'} orderDirection={'desc'} />
+            <Vote
+              address={this.props.address}
+              view={this.props.view}
+              proposalId={this.props.proposalId}
+              first={this.props.first}
+              skip={this.props.skip}
+              orderBy={'createdAt'}
+              orderDirection={'desc'}
+            />
           </div>
           <div className="shadow-bottom" />
           <div className="ledger-footer" />
@@ -91,5 +98,3 @@ export default class Ledger extends Component {
     );
   }
 }
-
-

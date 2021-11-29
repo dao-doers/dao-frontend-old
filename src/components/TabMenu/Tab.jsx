@@ -4,8 +4,8 @@ import PropTypes from 'prop-types';
 import 'styles/Dapp.css';
 
 /**
-* @summary displays the contents of a poll
-*/
+ * @summary displays the contents of a poll
+ */
 
 export default class Tab extends Component {
   static propTypes = {
@@ -31,9 +31,13 @@ export default class Tab extends Component {
 
   render() {
     return (
-      <button id={`tab-button-${this.props.id}`} className={`tab-button ${this.props.selected ? 'tab-button-selected' : ''}`} onClick={this.handleClick}>
+      <button
+        id={`tab-button-${this.props.id}`}
+        className={`tab-button ${this.props.selected ? 'tab-button-selected' : ''}`}
+        onClick={this.handleClick}
+      >
         {this.props.label}
       </button>
     );
   }
-};
+}

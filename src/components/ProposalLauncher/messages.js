@@ -4,23 +4,23 @@ import logo from 'images/logo.png';
 const modalContent = {
   prposalSubmitted: {
     icon: logo,
-    title: i18n.t("proposal-submitted"),
-    message: i18n.t("proposal-submitted-successfully"),
+    title: i18n.t('proposal-submitted'),
+    message: i18n.t('proposal-submitted-successfully'),
     cancelLabel: i18n.t('close'),
-    mode: 'ALERT'
+    mode: 'ALERT',
   },
   noTokens: {
     icon: logo,
-    title: i18n.t("api-error"),
-    message: i18n.t("api-error-tokens"),
+    title: i18n.t('api-error'),
+    message: i18n.t('api-error-tokens'),
     cancelLabel: i18n.t('close'),
-    mode: 'ALERT'
-  }
+    mode: 'ALERT',
+  },
 };
 
 /**
-* @summary successfully submitted message;
-*/
+ * @summary successfully submitted message;
+ */
 const _prposalSubmitted = () => {
   // submit proposal returned receipt
   window.modal = modalContent.prposalSubmitted;
@@ -28,8 +28,8 @@ const _prposalSubmitted = () => {
 };
 
 /**
-* @summary tokens subgraph not available;
-*/
+ * @summary tokens subgraph not available;
+ */
 const _noTokens = () => {
   // no access to subgraph API
   window.modal = modalContent.noTokens;
