@@ -1,6 +1,6 @@
 /* IMPORTS */
 // Functions
-import { _ } from 'numeral';
+import { _ } from 'numbro';
 import BigNumber from 'bignumber.js/bignumber';
 import { walletError, notMember } from '../Choice/messages';
 import { prposalSubmitted } from './messages';

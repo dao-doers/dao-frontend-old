@@ -20,7 +20,7 @@ import { getDescription } from 'components/Post/Post';
 import i18n from 'i18n';
 import 'styles/Dapp.css';
 
-const numeral = require('numeral');
+const numbro = require('numbro');
 
 /**
  * @summary displays the contents of a poll
@@ -157,7 +157,7 @@ export default class Choice extends Component {
             <div className="poll-score-bar">
               <div className={this.getBarStyle()} style={{ width: `${this.props.percentage}%` }} />
             </div>
-            <div className={this.getlabelClass()}>{`${numeral(this.props.percentage).format('0.00')}%`}</div>
+            <div className={this.getlabelClass()}>{`${numbro(this.props.percentage).format('0.00')}%`}</div>
           </div>
         </button>
       </div>
