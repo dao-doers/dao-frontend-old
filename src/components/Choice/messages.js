@@ -1,27 +1,26 @@
 import i18n from 'i18n';
 import logo from 'images/logo.png';
 
-
 const modalContent = {
   default: {
     icon: logo,
     title: i18n.t('wallet'),
     cancelLabel: i18n.t('close'),
-    mode: 'ALERT'
+    mode: 'ALERT',
   },
   noAddress: {
     icon: logo,
     title: i18n.t('moloch-no-address'),
     message: i18n.t('moloch-alert-not-connected'),
     cancelLabel: i18n.t('close'),
-    mode: 'ALERT'
+    mode: 'ALERT',
   },
   notMember: {
     icon: logo,
     title: i18n.t('moloch-not-member'),
     message: i18n.t('moloch-alert-not-member'),
     cancelLabel: i18n.t('close'),
-    mode: 'ALERT'
+    mode: 'ALERT',
   },
   notSynced: {
     icon: logo,
@@ -35,28 +34,28 @@ const modalContent = {
     title: i18n.t('place-vote'),
     message: i18n.t('unlogged-cant-vote'),
     cancelLabel: i18n.t('close'),
-    mode: 'ALERT'
+    mode: 'ALERT',
   },
   pollClosed: {
     icon: logo,
     title: i18n.t('poll-closed'),
     message: i18n.t('poll-is-closed'),
     cancelLabel: i18n.t('close'),
-    mode: 'ALERT'
+    mode: 'ALERT',
   },
   alreadyVoted: {
     icon: logo,
     title: i18n.t('already-voted'),
     message: i18n.t('already-voted-detail'),
     cancelLabel: i18n.t('close'),
-    mode: 'ALERT'
+    mode: 'ALERT',
   },
   noWallet: {
     icon: logo,
     title: i18n.t('no-wallet'),
     message: i18n.t('no-wallet-message'),
     cancelLabel: i18n.t('close'),
-    mode: 'ALERT'
+    mode: 'ALERT',
   },
   walletError: {
     icon: logo,
@@ -67,8 +66,8 @@ const modalContent = {
 };
 
 /**
-* @summary reject vote message;
-*/
+ * @summary reject vote message;
+ */
 const _notMember = () => {
   // not member of dao
   window.modal = modalContent.notMember;
@@ -76,13 +75,12 @@ const _notMember = () => {
 };
 
 /**
-* @summary not synced chain message;
-*/
+ * @summary not synced chain message;
+ */
 const _notSynced = () => {
   // not synced
   window.modal = modalContent.notSynced;
   window.showModal.value = true;
-
 };
 
 const _notLogged = () => {
@@ -92,8 +90,8 @@ const _notLogged = () => {
 };
 
 /**
-* @summary poll no longer open;
-*/
+ * @summary poll no longer open;
+ */
 const _pollClosed = () => {
   // poll already closed
   window.modal = modalContent.pollClosed;
@@ -101,8 +99,8 @@ const _pollClosed = () => {
 };
 
 /**
-* @summary already voted here
-*/
+ * @summary already voted here
+ */
 const _alreadyVoted = () => {
   // poll already closed
   window.modal = modalContent.alreadyVoted;
@@ -110,8 +108,8 @@ const _alreadyVoted = () => {
 };
 
 /**
-* @summary couldn't find web3 wallet
-*/
+ * @summary couldn't find web3 wallet
+ */
 const _noWallet = () => {
   // no wallet
   window.modal = modalContent.noWallet;
@@ -119,8 +117,8 @@ const _noWallet = () => {
 };
 
 /**
-* @summary disconnected address
-*/
+ * @summary disconnected address
+ */
 const _noAddress = () => {
   // no wallet
   window.modal = modalContent.noAddress;
@@ -128,10 +126,10 @@ const _noAddress = () => {
 };
 
 /**
-* @summary prompt a message of an error with the wallet
-* @param {object} error with code and message
-*/
-const _walletError = (err) => {
+ * @summary prompt a message of an error with the wallet
+ * @param {object} error with code and message
+ */
+const _walletError = err => {
   let message;
   switch (err.code) {
     case -32602:
@@ -151,7 +149,7 @@ const _walletError = (err) => {
       }
   }
 
-  let error = modalContent.walletError;
+  const error = modalContent.walletError;
   error.message = message;
   window.modal = error;
   window.showModal.value = true;

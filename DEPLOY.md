@@ -8,6 +8,7 @@ cd graph-node
 ```
 
 Set correct network in docker/docker-compose.yml, eg.:
+
 ```
 ethereum: 'godwoken-testnet:no_eip1898,archive,traces:https://godwoken-testnet-web3-rpc.ckbapp.dev'
 ```
@@ -15,6 +16,7 @@ ethereum: 'godwoken-testnet:no_eip1898,archive,traces:https://godwoken-testnet-w
 (Optional) If you use HTTPS
 
 Then use following for docker/docker-compose.yml:
+
 ```
 version: '3'
 services:
@@ -110,6 +112,7 @@ npm run start
 ```
 
 Open:
+
 ```
 http://localhost:3000/
 ```
@@ -126,11 +129,13 @@ make start
 ## 2. Start Graph Node
 
 Set correct ip in docker-compose.yml
+
 ```
 ip addr show
 ```
 
 Change it in docker-compose.yml, eg.:
+
 ```
 ethereum: 'local:no_eip1898,archive,traces:http://172.25.179.106:8024'
 ```
@@ -152,6 +157,7 @@ npm run start
 ```
 
 Open:
+
 ```
 http://localhost:3000/
 ```

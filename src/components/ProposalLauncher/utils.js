@@ -1,144 +1,140 @@
 /* IMPORTS */
 // Functions
-import { walletError, notMember } from "../Choice/messages";
-import { prposalSubmitted } from './messages'
-import { abiLibrary } from "../../lib/abi";
-import { _ } from "numeral";
+import { _ } from 'numeral';
 import BigNumber from 'bignumber.js/bignumber';
-const Web3 = require("web3");
+import { walletError, notMember } from '../Choice/messages';
+import { prposalSubmitted } from './messages';
+import { abiLibrary } from '../../lib/abi';
+
+const Web3 = require('web3');
 const { PolyjuiceAccounts, PolyjuiceHttpProvider } = require('@polyjuice-provider/web3');
 const { AddressTranslator } = require('nervos-godwoken-integration');
 
 const providerConfig = {
-  web3Url: 'https://godwoken-testnet-web3-rpc.ckbapp.dev'
+  web3Url: 'https://godwoken-testnet-web3-rpc.ckbapp.dev',
 };
 
 const addressTranslator = new AddressTranslator();
 
 const provider = new PolyjuiceHttpProvider(providerConfig.web3Url, providerConfig);
-      
+
 const polyjuiceAccounts = new PolyjuiceAccounts(providerConfig);
 
 const web3 = new Web3(provider);
 web3.eth.accounts = polyjuiceAccounts;
 web3.eth.Contract.setProvider(provider, web3.eth.accounts);
 
-
 // UX utils
 export const hideProposalLauncher = () => {
   window.showProposalLauncher.value = false;
-}
+};
 
-export const showProposalLauncher = (address) => {
-  window.proposalLauncher = { address }
+export const showProposalLauncher = address => {
+  window.proposalLauncher = { address };
   window.showProposalLauncher.value = true;
-}
+};
 
-export const CLEARED_TYPES ={
+export const CLEARED_TYPES = {
   isNewMember: false,
   isFunding: false,
   isTrade: false,
   isGuildKick: false,
   isWhitelist: false,
-}
+};
 export const CLEARED_NUMBERS = {
   sharesRequested: 0,
   lootRequested: 0,
   tributeOffered: 0,
   paymentRequested: 0,
-}
+};
 
 // Validation utils
-export const isAddress = async (
-  address,
-) => {
+export const isAddress = async address => {
   const web3 = await new Web3(window.web3.currentProvider);
-  return await web3.utils.isAddress(address)
-}
+  return await web3.utils.isAddress(address);
+};
 
 export const isMember = async (
   memberAddress,
-  /*Contract information*/
-  contractAddress
+  /* Contract information */
+  contractAddress,
 ) => {
   const web3 = await new Web3(window.web3.currentProvider);
 
-  const isAddress = await web3.utils.isAddress(memberAddress)
-  if (!isAddress) return false
-  
-  const dao = await new web3.eth.Contract(
-    abiLibrary["moloch2"],
-    contractAddress
-  );
-  
+  const isAddress = await web3.utils.isAddress(memberAddress);
+  if (!isAddress) return false;
+
+  const dao = await new web3.eth.Contract(abiLibrary.moloch2, contractAddress);
+
   const memberPolyAddress = addressTranslator.ethAddressToGodwokenShortAddress(memberAddress);
 
   console.log({
     memberAddress,
     contractAddress,
-    memberPolyAddress
+    memberPolyAddress,
   });
 
-  const response = await dao.methods.members(memberPolyAddress)
-      .call({}, (err, res) => {
-        console.log('call', {
-          err, res
-        });
-          if (err) {
-              walletError(err);
-              return err;
-          }
-          return res;
-      });
+  const response = await dao.methods.members(memberPolyAddress).call({}, (err, res) => {
+    console.log('call', {
+      err,
+      res,
+    });
+    if (err) {
+      walletError(err);
+      return err;
+    }
+    return res;
+  });
   return response.exists;
 };
 
-export const notNull = ( ...args ) => {
-  let validated = true
-  args.forEach(a => {if(a === "0x0" || a === '') validated = false})
-  return validated
-}
+export const notNull = (...args) => {
+  let validated = true;
+  args.forEach(a => {
+    if (a === '0x0' || a === '') validated = false;
+  });
+  return validated;
+};
 
 // Submitting utils
-const getDao = async (address) => {
-  const dao = await new web3.eth.Contract(
-    abiLibrary["moloch2"],
-    address
-  )
-  return dao
-}
+const getDao = async address => {
+  const dao = await new web3.eth.Contract(abiLibrary.moloch2, address);
+  return dao;
+};
 
-const getEstimatedGas = async (proposal) => {
+const getEstimatedGas = async proposal =>
   // let gas
   // try{
   //     gas = await proposal.estimateGas().then(gas=> gas)
   // } catch (err){
   //     console.log('ERROR: ', err)
   // }
-  return 6000000
-} 
+  6000000;
 
 const getReceipt = async (proposal, user, estimatedGas) => {
-  let receipt
-  try{
-      receipt = await proposal.send({ from: user, gas: estimatedGas })
-      .on('receipt', receipt => { prposalSubmitted(); console.log('RECEIPT: ', receipt); return receipt })
+  let receipt;
+  try {
+    receipt = await proposal.send({ from: user, gas: estimatedGas }).on('receipt', receipt => {
+      prposalSubmitted();
+      console.log('RECEIPT: ', receipt);
+      return receipt;
+    });
   } catch (err) {
-      walletError(err);
-      receipt = err;
+    walletError(err);
+    receipt = err;
   }
-  return receipt
-}
+  return receipt;
+};
 
 // Submitting functions
 export const submitProposal = async (
-  /*Wallet information*/
+  /* Wallet information */
   user,
-  /*Contract information*/
+  /* Contract information */
   library,
   version,
   daoAddress,
-  /*Proposal information*/
+  /* Proposal information */
   applicantAddress,
   sharesRequested,
   lootRequested,
@@ -146,9 +142,9 @@ export const submitProposal = async (
   tributeToken,
   paymentRequested,
   paymentToken,
-  details
+  details,
 ) => {
-  console.log('SUBMITTING NEW PROPOSAL...')
+  console.log('SUBMITTING NEW PROPOSAL...');
   const dao = await getDao(daoAddress);
   const token = new web3.eth.Contract(abiLibrary.erc20, await dao.methods.depositToken().call());
 
@@ -169,7 +165,7 @@ export const submitProposal = async (
     requiredAllowance,
     proposalDeposit,
     tributeOfferedBN,
-    token
+    token,
   });
 
   if (userBalance.lt(requiredAllowance)) {
@@ -178,23 +174,24 @@ export const submitProposal = async (
 
   if (allowance.lt(requiredAllowance)) {
     await token.methods.approve(daoAddress, requiredAllowance).send({
-      from: user
+      from: user,
     });
   }
 
   console.log('submitProposal', {
     applicantPolyAddress,
-          sharesRequested,
-          lootRequested,
-          tributeOffered,
-          tributeToken,
-          paymentRequested,
-          paymentToken,
-          details,
-          version
+    sharesRequested,
+    lootRequested,
+    tributeOffered,
+    tributeToken,
+    paymentRequested,
+    paymentToken,
+    details,
+    version,
   });
 
-  const proposal = version === "2"
+  const proposal =
+    version === '2'
       ? await dao.methods.submitProposal(
           applicantPolyAddress,
           sharesRequested,
@@ -203,82 +200,76 @@ export const submitProposal = async (
           tributeToken,
           paymentRequested,
           paymentToken,
-          details
-      )
+          details,
+        )
       : await dao.methods.submitProposal(
           applicantPolyAddress,
           tributeToken,
           sharesRequested,
-          `{"title":${details.title.valu},"description":${details.description},"link":${details.link}}`
-      );
-  const estimatedGas = await getEstimatedGas(proposal)
-  const receipt =  await getReceipt(proposal, user, estimatedGas)
-  return receipt
+          `{"title":${details.title.valu},"description":${details.description},"link":${details.link}}`,
+        );
+  const estimatedGas = await getEstimatedGas(proposal);
+  const receipt = await getReceipt(proposal, user, estimatedGas);
+  return receipt;
 };
 
 export const submitWhitelistProposal = async (
-  /*Wallet information*/
+  /* Wallet information */
   user,
-  /*Contract information*/
+  /* Contract information */
   library,
   version,
   address,
-  /*Proposal information*/
+  /* Proposal information */
   tokenToWhitelist,
-  details
+  details,
 ) => {
-  console.log('SUBMITTING NEW WHITELIST PROPOSAL...')
+  console.log('SUBMITTING NEW WHITELIST PROPOSAL...');
   const dao = await getDao(address);
-  const proposal = await dao.methods.submitWhitelistProposal(
-      tokenToWhitelist,
-      details
-  );
-  const estimatedGas = await getEstimatedGas(proposal)
-  const receipt =  await getReceipt(proposal, user, estimatedGas)
-  return receipt
+  const proposal = await dao.methods.submitWhitelistProposal(tokenToWhitelist, details);
+  const estimatedGas = await getEstimatedGas(proposal);
+  const receipt = await getReceipt(proposal, user, estimatedGas);
+  return receipt;
 };
 
 export const submitGuildKickProposal = async (
-  /*Wallet information*/
+  /* Wallet information */
   user,
-  /*Contract information*/
+  /* Contract information */
   library,
   version,
   address,
-  /*Proposal information*/
+  /* Proposal information */
   memberToKick,
-  details
+  details,
 ) => {
-  console.log('SUBMITTING NEW GUILD KICK PROPOSAL...')
+  console.log('SUBMITTING NEW GUILD KICK PROPOSAL...');
   const dao = await getDao(address);
-  const proposal = await dao.methods.submitGuildKickProposal(
-      memberToKick,
-      details
-  );
-  const estimatedGas = await getEstimatedGas(proposal)
-  const receipt =  await getReceipt(proposal, user, estimatedGas)
-  return receipt
+  const proposal = await dao.methods.submitGuildKickProposal(memberToKick, details);
+  const estimatedGas = await getEstimatedGas(proposal);
+  const receipt = await getReceipt(proposal, user, estimatedGas);
+  return receipt;
 };
 
 export const sponsorProposal = async (
-  /*Wallet information*/
+  /* Wallet information */
   user,
-  /*Contract information*/
+  /* Contract information */
   daoAddress,
-  /*Proposal information*/
-  proposalId
+  /* Proposal information */
+  proposalId,
 ) => {
   console.log('SPONSORING PROPOSAL...', {
     user,
     daoAddress,
-    proposalId
-  })
+    proposalId,
+  });
   const dao = await getDao(daoAddress);
 
   const token = new web3.eth.Contract(abiLibrary.erc20, await dao.methods.depositToken().call());
 
   const userPolyAddress = addressTranslator.ethAddressToGodwokenShortAddress(user);
- 
+
   const userBalance = new BigNumber(await token.methods.balanceOf(userPolyAddress).call());
   const allowance = new BigNumber(await token.methods.allowance(userPolyAddress, daoAddress).call());
   const proposalDeposit = new BigNumber(await dao.methods.proposalDeposit().call());
@@ -286,7 +277,7 @@ export const sponsorProposal = async (
   console.log({
     userBalance,
     allowance,
-    proposalDeposit
+    proposalDeposit,
   });
 
   if (userBalance.lt(proposalDeposit)) {
@@ -295,16 +286,13 @@ export const sponsorProposal = async (
 
   if (allowance.lt(proposalDeposit)) {
     await token.methods.approve(daoAddress, proposalDeposit).send({
-      from: user
+      from: user,
     });
   }
 
-  const proposal = await dao.methods.sponsorProposal(
-         proposalId
-      );
+  const proposal = await dao.methods.sponsorProposal(proposalId);
 
-    
-  const estimatedGas = await getEstimatedGas(proposal)
-  const receipt =  await getReceipt(proposal, user, estimatedGas)
-  return receipt
+  const estimatedGas = await getEstimatedGas(proposal);
+  const receipt = await getReceipt(proposal, user, estimatedGas);
+  return receipt;
 };

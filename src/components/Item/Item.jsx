@@ -7,8 +7,8 @@ import paper from 'images/paper.svg';
 import 'styles/Dapp.css';
 
 /**
-* @summary displays the contents of a poll
-*/
+ * @summary displays the contents of a poll
+ */
 class ItemLink extends Component {
   static propTypes = {
     match: PropTypes.object.isRequired,
@@ -20,21 +20,20 @@ class ItemLink extends Component {
     score: PropTypes.number,
     hideEmpty: PropTypes.bool,
     href: PropTypes.string,
-    children: PropTypes.oneOfType([
-      PropTypes.arrayOf(PropTypes.node),
-      PropTypes.node,
-    ]),
-  }
+    children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
+  };
 
   getLabel() {
     if (this.props.children) {
       return this.props.children;
     }
-    return (this.props.label);
+    return this.props.label;
   }
 
   getTagStyle() {
-    return `sidebar-tag ${(`${this.props.location.pathname}${this.props.location.search}` === this.props.href) ? 'sidebar-tag-selected' : null}`;
+    return `sidebar-tag ${
+      `${this.props.location.pathname}${this.props.location.search}` === this.props.href ? 'sidebar-tag-selected' : null
+    }`;
   }
 
   getLabelStyle() {
@@ -48,33 +47,35 @@ class ItemLink extends Component {
     if (this.props.icon) {
       return this.props.icon;
     }
-    return (`${this.props.location.pathname}${this.props.location.search}` === this.props.href) ? paperActive : paper;
+    return `${this.props.location.pathname}${this.props.location.search}` === this.props.href ? paperActive : paper;
   }
 
   render() {
     if (this.props.hideEmpty && this.props.score === 0) return null;
     return (
-      <NavLink to={this.props.href} exact={true}
-        isActive={(match, location) => { if (!match) { return false }; return (`${location.pathname}${location.search}` === this.props.href); }} 
-        className="menu-item" activeClassName="menu-item-selected"
+      <NavLink
+        to={this.props.href}
+        exact={true}
+        isActive={(match, location) => {
+          if (!match) {
+            return false;
+          }
+          return `${location.pathname}${location.search}` === this.props.href;
+        }}
+        className="menu-item"
+        activeClassName="menu-item-selected"
       >
-        {(this.props.sharp) ?
+        {this.props.sharp ? (
           <div className="sidebar-sharp">
             <img src={this.getIcon()} alt="" className="menu-item-icon" />
           </div>
-          :
-          null
-        }
-        <div className={this.getLabelStyle()}>
-          {this.getLabel()}
-        </div>
-        <div className={this.getTagStyle()}>
-          {(this.props.score >= 100) ? '100+' : this.props.score}
-        </div>
+        ) : null}
+        <div className={this.getLabelStyle()}>{this.getLabel()}</div>
+        <div className={this.getTagStyle()}>{this.props.score >= 100 ? '100+' : this.props.score}</div>
       </NavLink>
     );
   }
 }
 
 const Item = withRouter(ItemLink);
-export { Item as default }
+export { Item as default };

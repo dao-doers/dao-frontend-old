@@ -1,4 +1,3 @@
-
 import { gql } from 'apollo-boost';
 
 const MENU_DATA = `
@@ -17,10 +16,10 @@ const MENU_DATA = `
   sponsor
   processed
   applicant
-`
+`;
 
 export const query = {
-   GET_MEMBERSHIPS: gql`
+  GET_MEMBERSHIPS: gql`
     query membershipDetails($address: String) {
       proposals(where: { proposer: $address }) {
         ${MENU_DATA}

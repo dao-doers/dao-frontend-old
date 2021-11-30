@@ -5,7 +5,7 @@ import i18n from 'i18n';
 import calendar from 'images/calendar.svg';
 import 'styles/Dapp.css';
 
-const _getDayExpression = (days) => {
+const _getDayExpression = days => {
   if (days === 0) {
     return '';
   }
@@ -13,19 +13,19 @@ const _getDayExpression = (days) => {
     return `${days} ${i18n.t('days-compressed')}`;
   }
   return `${days} ${i18n.t('days-singular')}`;
-}
+};
 
 /**
-* @summary renders a post in the timeline
-*/
+ * @summary renders a post in the timeline
+ */
 export default class Countdown extends Component {
   static propTypes = {
     now: PropTypes.number,
     totalVoters: PropTypes.string,
     votingPeriodBegins: PropTypes.string,
     votingPeriodEnds: PropTypes.string,
-    gracePeriodEnds: PropTypes.string
-  }
+    gracePeriodEnds: PropTypes.string,
+  };
 
   getVotersLabel() {
     const voters = Number(this.props.totalVoters);
@@ -57,9 +57,9 @@ export default class Countdown extends Component {
 
     const days = Math.floor(delta / 86400);
     const hours = Math.floor(delta / 3600) % 24;
-    return i18n.t(label, { 
+    return i18n.t(label, {
       days: _getDayExpression(days),
-      hours: `${hours} ${hours > 1 ? i18n.t('hours-compressed') : i18n.t('hours-singular')}`
+      hours: `${hours} ${hours > 1 ? i18n.t('hours-compressed') : i18n.t('hours-singular')}`,
     });
   }
 
@@ -69,8 +69,8 @@ export default class Countdown extends Component {
 
     if (this.props.now > this.props.gracePeriodEnds) {
       return '0%';
-    } 
-    
+    }
+
     if (this.props.now > this.props.votingPeriodEnds) {
       electionLength = parseInt(this.props.gracePeriodEnds - this.props.votingPeriodEnds, 10);
       electionNow = parseInt(this.props.now - this.props.votingPeriodEnds, 10);
@@ -81,15 +81,15 @@ export default class Countdown extends Component {
       return '0%';
     }
 
-    const percentage = parseInt(100 - ((electionNow * 100) / electionLength), 10);
+    const percentage = parseInt(100 - (electionNow * 100) / electionLength, 10);
     return `${percentage}%`;
   }
 
   getStyle() {
     let colorClass;
-    if ((this.props.now > this.props.votingPeriodEnds) && (this.props.now <= this.props.gracePeriodEnds)) {
+    if (this.props.now > this.props.votingPeriodEnds && this.props.now <= this.props.gracePeriodEnds) {
       colorClass = 'countdown-timer-grace';
-    } else if ((this.props.now > this.props.votingPeriodBegins) && (this.props.now <= this.props.votingPeriodEnds)) {
+    } else if (this.props.now > this.props.votingPeriodBegins && this.props.now <= this.props.votingPeriodEnds) {
       colorClass = 'countdown-timer-voting';
     } else if (this.props.now < this.props.votingPeriodBegins) {
       colorClass = 'countdown-timer-queue';
@@ -101,7 +101,7 @@ export default class Countdown extends Component {
     return (
       <div className="countdown">
         <div id="timer" className="countdown-label" title={new Date(this.props.votingPeriodEnds * 1000).toString()}>
-          <img className="url-icon icon-up2" alt="" src={calendar}/> {this.getPollLabel()}
+          <img className="url-icon icon-up2" alt="" src={calendar} /> {this.getPollLabel()}
         </div>
         <div className="countdown-timer-bar">
           <div className={this.getStyle()} style={{ width: this.getWidth() }} />

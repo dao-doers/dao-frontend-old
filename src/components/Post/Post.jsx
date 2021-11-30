@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import parser from 'html-react-parser';
-import { withRouter } from "react-router-dom";
+import { withRouter } from 'react-router-dom';
 
 import i18n from 'i18n';
 import { wrapURLs } from 'utils/strings';
@@ -12,10 +12,10 @@ import 'styles/Dapp.css';
 import { ToEthAddress } from 'components/ToEthAddress/ToEthAddress';
 
 /**
-* @summary quick function to determine if a string is a JSON
-* @param {string} str ing
-*/
-const _isJSON = (str) => {
+ * @summary quick function to determine if a string is a JSON
+ * @param {string} str ing
+ */
+const _isJSON = str => {
   try {
     JSON.parse(str);
   } catch (e) {
@@ -25,11 +25,11 @@ const _isJSON = (str) => {
 };
 
 /**
-* @summary given the json content of a proposal return the description text
-* @param {string} description with probable json information
-* @return {string} content
-*/
-const _getDescription = (description) => {
+ * @summary given the json content of a proposal return the description text
+ * @param {string} description with probable json information
+ * @return {string} content
+ */
+const _getDescription = description => {
   // content formatting
   let content;
   if (_isJSON(description)) {
@@ -38,7 +38,7 @@ const _getDescription = (description) => {
     content = {
       title: json.title ? json.title : '',
       description: json.description ? wrapURLs(json.description) : '',
-      link: (typeof json.link === 'function' || !json.link) ? '' : json.link,
+      link: typeof json.link === 'function' || !json.link ? '' : json.link,
     };
   } else {
     content = {
@@ -51,27 +51,26 @@ const _getDescription = (description) => {
 };
 
 /**
-* @summary renders a post in the timeline
-*/
+ * @summary renders a post in the timeline
+ */
 class Post extends Component {
   _isMounted = false;
   constructor(props) {
     super(props);
     this.state = _getDescription(this.props.description);
     this.state = {
-      ethAddress: "",
-      isFetching: false
+      ethAddress: '',
+      isFetching: false,
     };
   }
 
   componentDidMount() {
     this._isMounted = true;
-    
-    ToEthAddress(this.props.memberAddress)
-    .then(address => {
+
+    ToEthAddress(this.props.memberAddress).then(address => {
       if (this._isMounted) {
         this.setState({
-          ethAddress: address
+          ethAddress: address,
         });
         this.setState({ isFetching: true });
       }
@@ -81,9 +80,9 @@ class Post extends Component {
   componentWillUnmount() {
     this._isMounted = false;
   }
-  
+
   render() {
-    const {ethAddress} = this.state
+    const { ethAddress } = this.state;
     const searchCache = i18n.t('search-post-preview', {
       title: typeof this.state.title === 'string' ? parser(this.state.title) : this.state.title,
       description: typeof this.state.description === 'string' ? parser(this.state.description) : this.state.description,
@@ -103,22 +102,27 @@ class Post extends Component {
                 <div className="title-header">
                   {typeof this.state.title === 'string' ? parser(this.state.title) : this.state.title}
                 </div>
-                {
-                  (this.state.description) ?
-                    <div className="title-description">
-                      {typeof this.state.description === 'string' ? parser(this.state.description) : this.state.description}
-                    </div>
-                    :
-                    null
-                }
-                {
-                  (this.state.link) ?
-                    <div className="title-description">
-                      <a href={this.state.link} target="_blank" rel="noopener noreferrer" onClick={(e) => { e.stopPropagation(); }}>{this.state.link}</a>
-                    </div>
-                    :
-                    null
-                }
+                {this.state.description ? (
+                  <div className="title-description">
+                    {typeof this.state.description === 'string'
+                      ? parser(this.state.description)
+                      : this.state.description}
+                  </div>
+                ) : null}
+                {this.state.link ? (
+                  <div className="title-description">
+                    <a
+                      href={this.state.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={e => {
+                        e.stopPropagation();
+                      }}
+                    >
+                      {this.state.link}
+                    </a>
+                  </div>
+                ) : null}
               </div>
             </div>
           </div>
@@ -134,10 +138,7 @@ Post.propTypes = {
   description: PropTypes.string,
   daoAddress: PropTypes.string,
   memberAddress: PropTypes.string,
-  children: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.node),
-    PropTypes.node,
-  ]),
+  children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
 };
 
 export default withRouter(Post);

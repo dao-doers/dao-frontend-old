@@ -5,24 +5,22 @@ import slugify from 'slugify';
 import web3 from 'web3';
 
 /**
-* @summary return an ASCII-friendly, URL-friendly, safer slug-cased text.
-*/
+ * @summary return an ASCII-friendly, URL-friendly, safer slug-cased text.
+ */
 const _convertToSlug = function (text) {
   if (text === undefined) return undefined; // Contract's `Object.autoValue` may try to convert `undefined`.
   return slugify(text, { lower: true });
 };
 
 /**
-* @summary return an somewhat email-friendly (among other things), safer username.
-*/
-const _convertToUsername = (unsafeUsername) => {
-  return _convertToSlug(unsafeUsername).replace(/-+/, '');
-};
+ * @summary return an somewhat email-friendly (among other things), safer username.
+ */
+const _convertToUsername = unsafeUsername => _convertToSlug(unsafeUsername).replace(/-+/, '');
 
 /**
-* @summary removes urls starting with /
-*/
-const _fixDBUrl = (url) => {
+ * @summary removes urls starting with /
+ */
+const _fixDBUrl = url => {
   if (url.first() === '/') {
     return url.substring(1);
   }
@@ -30,24 +28,24 @@ const _fixDBUrl = (url) => {
 };
 
 /**
-* @summary removes html present in text
-*/
-const _stripHTML = (html) => {
+ * @summary removes html present in text
+ */
+const _stripHTML = html => {
   let str = html;
   str = str.replace(/<\s*br\/*>/gi, '');
   str = str.replace(/<\s*a.*href="(.*?)".*>(.*?)<\/a>/gi, ' $2 (Link->$1) ');
-  str = str.replace(/<\s*\/*.+?>/ig, '');
+  str = str.replace(/<\s*\/*.+?>/gi, '');
   str = str.replace(/ {2,}/gi, '');
   str = str.replace(/\n+\s*/gi, '');
   return str;
 };
 
 /**
-* @summary hacky fixes for url strings
-* @param {string} url to fix
-* @return {string}
-*/
-const _urlDoctor = (url) => {
+ * @summary hacky fixes for url strings
+ * @param {string} url to fix
+ * @return {string}
+ */
+const _urlDoctor = url => {
   let newUrl = url.replace('/http', 'http');
   if (newUrl.last() !== '/') {
     newUrl = newUrl.add('/');
@@ -56,11 +54,11 @@ const _urlDoctor = (url) => {
 };
 
 /**
-* @summary all the usernames mentioned in a contract
-* @param {object} contract to parse
-* @returns {string} list with all @names
-*/
-const _getAllUsernames = (contract) => {
+ * @summary all the usernames mentioned in a contract
+ * @param {object} contract to parse
+ * @returns {string} list with all @names
+ */
+const _getAllUsernames = contract => {
   let list = '';
   for (const i in contract.signatures) {
     list += `@${contract.signatures[i].username} `;
@@ -69,11 +67,11 @@ const _getAllUsernames = (contract) => {
 };
 
 /**
-* @summary title case for any string
-* @param {string} str title this
-* @returns {string} with Title Case
-*/
-const _toTitleCase = (str) => {
+ * @summary title case for any string
+ * @param {string} str title this
+ * @returns {string} with Title Case
+ */
+const _toTitleCase = str => {
   const geo = Session.get('geo');
   for (const i in geo.country) {
     if (_convertToUsername(geo.country[i].name) === str) {
@@ -84,9 +82,9 @@ const _toTitleCase = (str) => {
 };
 
 /**
-* @summary prevents any corruption inside url
-*/
-const _parseURL = (url) => {
+ * @summary prevents any corruption inside url
+ */
+const _parseURL = url => {
   if (url.substring(0, 4) === 'http') {
     // absolute
     return url;
@@ -95,13 +93,12 @@ const _parseURL = (url) => {
   return `${_urlDoctor(Meteor.absoluteUrl.defaultOptions.rootUrl)}${_fixDBUrl(url)}`;
 };
 
-
 /**
-* @summary if _here
-* @param {object} post data
-* @param {array} feed list
-* @return {boolean} 🙏
-*/
+ * @summary if _here
+ * @param {object} post data
+ * @param {array} feed list
+ * @return {boolean} 🙏
+ */
 const _here = (post, feed) => {
   for (const items in feed) {
     if (feed[items]._id === post._id) {
@@ -112,9 +109,9 @@ const _here = (post, feed) => {
 };
 
 /**
-* @summary decides if it should hide or not a DOM element
-*/
-const _displayElement = (sessionVar) => {
+ * @summary decides if it should hide or not a DOM element
+ */
+const _displayElement = sessionVar => {
   if (Session.get(sessionVar)) {
     return '';
   }
@@ -122,8 +119,8 @@ const _displayElement = (sessionVar) => {
 };
 
 /**
-* @summary displays a warning for a limited period.
-*/
+ * @summary displays a warning for a limited period.
+ */
 const _displayTimedWarning = (warning, val) => {
   let value = val;
   if (!val) {
@@ -138,8 +135,8 @@ const _displayTimedWarning = (warning, val) => {
 };
 
 /**
-* @summary verifies the existence of duplicates in array list
-*/
+ * @summary verifies the existence of duplicates in array list
+ */
 const _checkDuplicate = (arr, elementId) => {
   for (let i = 0; i < arr.length; i += 1) {
     if (arr[i]._id === elementId) {

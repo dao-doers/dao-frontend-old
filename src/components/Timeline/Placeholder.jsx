@@ -37,17 +37,14 @@ const _preloader = () => {
 };
 
 /**
-* @summary displays the contents of a poll
-*/
+ * @summary displays the contents of a poll
+ */
 const Placeholder = () => {
   return _preloader();
 };
 
 Placeholder.propTypes = {
-  children: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.node),
-    PropTypes.node,
-  ]),
+  children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
 };
 
 export default Placeholder;

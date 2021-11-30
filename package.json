@@ -26,7 +26,6 @@
     "numeral": "^2.0.6",
     "react": "^16.13.1",
     "react-apollo": "^3.1.5",
-    "react-app-rewired": "^2.1.8",
     "react-dnd": "^5.0.0",
     "react-dnd-html5-backend": "^3.0.2",
     "react-document-meta": "^3.0.0-beta.2",
@@ -46,10 +45,12 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-app-rewired build",
-    "build:dev": "dotenv -e .env.development react-app-rewired build",
+    "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "lint-fix": "eslint ./ --fix",
+    "prettier:check": "prettier --check ./",
+    "prettier:fix": "prettier --write ./"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -67,6 +68,11 @@
     ]
   },
   "devDependencies": {
-    "dotenv-cli": "^4.0.0"
+    "dotenv-cli": "^4.0.0",
+    "eslint": "7",
+    "eslint-config-airbnb": "^19.0.1",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "prettier": "2.2.1"
   }
 }

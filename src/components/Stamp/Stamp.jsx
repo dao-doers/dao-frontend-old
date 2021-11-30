@@ -6,15 +6,15 @@ import parser from 'html-react-parser';
 import { timeComplete, timeCompressed, hourOnly, timeSince, countdown, createDateQuery } from 'utils/chronos';
 import 'styles/Dapp.css';
 
-const _dateURL = (timestamp) => {
+const _dateURL = timestamp => {
   const from = new Date(parseInt(Number(timestamp) * 1000, 10));
   const fromQuery = createDateQuery(from);
   return `/date/${fromQuery}`;
 };
 
 /**
-* @summary displays the timestamp of a given post or event
-*/
+ * @summary displays the timestamp of a given post or event
+ */
 export default class Stamp extends Component {
   constructor(props) {
     super(props);
@@ -49,7 +49,14 @@ export default class Stamp extends Component {
   render() {
     return (
       <div className="date-info">
-        <Link to={this.state.url} title={this.state.fullDate.replace(/&#183;/g, '·')} className="verifier verifier-live verifier-feed" onClick={(e) => { e.stopPropagation(); }}>
+        <Link
+          to={this.state.url}
+          title={this.state.fullDate.replace(/&#183;/g, '·')}
+          className="verifier verifier-live verifier-feed"
+          onClick={e => {
+            e.stopPropagation();
+          }}
+        >
           {parser(this.state.label)}
         </Link>
       </div>

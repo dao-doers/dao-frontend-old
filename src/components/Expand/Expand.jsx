@@ -11,8 +11,8 @@ import arrowUpActive from 'images/arrow-up-active.svg';
 import 'styles/Dapp.css';
 
 /**
-* @summary renders a post in the timeline
-*/
+ * @summary renders a post in the timeline
+ */
 export default class Expand extends Component {
   static propTypes = {
     open: PropTypes.bool,
@@ -20,18 +20,15 @@ export default class Expand extends Component {
     iconActive: PropTypes.string,
     icon: PropTypes.string,
     label: PropTypes.string,
-    children: PropTypes.oneOfType([
-      PropTypes.arrayOf(PropTypes.node),
-      PropTypes.node,
-    ]),
-  }
+    children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
+  };
 
   constructor(props) {
     super(props);
     this.state = {
       open: props.open,
-      img: (props.open) ? arrowDownActive : arrowDown,
-      logo: (props.open) ? this.props.iconActive : this.props.icon,
+      img: props.open ? arrowDownActive : arrowDown,
+      logo: props.open ? this.props.iconActive : this.props.icon,
     };
 
     this.mouseToggle = this.mouseToggle.bind(this);
@@ -40,11 +37,11 @@ export default class Expand extends Component {
 
   mouseToggle() {
     if (this.state.open) {
-      this.setState({ logo: this.props.iconActive })
-      return this.setState({ img: arrowUpActive })
+      this.setState({ logo: this.props.iconActive });
+      return this.setState({ img: arrowUpActive });
     } else {
-      this.setState({ logo: this.props.icon })
-      return this.setState({ img: arrowDown })
+      this.setState({ logo: this.props.icon });
+      return this.setState({ img: arrowDown });
     }
   }
 
@@ -52,31 +49,37 @@ export default class Expand extends Component {
     e.preventDefault();
     e.stopPropagation();
     this.setState({ open: !this.state.open });
-    if (this.state.open) { this.setState({ img: arrowDown }); this.setState({ logo: this.props.icon }) } else { this.setState({ img: arrowUpActive }); this.setState({ logo: this.props.iconActive }) };
+    if (this.state.open) {
+      this.setState({ img: arrowDown });
+      this.setState({ logo: this.props.icon });
+    } else {
+      this.setState({ img: arrowUpActive });
+      this.setState({ logo: this.props.iconActive });
+    }
   }
 
   getStyle() {
-    return (this.state.open) ? "details details-open" : "details";
+    return this.state.open ? 'details details-open' : 'details';
   }
 
   getImage() {
-    return (this.state.open) ? this.setState({ img: arrowUpActive }) : this.setState({ img: arrowDownActive });;
+    return this.state.open ? this.setState({ img: arrowUpActive }) : this.setState({ img: arrowDownActive });
   }
   render() {
     return (
       <>
-        <Link to={this.props.url} className={this.getStyle()} onMouseEnter={this.mouseToggle} onMouseLeave={this.mouseToggle} onClick={this.handleClick}>
+        <Link
+          to={this.props.url}
+          className={this.getStyle()}
+          onMouseEnter={this.mouseToggle}
+          onMouseLeave={this.mouseToggle}
+          onClick={this.handleClick}
+        >
           <img className="details-icon details-icon-logo" alt="" src={this.state.logo} />
           {parser(this.props.label)}
           <img className="details-icon" alt="" src={this.state.img} />
         </Link>
-        {(this.state.open) ?
-          <div className="details-wrapper">
-            {this.props.children}
-          </div>
-          :
-          null
-        }
+        {this.state.open ? <div className="details-wrapper">{this.props.children}</div> : null}
       </>
     );
   }

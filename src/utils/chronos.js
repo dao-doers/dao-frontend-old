@@ -27,7 +27,7 @@ const buildSentence = (seconds, mode, micro) => {
   return `${Math.floor(seconds)} ${i18n.t(`seconds-${mode}${micro ? '-micro' : ''}`)}`;
 };
 
-const _timeAgo = (date) => {
+const _timeAgo = date => {
   const seconds = Math.floor((new Date() - date) / 1000);
   return buildSentence(seconds, 'ago');
 };
@@ -37,20 +37,19 @@ const _timeCompressed = (date, micro) => {
   return buildSentence(seconds, 'compressed', micro);
 };
 
-const _timeDateOnly = (date) => {
+const _timeDateOnly = date => {
   const options = { year: 'numeric', month: 'long', day: 'numeric' };
   return `${date.toLocaleDateString('en', options)}`;
 };
 
-const _hourOnly = (date) => {
-  return `${(date.getHours() < 10) ? `0${(date.getHours())}` : date.getHours()}:${(date.getMinutes() < 10) ? `0${(date.getMinutes())}` : date.getMinutes()}`;
-};
+const _hourOnly = date =>
+  `${date.getHours() < 10 ? `0${date.getHours()}` : date.getHours()}:${
+    date.getMinutes() < 10 ? `0${date.getMinutes()}` : date.getMinutes()
+  }`;
 
-const _timeComplete = (date) => {
-  return `${_timeAgo(date)} &#183; ${_timeDateOnly(date)} &#183; ${_hourOnly(date)}`;
-};
+const _timeComplete = date => `${_timeAgo(date)} &#183; ${_timeDateOnly(date)} &#183; ${_hourOnly(date)}`;
 
-const timeLeft = (date) => {
+const timeLeft = date => {
   const seconds = Math.floor((date - new Date()) / 1000);
   if (seconds > 0) {
     return buildSentence(seconds, 'left');
@@ -59,12 +58,13 @@ const timeLeft = (date) => {
 };
 
 /**
-* @summary creates string of date for URL
-* @return {string} uri
-*/
-const _createDateQuery = (date) => {
-  return `${date.getFullYear()}-${(date.getMonth() < 9) ? `0${parseInt(date.getMonth() + 1, 10)}` : parseInt(date.getMonth() + 1, 10)}-${(date.getDate() < 10) ? `0${date.getDate()}` : date.getDate()}`;
-};
+ * @summary creates string of date for URL
+ * @return {string} uri
+ */
+const _createDateQuery = date =>
+  `${date.getFullYear()}-${
+    date.getMonth() < 9 ? `0${parseInt(date.getMonth() + 1, 10)}` : parseInt(date.getMonth() + 1, 10)
+  }-${date.getDate() < 10 ? `0${date.getDate()}` : date.getDate()}`;
 
 export const hourOnly = _hourOnly;
 export const timeDateOnly = _timeDateOnly;
