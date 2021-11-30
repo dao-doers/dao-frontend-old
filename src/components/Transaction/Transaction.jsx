@@ -7,7 +7,7 @@ import 'styles/Dapp.css';
 import { defaults } from 'lib/const';
 import { getDescription } from 'components/Post/Post';
 
-const numeral = require('numeral');
+const numbro = require('numbro');
 
 /**
  * @summary displays the contents of a poll
@@ -22,14 +22,14 @@ export default class Transaction extends Component {
         return (
           <div href={this.props.uintVote} className="transaction-action transaction-action-passed">
             {parser(
-              i18n.t('voted-yes', { shares: numeral(this.props.quantity).format('0,0'), label, proposal: title }),
+              i18n.t('voted-yes', { shares: numbro(this.props.quantity).format('0,0'), label, proposal: title }),
             )}
           </div>
         );
       case defaults.NO:
         return (
           <div href={this.props.uintVote} className="transaction-action transaction-action-rejected">
-            {parser(i18n.t('voted-no', { shares: numeral(this.props.quantity).format('0,0'), label, proposal: title }))}
+            {parser(i18n.t('voted-no', { shares: numbro(this.props.quantity).format('0,0'), label, proposal: title }))}
           </div>
         );
       default:
