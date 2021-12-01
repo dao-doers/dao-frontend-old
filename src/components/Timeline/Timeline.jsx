@@ -268,12 +268,16 @@ const Feed = props => {
       const proposalValue = _getProposalValue(proposal);
       const abiLibrary = 'moloch2';
 
+      console.log('#####current proposal####', proposal)
+
       return (
         <Post
           key={proposal.id}
           accountAddress={accountAddress}
+          title="Testing"
+          description="Lorem Ipsum is simply dummy text of the printing and typesetting industry"
           href={url}
-          description={proposal.details}
+          link="Testing"
           memberAddress={proposal.proposer}
           daoAddress={daoAddress}
         >
