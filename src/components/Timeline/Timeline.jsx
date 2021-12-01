@@ -93,7 +93,7 @@ const client = new ApolloClient({
 });
 
 const _getPercentage = (percentageAmount, remainder) => {
-  return parseFloat((percentageAmount * 100) / (percentageAmount + remainder), 10);
+  return (percentageAmount * 100) / (percentageAmount + remainder), 10;
 };
 
 /**
