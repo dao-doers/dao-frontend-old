@@ -274,10 +274,10 @@ const Feed = props => {
         <Post
           key={proposal.id}
           accountAddress={accountAddress}
-          title="Testing"
+          title="Testing title"
           description="Lorem Ipsum is simply dummy text of the printing and typesetting industry"
           href={url}
-          link="Testing"
+          link="Testing with link"
           memberAddress={proposal.proposer}
           daoAddress={daoAddress}
         >

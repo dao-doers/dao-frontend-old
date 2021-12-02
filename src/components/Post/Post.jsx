@@ -43,7 +43,7 @@ const _getDescription = description => {
     content = {
       title: json.title ? json.title : '',
       description: json.description ? wrapURLs(json.description) : '',
-      href: typeof json.href === 'function' || !json.href ? '' : json.href,
+      link: typeof json.link === 'function' || !json.link ? '' : json.link,
     };
   } else {
     content = {
@@ -112,7 +112,7 @@ class Post extends Component {
                       : this.props.description}
                   </div>
                 ) : null}
-                {this.props.href ? (
+                {this.props.link ? (
                   <div className="title-description">
                     <a
                       href={this.props.href}
@@ -122,7 +122,7 @@ class Post extends Component {
                         e.stopPropagation();
                       }}
                     >
-                      {this.props.href}
+                      {this.props.link}
                     </a>
                   </div>
                 ) : null}
