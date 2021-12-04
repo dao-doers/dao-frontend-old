@@ -1,14 +1,16 @@
+/* eslint-disable import/no-anonymous-default-export */
 /* IMPORTS */
 // Config
 import React from 'react';
 // Components
 import { defaults } from 'lib/const';
 import './style.css';
+import TextField from '@material-ui/core/TextField';
+import IconWithTooltip from 'components/IconWithTooltip/IconWithTooltip';
 
-export default ({ availableTokens, paymentToken, paymentRequested, handleChanges }) => {
+export default function ({ availableTokens, paymentToken, paymentRequested, handleChanges }) {
   return (
     <div className="section">
-      <label className={paymentToken === '0x0' ? 'sectionLabel emptyAddress' : 'sectionLabel'}>Payment requested</label>
       <select
         className="input"
         name="paymentToken"
@@ -25,14 +27,28 @@ export default ({ availableTokens, paymentToken, paymentRequested, handleChanges
           </option>
         ))}
       </select>
-      <input
+      <TextField
         className="input number"
-        type="number"
+        InputLabelProps={{ style: { pointerEvents: 'auto' } }}
         name="paymentRequested"
-        placeholder="Payment requested"
+        id="paymentRequested"
         value={paymentRequested}
         onChange={handleChanges}
+        placeholder="paymentRequested"
+        variant="outlined"
+        type="number"
+        label={
+          <div style={{ display: 'flex' }}>
+            sharesRequested
+            <IconWithTooltip title="paymentRequested means .." />
+          </div>
+        }
+        helperText={
+          <label className={paymentToken === '0x0' ? 'sectionLabel emptyAddress' : 'sectionLabel'}>
+            Payment requested
+          </label>
+        }
       />
     </div>
   );
-};
+}

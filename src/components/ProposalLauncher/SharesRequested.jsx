@@ -1,26 +1,32 @@
+/* eslint-disable import/no-anonymous-default-export */
 /* IMPORTS */
 // Config
 import React from 'react';
 // Components
 import './style.css';
+import TextField from '@material-ui/core/TextField';
+import IconWithTooltip from 'components/IconWithTooltip/IconWithTooltip';
 
-export default ({ sharesRequested, lootRequested, handleChanges }) => {
+export default function ({ sharesRequested, handleChanges }) {
   return (
-    <div className="requestsContainer">
-      <div className="section requests">
-        <label className="sectionLabel">Shares requested</label>
-        <input
-          className="input"
-          type="number"
-          name="sharesRequested"
-          value={sharesRequested}
-          onChange={handleChanges}
-        />
-      </div>
-      <div className="section requests">
-        <label className="sectionLabel">Loot requested</label>
-        <input className="input" type="number" name="lootRequested" value={lootRequested} onChange={handleChanges} />
-      </div>
+    <div className="section">
+      <TextField
+        className="input"
+        InputLabelProps={{ style: { pointerEvents: 'auto' } }}
+        name="sharesRequested"
+        id="sharesRequested"
+        value={sharesRequested}
+        onChange={handleChanges}
+        placeholder="0.00"
+        variant="outlined"
+        type="number"
+        label={
+          <div style={{ display: 'flex' }}>
+            sharesRequested
+            <IconWithTooltip title="sharesRequested means we have to estimate how  .." />
+          </div>
+        }
+      />
     </div>
   );
-};
+}

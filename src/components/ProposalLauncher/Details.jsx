@@ -1,39 +1,55 @@
+/* eslint-disable import/no-anonymous-default-export */
 /* IMPORTS */
 // Config
 import React from 'react';
 // Components
 import './style.css';
 
-export default ({ title, description, link, handleChanges }) => {
+import { TextField } from '@material-ui/core';
+
+export default function ({ title, description, link, handleChanges }) {
   return (
     <>
-      <div className="section">
-        <label className="sectionLabel">
-          Title
-          {title.hasChanged && !title.value ? <span className="invalidAddress"> *</span> : null}
-        </label>
-        <input className="input" type="text" name="title" value={title.value} onChange={handleChanges} />
-      </div>
-      <div className="section">
-        <label className="sectionLabel">
-          Description
-          {description.hasChanged && !description.value ? <span className="invalidAddress"> *</span> : null}
-        </label>
-        <textarea
+      <div className="section" style={{ paddingTop: '15px' }}>
+        <TextField
           className="input"
-          type="text textarea"
-          name="description"
-          value={description.value}
+          name="title"
+          label="Title"
+          variant="outlined"
+          value={title.value}
           onChange={handleChanges}
+          type="text"
+          helperText={title.hasChanged && !title.value ? <span className="invalidAddress"> *</span> : null}
         />
       </div>
       <div className="section">
-        <label className="sectionLabel">
-          Link
-          {link.hasChanged && !link.value ? <span className="invalidAddress"> *</span> : null}
-        </label>
-        <input className="input" type="text" name="link" value={link.value} onChange={handleChanges} />
+        <TextField
+          className="input"
+          name="description"
+          label="Description"
+          variant="outlined"
+          multiline
+          rows={3}
+          value={description.value}
+          onChange={handleChanges}
+          type="text"
+          helperText={description.hasChanged && !description.value ? <span className="invalidAddress"> *</span> : null}
+        />
+      </div>
+      <div className="section">
+        <TextField
+          className="input"
+          InputLabelProps={{ style: { pointerEvents: 'auto' } }}
+          name="link"
+          id="link"
+          value={link.value}
+          onChange={handleChanges}
+          variant="outlined"
+          type="text"
+          label="Link"
+          helperText={link.hasChanged && !link.value ? <span className="invalidAddress"> *</span> : null}
+        />
       </div>
     </>
   );
-};
+}

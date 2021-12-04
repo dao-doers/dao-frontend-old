@@ -1,21 +1,35 @@
 /* IMPORTS */
 // Config
+import { TextField } from '@material-ui/core';
 import React from 'react';
 // Components
 import './style.css';
 
-export default ({ memberToKick, handleChanges }) => {
+export default function ({ memberToKick, handleChanges }) {
   return (
     <div className="section">
-      <label className="sectionLabel">
-        Member
-        {memberToKick.validated ? (
-          <span className="validAddress"> -validated address</span>
-        ) : (
-          <span className="invalidAddress"> -invalid address</span>
-        )}
-      </label>
-      <input className="input" type="text" name="memberToKick" value={memberToKick.address} onChange={handleChanges} />
+      <TextField
+        className="input"
+        InputLabelProps={{ style: { pointerEvents: 'auto' } }}
+        name="memberToKick"
+        id="memberToKick"
+        value={memberToKick.address}
+        onChange={handleChanges}
+        placeholder="0.00"
+        variant="outlined"
+        type="text"
+        label="Member"
+        helperText={
+          <label className="sectionLabel">
+            Member
+            {memberToKick.validated ? (
+              <span className="validAddress"> -validated address</span>
+            ) : (
+              <span className="invalidAddress"> -invalid address</span>
+            )}
+          </label>
+        }
+      />
     </div>
   );
-};
+}

@@ -5,7 +5,7 @@ import React from 'react';
 import { defaults } from 'lib/const';
 import './style.css';
 
-export default ({ tokenToWhitelist, ERC20Tokens, handleChanges }) => {
+export default function ({ tokenToWhitelist, ERC20Tokens, handleChanges }) {
   return (
     <div className="section">
       <label className={`sectionLabel ${tokenToWhitelist === '0x0' ? 'invalidAddress' : null}`}>
@@ -23,4 +23,4 @@ export default ({ tokenToWhitelist, ERC20Tokens, handleChanges }) => {
       </select>
     </div>
   );
-};
+}
