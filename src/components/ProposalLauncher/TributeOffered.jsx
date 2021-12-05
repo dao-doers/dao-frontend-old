@@ -7,8 +7,7 @@ import { defaults } from 'lib/const';
 import './style.css';
 
 import TextField from '@material-ui/core/TextField';
-import { MenuItem } from '@material-ui/core';
-import IconWithTooltip from 'components/IconWithTooltip/IconWithTooltip';
+import TooltipWithChildren from 'components/TooltipWithChildren/TooltipWithChildren';
 
 export default function ({ availableTokens, tributeToken, tributeOffered, handleChanges }) {
   return (
@@ -27,38 +26,33 @@ export default function ({ availableTokens, tributeToken, tributeOffered, handle
           label={
             <div style={{ display: 'flex' }}>
               tributeOffered
-              <IconWithTooltip title="tributeOffered means .." />
+              <TooltipWithChildren title="tributeOffered means .." />
             </div>
           }
+          onKeyPress={event => {
+            if (!/[0-9]/.test(event.key)) {
+              event.preventDefault();
+            }
+          }}
         />
       </div>
       <div className="section">
-        <TextField
-          className="input"
+        <select
+          className="select-css input"
           name="tributeToken"
-          helperText={
-            <label className={tributeToken === '0x0' ? 'sectionLabel emptyAddress' : 'sectionLabel'}>
-              Tribute offered
-            </label>
-          }
-          select
-          variant="outlined"
           placeholder=" Tribute token"
-          label="Tribute token"
           value={tributeToken}
           onChange={handleChanges}
         >
-          <MenuItem value={defaults.EMPTY} disabled>
+          <option value={defaults.EMPTY} disabled>
             Select tribute token
-          </MenuItem>
-          {availableTokens.map((t, i) => {
-            return (
-              <MenuItem key={i} value={t.tokenAddress}>
-                {t.symbol}
-              </MenuItem>
-            );
-          })}
-        </TextField>
+          </option>
+          {availableTokens.map((t, i) => (
+            <option key={i} value={t.tokenAddress}>
+              {t.symbol}
+            </option>
+          ))}
+        </select>
       </div>
     </>
   );

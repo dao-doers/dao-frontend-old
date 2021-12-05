@@ -7,7 +7,7 @@ import TextField from '@material-ui/core/TextField';
 
 export default function ({ applicant, handleChanges }) {
   return (
-    <div className="section">
+    <div className="section sectionApplicantMobile">
       <TextField
         className="input"
         InputLabelProps={{ style: { pointerEvents: 'auto' } }}

@@ -5,7 +5,7 @@ import React from 'react';
 // Components
 import './style.css';
 import TextField from '@material-ui/core/TextField';
-import IconWithTooltip from 'components/IconWithTooltip/IconWithTooltip';
+import TooltipWithChildren from 'components/TooltipWithChildren/TooltipWithChildren';
 
 export default function ({ sharesRequested, handleChanges }) {
   return (
@@ -23,7 +23,7 @@ export default function ({ sharesRequested, handleChanges }) {
         label={
           <div style={{ display: 'flex' }}>
             sharesRequested
-            <IconWithTooltip title="sharesRequested means we have to estimate how  .." />
+            <TooltipWithChildren title="shares Requested means we have to estimate how  .." />
           </div>
         }
       />

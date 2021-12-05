@@ -4,14 +4,18 @@ import React from 'react';
 // Components
 import { defaults } from 'lib/const';
 import './style.css';
+import { FormHelperText } from '@material-ui/core';
 
 export default function ({ tokenToWhitelist, ERC20Tokens, handleChanges }) {
   return (
     <div className="section">
-      <label className={`sectionLabel ${tokenToWhitelist === '0x0' ? 'invalidAddress' : null}`}>
-        Token to withelist
-      </label>
-      <select id="full" className="input" name="tokenToWhitelist" value={tokenToWhitelist} onChange={handleChanges}>
+      <select
+        id="full"
+        className="select-css input"
+        name="tokenToWhitelist"
+        value={tokenToWhitelist}
+        onChange={handleChanges}
+      >
         <option value={defaults.EMPTY} disabled>
           Select token
         </option>
@@ -21,6 +25,11 @@ export default function ({ tokenToWhitelist, ERC20Tokens, handleChanges }) {
           </option>
         ))}
       </select>
+      <FormHelperText style={{ paddingLeft: '15px' }}>
+        <label className={`sectionLabel ${tokenToWhitelist === '0x0' ? 'invalidAddress' : null}`}>
+          Token to withelist
+        </label>
+      </FormHelperText>
     </div>
   );
 }

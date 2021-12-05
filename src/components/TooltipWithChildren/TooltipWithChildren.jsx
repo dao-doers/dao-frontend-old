@@ -1,11 +1,11 @@
 import React from 'react';
-import { Tooltip } from '@material-ui/core';
+import {Tooltip} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import HelpIcon from '@material-ui/icons/Help';
 
-export default function IconWithTooltip({
+export default function TooltipWithChildren({
   title,
-  icon = <HelpIcon />,
+  children = <HelpIcon />,
   color = 'var(--background-color)',
   placement,
   backgroundColor = 'var(--main-menu-color)',
@@ -18,7 +18,7 @@ export default function IconWithTooltip({
       fontSize: '1.5rem',
       fontWeight: '500',
       minHeight: '13px',
-      width: '500px',
+      width: '700px',
       borderRadius: '8px',
     },
     arrow: {
@@ -50,7 +50,7 @@ export default function IconWithTooltip({
         },
       }}
     >
-      {icon}
+      {children}
     </Tooltip>
   );
 }

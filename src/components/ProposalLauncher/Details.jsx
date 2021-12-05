@@ -19,13 +19,13 @@ export default function ({ title, description, link, handleChanges }) {
           value={title.value}
           onChange={handleChanges}
           type="text"
-          helperText={title.hasChanged && !title.value ? <span className="invalidAddress"> *</span> : null}
+          required
         />
       </div>
       <div className="section">
         <TextField
           className="input"
-          name="description"
+          name="description" /*  */
           label="Description"
           variant="outlined"
           multiline
@@ -33,10 +33,10 @@ export default function ({ title, description, link, handleChanges }) {
           value={description.value}
           onChange={handleChanges}
           type="text"
-          helperText={description.hasChanged && !description.value ? <span className="invalidAddress"> *</span> : null}
+          required
         />
       </div>
-      <div className="section">
+      <div className="section sectionLinkMobile">
         <TextField
           className="input"
           InputLabelProps={{ style: { pointerEvents: 'auto' } }}
@@ -47,7 +47,7 @@ export default function ({ title, description, link, handleChanges }) {
           variant="outlined"
           type="text"
           label="Link"
-          helperText={link.hasChanged && !link.value ? <span className="invalidAddress"> *</span> : null}
+          required
         />
       </div>
     </>
