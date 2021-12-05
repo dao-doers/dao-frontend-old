@@ -248,7 +248,6 @@ const Feed = props => {
       const noShares = proposal.sharesRequested === '0';
       const noTribute = proposal.tributeOffered === '0';
       const noPayment = proposal.paymentRequested === '0';
-      const noLoot = proposal.lootRequested === '0';
       const noApplicant = proposal.applicant === '0x0000000000000000000000000000000000000000';
       const noSponsor = !proposal.sponsored || proposal.molochVersion === '1';
       const noConditions =
@@ -299,11 +298,6 @@ const Feed = props => {
                 {!noShares ? (
                   <Parameter label={i18n.t('moloch-request')}>
                     <Token quantity={String(proposal.sharesRequested)} symbol="SHARES" />
-                  </Parameter>
-                ) : null}
-                {!noLoot ? (
-                  <Parameter label={i18n.t('moloch-loot')}>
-                    <Token quantity={String(proposal.lootRequested)} symbol="SHARES" />
                   </Parameter>
                 ) : null}
                 {!noTribute ? (

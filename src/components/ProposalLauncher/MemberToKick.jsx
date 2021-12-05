@@ -15,7 +15,6 @@ export default function ({ memberToKick, handleChanges }) {
         id="memberToKick"
         value={memberToKick.address}
         onChange={handleChanges}
-        placeholder="0.00"
         variant="outlined"
         type="text"
         label="Member"
