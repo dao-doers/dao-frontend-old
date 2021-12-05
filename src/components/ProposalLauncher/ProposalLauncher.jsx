@@ -321,7 +321,6 @@ export default class Proposal extends Component {
                 <div className="title">
                   <h2>
                     {`New ${header} Proposal`}
-                    <span>{` (v${version})`}</span>
                   </h2>
                 </div>
                 <div className="switch">
