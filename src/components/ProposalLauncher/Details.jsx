@@ -10,7 +10,7 @@ import { TextField } from '@material-ui/core';
 export default function ({ title, description, link, handleChanges }) {
   return (
     <>
-      <div className="section" style={{ paddingTop: '15px' }}>
+      <div className="section" style={{ paddingTop: '5px' }}>
         <TextField
           className="input"
           name="title"

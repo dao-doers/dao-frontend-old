@@ -7,8 +7,14 @@ import { defaults } from 'lib/const';
 import './style.css';
 import TextField from '@material-ui/core/TextField';
 import TooltipWithChildren from 'components/TooltipWithChildren/TooltipWithChildren';
+import { createTheme, MenuItem, ThemeProvider } from '@material-ui/core';
 
 export default function ({ availableTokens, paymentToken, paymentRequested, handleChanges }) {
+  const theme = createTheme({
+    zIndex: {
+      modal: 999999,
+    },
+  });
   return (
     <>
       <div className="section">
@@ -31,22 +37,30 @@ export default function ({ availableTokens, paymentToken, paymentRequested, hand
         />
       </div>
       <div className="section">
-        <select
-          className="select-css input"
-          name="paymentToken"
-          placeholder=" Tribute token"
-          value={paymentToken}
-          onChange={handleChanges}
-        >
-          <option value={defaults.EMPTY} disabled>
-            Select payment token
-          </option>
-          {availableTokens.map((t, i) => (
-            <option key={i} value={t.tokenAddress}>
-              {t.symbol}
-            </option>
-          ))}
-        </select>
+        <ThemeProvider theme={theme}>
+          <TextField
+            className="input"
+            name="paymentToken"
+            helperText={paymentToken === '0x0' ? 'No payment token' : null}
+            select
+            variant="outlined"
+            placeholder="Tribute token"
+            label="Payment Token"
+            value={paymentToken}
+            onChange={handleChanges}
+          >
+            <MenuItem value={defaults.EMPTY} disabled>
+              Select payment token
+            </MenuItem>
+            {availableTokens.map((t, i) => {
+              return (
+                <MenuItem key={i} value={t.tokenAddress}>
+                  {t.symbol}
+                </MenuItem>
+              );
+            })}
+          </TextField>
+        </ThemeProvider>
       </div>
     </>
   );

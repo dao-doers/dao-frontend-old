@@ -18,8 +18,7 @@ export default function ({ applicant, handleChanges }) {
         placeholder="0.00"
         variant="outlined"
         type="text"
-        label="Applicant"
-        helperText={
+        label={
           <label className="sectionLabel">
             Applicant
             {applicant.validated ? (
