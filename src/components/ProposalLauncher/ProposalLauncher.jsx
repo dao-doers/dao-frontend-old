@@ -75,6 +75,9 @@ const INITIAL_STATE = {
   title: { value: '', hasChanged: false },
   description: { value: '', hasChanged: false },
   link: { value: '', hasChanged: false },
+  /* Error handling */
+  helperText: '',
+  error: false
 };
 
 export default class Proposal extends Component {
@@ -163,6 +166,8 @@ export default class Proposal extends Component {
       title: { value: '', hasChanged: false },
       description: { value: '', hasChanged: false },
       link: { value: '', hasChanged: false },
+      helperText: '',
+      error: false
     });
   };
 
@@ -255,6 +260,7 @@ export default class Proposal extends Component {
   };
 
   handleChanges = async e => {
+    
     const name = e.target.name;
     let value = e.target.value;
     let validated;
@@ -266,6 +272,8 @@ export default class Proposal extends Component {
       value = { address: value, validated };
     } else if (name === 'title' || name === 'description' || name === 'link') {
       value = { value, hasChanged: true };
+    } else if (name === 'tributeOffered' && !/^[^.]+$/.test(value)) {
+      this.setState({ helperText: 'Invalid format, please no decimals', error: true });
     } else {
       value = e.target.type === 'number' && (e.target.value < 0 || e.target.value === '') ? 0 : value;
     }
@@ -350,6 +358,8 @@ export default class Proposal extends Component {
                       tributeOffered={tributeOffered}
                       tributeToken={tributeToken}
                       handleChanges={this.handleChanges}
+                      error={this.state.error}
+                      helperText={this.state.helperText}
                     />
                   ) : null}
                   {isFunding || isTrade ? (

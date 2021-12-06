@@ -19,13 +19,15 @@ export default function ({ title, description, link, handleChanges }) {
           value={title.value}
           onChange={handleChanges}
           type="text"
+          error={title.hasChanged && !title.value}
+          helperText={title.hasChanged && !title.value ? 'Field is required' : null}
           required
         />
       </div>
       <div className="section">
         <TextField
           className="input"
-          name="description" /*  */
+          name="description"
           label="Description"
           variant="outlined"
           multiline
@@ -33,6 +35,8 @@ export default function ({ title, description, link, handleChanges }) {
           value={description.value}
           onChange={handleChanges}
           type="text"
+          error={description.hasChanged && !description.value}
+          helperText={description.hasChanged && !description.value ? 'Field is required' : null}
           required
         />
       </div>
@@ -47,6 +51,8 @@ export default function ({ title, description, link, handleChanges }) {
           variant="outlined"
           type="text"
           label="Link"
+          error={link.hasChanged && !link.value}
+          helperText={link.hasChanged && !link.value ? 'Field is required' : null}
           required
         />
       </div>

@@ -17,7 +17,6 @@ export default function ({ sharesRequested, handleChanges }) {
         id="sharesRequested"
         value={sharesRequested}
         onChange={handleChanges}
-        placeholder="0.00"
         variant="outlined"
         type="number"
         label={

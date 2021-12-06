@@ -9,7 +9,7 @@ import './style.css';
 import TextField from '@material-ui/core/TextField';
 import TooltipWithChildren from 'components/TooltipWithChildren/TooltipWithChildren';
 
-export default function ({ availableTokens, tributeToken, tributeOffered, handleChanges }) {
+export default function ({ availableTokens, tributeToken, tributeOffered, handleChanges, helperText, error }) {
   return (
     <>
       <div className="section">
@@ -20,13 +20,12 @@ export default function ({ availableTokens, tributeToken, tributeOffered, handle
           id="tributeOffered"
           value={tributeOffered}
           onChange={handleChanges}
-          placeholder="0.00"
           variant="outlined"
           type="number"
           label={
             <div style={{ display: 'flex' }}>
               tributeOffered
-              <TooltipWithChildren title="tributeOffered means .." />
+              <TooltipWithChildren title="tributeOffered means ..use value without decimals" />
             </div>
           }
           onKeyPress={event => {
@@ -34,6 +33,8 @@ export default function ({ availableTokens, tributeToken, tributeOffered, handle
               event.preventDefault();
             }
           }}
+          error={tributeToken === '0x0' || !tributeToken || error}
+          helperText={(tributeToken === '0x0' ? 'emptyAddress | Tribute offered' : null) || helperText}
         />
       </div>
       <div className="section">
