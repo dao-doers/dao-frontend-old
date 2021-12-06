@@ -3,7 +3,7 @@
   width: 35%;
   min-width: 350px;
   margin: 0 auto;
-  margin-top: 70px;
+  margin-top: 30px;
   display: flex;
   flex-direction: column;
   background-color: white;
@@ -118,10 +118,18 @@
 }
 .section {
   width: 100%;
-  margin: 7px 0;
+  margin: 8px 0;
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
+}
+
+@media (max-width: 479px) {
+  .section {
+    margin: 18px 0;
+    display: flex;
+    justify-content: space-between;
+  }
 }
 
 @media (max-width: 479px) {
