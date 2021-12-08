@@ -30,6 +30,10 @@ import {
   CLEARED_NUMBERS,
 } from './utils';
 import { noTokens } from './messages';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import IconButton from '@material-ui/core/IconButton';
+import CloseIcon from '@material-ui/icons/Close';
+import { FlagRounded } from '@material-ui/icons';
 
 const molochClient = new ApolloClient({
   uri: config.graph.moloch,
@@ -315,13 +319,15 @@ export default class Proposal extends Component {
           <div className="header">
             {this.state.daoName ? (
               <div className="dao">
-                <img src="/static/media/flag.44f0a516.svg" alt="flag" />
+                <FlagRounded />
                 <h4 onClick={() => hideProposalLauncher()}>{this.state.daoName}</h4>
               </div>
             ) : (
               <div className="option-placeholder identity-placeholder daoPreloader" />
             )}
-            <img onClick={() => hideProposalLauncher()} src="/static/media/rejected.973d249d.svg" alt="close"></img>
+            <IconButton style={{ padding: '0px'}}>
+              <CloseIcon onClick={() => hideProposalLauncher()} />
+            </IconButton>
           </div>
           <div className="formContainer">
             {this.state.daoName ? (
