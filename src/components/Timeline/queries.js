@@ -15,6 +15,7 @@ const PROPOSAL_DATA = `
   proposer
   sponsor
   sharesRequested
+  lootRequested
   tributeOffered
   tributeToken
   tributeTokenSymbol

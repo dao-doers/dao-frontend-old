@@ -15,14 +15,15 @@ export default function TooltipWithChildren({
       backgroundColor,
       color,
       padding: '4px 18px',
-      fontSize: '1.5rem',
+      fontSize: '1.5em',
       fontWeight: '500',
       minHeight: '13px',
       width: '700px',
       borderRadius: '8px',
+      opacity: '1 !important'
     },
     arrow: {
-      color,
+      color: backgroundColor,
       fontSize: '44px',
     },
   });

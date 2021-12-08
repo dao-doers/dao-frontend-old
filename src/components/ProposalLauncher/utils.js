@@ -43,6 +43,7 @@ export const CLEARED_TYPES = {
 };
 export const CLEARED_NUMBERS = {
   sharesRequested: 0,
+  lootRequested: 0,
   tributeOffered: 0,
   paymentRequested: 0,
 };
@@ -136,6 +137,7 @@ export const submitProposal = async (
   /* Proposal information */
   applicantAddress,
   sharesRequested,
+  lootRequested,
   tributeOffered,
   tributeToken,
   paymentRequested,
@@ -179,6 +181,7 @@ export const submitProposal = async (
   console.log('submitProposal', {
     applicantPolyAddress,
     sharesRequested,
+    lootRequested,
     tributeOffered,
     tributeToken,
     paymentRequested,
@@ -192,6 +195,7 @@ export const submitProposal = async (
       ? await dao.methods.submitProposal(
           applicantPolyAddress,
           sharesRequested,
+          lootRequested,
           tributeOffered,
           tributeToken,
           paymentRequested,

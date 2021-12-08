@@ -30,7 +30,6 @@ import {
   CLEARED_NUMBERS,
 } from './utils';
 import { noTokens } from './messages';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import { FlagRounded } from '@material-ui/icons';
@@ -69,6 +68,7 @@ const INITIAL_STATE = {
   /* Form inputs */
   applicant: { address: defaults.EMPTY, validated: false },
   sharesRequested: 0,
+  lootRequested: 0,
   tributeOffered: 0,
   tributeToken: defaults.EMPTY,
   paymentRequested: 0,
@@ -183,6 +183,7 @@ export default class Proposal extends Component {
       version,
       applicant,
       sharesRequested,
+      lootRequested,
       tributeOffered,
       tributeToken,
       paymentRequested,
@@ -206,6 +207,7 @@ export default class Proposal extends Component {
       address,
       /*Proposal information*/ applicant.address,
       sharesRequested,
+      lootRequested,
       tributeOffered,
       tributeToken,
       paymentRequested,
@@ -325,8 +327,8 @@ export default class Proposal extends Component {
             ) : (
               <div className="option-placeholder identity-placeholder daoPreloader" />
             )}
-            <IconButton style={{ padding: '0px'}}>
-              <CloseIcon onClick={() => hideProposalLauncher()} />
+            <IconButton style={{ padding: '0px'}} onClick={() => hideProposalLauncher()}>
+              <CloseIcon />
             </IconButton>
           </div>
           <div className="formContainer">
