@@ -200,13 +200,13 @@ export const submitProposal = async (
           tributeToken,
           paymentRequested,
           paymentToken,
-          details,
+          `{"title":"${details.title.value}","description":"${details.description}","link":"${details.link}"}`,
         )
       : await dao.methods.submitProposal(
           applicantPolyAddress,
           tributeToken,
           sharesRequested,
-          `{"title":${details.title.valu},"description":${details.description},"link":${details.link}}`,
+          `{"title":"${details.title.value}","description":"${details.description}","link":"${details.link}"}`,
         );
   const estimatedGas = await getEstimatedGas(proposal);
   const receipt = await getReceipt(proposal, user, estimatedGas);

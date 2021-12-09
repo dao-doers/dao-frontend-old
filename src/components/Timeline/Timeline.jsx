@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useContext } from 'react';
 import ApolloClient, { InMemoryCache } from 'apollo-boost';
 import { ApolloProvider, useLazyQuery } from '@apollo/react-hooks';
@@ -268,16 +269,26 @@ const Feed = props => {
       const proposalValue = _getProposalValue(proposal);
       const abiLibrary = 'moloch2';
 
+      let flatJSON = proposal.details;
+      let parsed = JSON.parse(flatJSON);
       console.log('#####current proposal####', proposal)
 
+      // if (proposal) {
+      // let flatJSON = proposal.details;
+      // try {
+      //   return flatJSON.json();
+      // } catch (e) {
+      //   return flatJSON;
+      // }
+      // }
       return (
         <Post
           key={proposal.id}
           accountAddress={accountAddress}
-          title="Testing title"
-          description="Lorem Ipsum is simply dummy text of the printing and typesetting industry"
+          title={parsed.title}
+          description={parsed.description}
           href={url}
-          link="Testing with link"
+          link={parsed.link}
           memberAddress={proposal.proposer}
           daoAddress={daoAddress}
         >
