@@ -5,7 +5,7 @@ import { ApolloProvider, useLazyQuery } from '@apollo/react-hooks';
 import PropTypes from 'prop-types';
 
 import Account from 'components/Account/Account';
-import Post from 'components/Post/Post';
+import Post, { getDescription } from 'components/Post/Post';
 import Stamp from 'components/Stamp/Stamp';
 import Parameter from 'components/Parameter/Parameter';
 import Token, { getBalanceLabel } from 'components/Token/Token';
@@ -28,7 +28,6 @@ import { getQuery } from 'components/Timeline/queries';
 import { config } from 'config';
 import { defaults, view as routerView, period as routerPeriod } from 'lib/const';
 import { uniqBy, orderBy as _orderBy } from 'lodash';
-import { getDescription } from 'components/Post/Post';
 
 import i18n from 'i18n';
 import parser from 'html-react-parser';
@@ -124,7 +123,7 @@ const _getProposalValue = proposal => {
   return i18n.t('see-proposal-details');
 };
 
-const Feed = props => {
+const Feed = function (props) {
   const { address, first, skip, orderBy, orderDirection, proposalId, param } = props;
   const now = Math.floor(new Date().getTime() / 1000);
 
@@ -160,7 +159,7 @@ const Feed = props => {
   if (loading) {
     if (props.format === 'searchBar') return null;
     if (props.page > 1) {
-      return <Paginator placeholder={true} />;
+      return <Paginator placeholder />;
     }
     return <Placeholder />;
   }
@@ -328,12 +327,12 @@ const Feed = props => {
                 ) : null}
                 {proposal.whitelist ? (
                   <Parameter label={i18n.t('moloch-token-whitelist')}>
-                    <Toggle checked={true} disabled={true} />
+                    <Toggle checked disabled />
                   </Parameter>
                 ) : null}
                 {proposal.guildkick ? (
                   <Parameter label={i18n.t('moloch-token-guildkick')}>
-                    <Toggle checked={true} disabled={true} />
+                    <Toggle checked disabled />
                   </Parameter>
                 ) : null}
               </Contract>
@@ -401,7 +400,7 @@ const Feed = props => {
                     Sponsor
                   </button>
                   <Flag
-                    styleClass={'warning period period-unsponsored'}
+                    styleClass="warning period period-unsponsored"
                     url={url}
                     label={i18n.t('moloch-flag-unsponsored')}
                     tooltip={i18n.t('moloch-open-proposal')}
@@ -410,7 +409,7 @@ const Feed = props => {
               ) : null}
               {proposal.cancelled ? (
                 <Flag
-                  styleClass={'warning period period-cancelled'}
+                  styleClass="warning period period-cancelled"
                   url={url}
                   label={i18n.t('moloch-flag-cancelled')}
                   tooltip={i18n.t('moloch-open-proposal')}
@@ -435,12 +434,12 @@ const Feed = props => {
               period={props.period}
               view={props.view}
               proposalId={props.proposalId}
-              field={'memberAddress'}
+              field="memberAddress"
               first={props.first}
               skip={parseInt(props.first * props.page, 10)}
               page={parseInt(props.page + 1)}
-              orderBy={'createdAt'}
-              orderDirection={'desc'}
+              orderBy="createdAt"
+              orderDirection="desc"
               param={props.param}
             />
           </Paginator>
@@ -451,7 +450,7 @@ const Feed = props => {
   return null;
 };
 
-const Timeline = props => {
+const Timeline = function (props) {
   return (
     <ApolloProvider client={client}>
       <Feed
