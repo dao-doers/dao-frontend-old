@@ -10,7 +10,7 @@ import { TextField } from '@material-ui/core';
 export default function ({ title, description, link, handleChanges }) {
   return (
     <>
-      <div className="section" style={{ paddingTop: '5px' }}>
+      <div className="section" style={{ paddingTop: '8px' }}>
         <TextField
           className="input"
           name="title"
@@ -40,7 +40,7 @@ export default function ({ title, description, link, handleChanges }) {
           required
         />
       </div>
-      <div className="section sectionLinkMobile">
+      <div className="section sectionLinkMobile" style={{ paddingBottom: '5px' }}>
         <TextField
           className="input"
           InputLabelProps={{ style: { pointerEvents: 'auto' } }}

@@ -31,8 +31,8 @@ export default function ({ availableTokens, tributeToken, tributeOffered, handle
           type="number"
           label={
             <div style={{ display: 'flex' }}>
-              tributeOffered
-              <TooltipWithChildren title="tributeOffered means ..use value without decimals" />
+              tribute Offered
+              <TooltipWithChildren title="the number of CKB tokens offered. Preferred with no decimals." />
             </div>
           }
           onKeyPress={event => {

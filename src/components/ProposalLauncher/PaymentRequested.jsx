@@ -31,7 +31,7 @@ export default function ({ availableTokens, paymentToken, paymentRequested, hand
           label={
             <div style={{ display: 'flex' }}>
               Payment requested
-              <TooltipWithChildren title="paymentRequested means .." />
+              <TooltipWithChildren title="A payment request is a hyperlink, sent to a buyer by a seller" />
             </div>
           }
         />

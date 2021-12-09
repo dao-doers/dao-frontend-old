@@ -15,7 +15,7 @@ export default function TooltipWithChildren({
       backgroundColor,
       color,
       padding: '4px 18px',
-      fontSize: '1.5em',
+      fontSize: '1em',
       fontWeight: '500',
       minHeight: '13px',
       width: '700px',

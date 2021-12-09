@@ -21,8 +21,8 @@ export default function ({ sharesRequested, handleChanges }) {
         type="number"
         label={
           <div style={{ display: 'flex' }}>
-            sharesRequested
-            <TooltipWithChildren title="shares Requested means we have to estimate how  .." />
+            shares Requested
+            <TooltipWithChildren title="means the specific number of Shares for Option. Preferred with no decimals." />
           </div>
         }
       />

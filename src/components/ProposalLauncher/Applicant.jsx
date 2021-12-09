@@ -7,7 +7,7 @@ import TextField from '@material-ui/core/TextField';
 
 export default function ({ applicant, handleChanges }) {
   return (
-    <div className="section sectionApplicantMobile">
+    <div className="section">
       <TextField
         className="input"
         InputLabelProps={{ style: { pointerEvents: 'auto' } }}
@@ -22,7 +22,7 @@ export default function ({ applicant, handleChanges }) {
           <label className="sectionLabel">
             Applicant
             {applicant.validated ? (
-              <span className="validAddress"> -validated address</span>
+              <span  className="validAddress"> -validated address</span>
             ) : (
               <span className="invalidAddress"> -invalid address</span>
             )}

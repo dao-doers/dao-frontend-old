@@ -33,6 +33,7 @@ import { noTokens } from './messages';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import { FlagRounded } from '@material-ui/icons';
+import { Button, makeStyles } from '@material-ui/core';
 
 const molochClient = new ApolloClient({
   uri: config.graph.moloch,
@@ -46,9 +47,7 @@ const tokensClient = new ApolloClient({
 const TYPES = [
   { key: 'isNewMember', title: 'Member' },
   { key: 'isFunding', title: 'Funding' },
-  { key: 'isTrade', title: 'Trade' },
   { key: 'isGuildKick', title: 'Guild Kick' },
-  { key: 'isWhitelist', title: 'Whitelist' },
 ];
 
 const INITIAL_STATE = {
@@ -83,7 +82,6 @@ const INITIAL_STATE = {
   helperText: '',
   error: false
 };
-
 export default class Proposal extends Component {
   state = { ...INITIAL_STATE };
 
@@ -341,14 +339,15 @@ export default class Proposal extends Component {
                 </div>
                 <div className="switch">
                   {TYPES.map((t, i) => (
-                    <button
+                    <Button
+                      variant="text"
                       key={i}
                       disabled={(t.key === 'isGuildKick' || t.key === 'isWhitelist') && version === '1'}
                       className={`switchButton ${this.state[t.key] ? 'switched' : null}`}
                       onClick={() => (t.key === 'isWhitelist' && !ERC20Tokens[0] ? noTokens() : this.setType(t.key))}
                     >
                       {t.title}
-                    </button>
+                    </Button>
                   ))}
                 </div>
                 <form className="form">
@@ -393,13 +392,13 @@ export default class Proposal extends Component {
                     />
                   ) : null}
                   <div className="section end">
-                    <button className="submit clear" onClick={this.resetForm}>
+                    <Button className="submit clear" onClick={this.resetForm}>
                       Clear
-                    </button>
+                    </Button>
                     {this.state.isLoading ? (
                       <SyncLoader size={8} margin={2} color={'var(--menu-sidebar-selected)'} loading={true} />
                     ) : (
-                      <button
+                      <Button
                         disabled={false}
                         className="submit"
                         onClick={e => {
@@ -409,7 +408,7 @@ export default class Proposal extends Component {
                         }}
                       >
                         Submit proposal
-                      </button>
+                      </Button>
                     )}
                   </div>
                 </form>
