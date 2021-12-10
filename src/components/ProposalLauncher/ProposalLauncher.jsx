@@ -30,6 +30,10 @@ import {
   CLEARED_NUMBERS,
 } from './utils';
 import { noTokens } from './messages';
+import IconButton from '@material-ui/core/IconButton';
+import CloseIcon from '@material-ui/icons/Close';
+import { FlagRounded } from '@material-ui/icons';
+import { Button, makeStyles } from '@material-ui/core';
 
 const molochClient = new ApolloClient({
   uri: config.graph.moloch,
@@ -43,9 +47,7 @@ const tokensClient = new ApolloClient({
 const TYPES = [
   { key: 'isNewMember', title: 'Member' },
   { key: 'isFunding', title: 'Funding' },
-  { key: 'isTrade', title: 'Trade' },
   { key: 'isGuildKick', title: 'Guild Kick' },
-  { key: 'isWhitelist', title: 'Whitelist' },
 ];
 
 const INITIAL_STATE = {
@@ -76,8 +78,10 @@ const INITIAL_STATE = {
   title: { value: '', hasChanged: false },
   description: { value: '', hasChanged: false },
   link: { value: '', hasChanged: false },
+  /* Error handling */
+  helperText: '',
+  error: false
 };
-
 export default class Proposal extends Component {
   state = { ...INITIAL_STATE };
 
@@ -164,6 +168,8 @@ export default class Proposal extends Component {
       title: { value: '', hasChanged: false },
       description: { value: '', hasChanged: false },
       link: { value: '', hasChanged: false },
+      helperText: '',
+      error: false
     });
   };
 
@@ -258,6 +264,7 @@ export default class Proposal extends Component {
   };
 
   handleChanges = async e => {
+    
     const name = e.target.name;
     let value = e.target.value;
     let validated;
@@ -269,6 +276,8 @@ export default class Proposal extends Component {
       value = { address: value, validated };
     } else if (name === 'title' || name === 'description' || name === 'link') {
       value = { value, hasChanged: true };
+    } else if (name === 'tributeOffered' && !/^[^.]+$/.test(value)) {
+      this.setState({ helperText: 'Invalid format, please no decimals', error: true });
     } else {
       value = e.target.type === 'number' && (e.target.value < 0 || e.target.value === '') ? 0 : value;
     }
@@ -293,7 +302,6 @@ export default class Proposal extends Component {
       ERC20Tokens,
       applicant,
       sharesRequested,
-      lootRequested,
       tributeOffered,
       tributeToken,
       paymentRequested,
@@ -311,13 +319,15 @@ export default class Proposal extends Component {
           <div className="header">
             {this.state.daoName ? (
               <div className="dao">
-                <img src="/static/media/flag.44f0a516.svg" alt="flag" />
+                <FlagRounded />
                 <h4 onClick={() => hideProposalLauncher()}>{this.state.daoName}</h4>
               </div>
             ) : (
               <div className="option-placeholder identity-placeholder daoPreloader" />
             )}
-            <img onClick={() => hideProposalLauncher()} src="/static/media/rejected.973d249d.svg" alt="close"></img>
+            <IconButton style={{ padding: '0px'}} onClick={() => hideProposalLauncher()}>
+              <CloseIcon />
+            </IconButton>
           </div>
           <div className="formContainer">
             {this.state.daoName ? (
@@ -325,19 +335,19 @@ export default class Proposal extends Component {
                 <div className="title">
                   <h2>
                     {`New ${header} Proposal`}
-                    <span>{` (v${version})`}</span>
                   </h2>
                 </div>
                 <div className="switch">
                   {TYPES.map((t, i) => (
-                    <button
+                    <Button
+                      variant="text"
                       key={i}
                       disabled={(t.key === 'isGuildKick' || t.key === 'isWhitelist') && version === '1'}
                       className={`switchButton ${this.state[t.key] ? 'switched' : null}`}
                       onClick={() => (t.key === 'isWhitelist' && !ERC20Tokens[0] ? noTokens() : this.setType(t.key))}
                     >
                       {t.title}
-                    </button>
+                    </Button>
                   ))}
                 </div>
                 <form className="form">
@@ -346,7 +356,6 @@ export default class Proposal extends Component {
                   {isFunding || isNewMember ? (
                     <SharesRequested
                       sharesRequested={sharesRequested}
-                      lootRequested={lootRequested}
                       handleChanges={this.handleChanges}
                     />
                   ) : null}
@@ -356,6 +365,8 @@ export default class Proposal extends Component {
                       tributeOffered={tributeOffered}
                       tributeToken={tributeToken}
                       handleChanges={this.handleChanges}
+                      error={this.state.error}
+                      helperText={this.state.helperText}
                     />
                   ) : null}
                   {isFunding || isTrade ? (
@@ -381,13 +392,13 @@ export default class Proposal extends Component {
                     />
                   ) : null}
                   <div className="section end">
-                    <button className="submit clear" onClick={this.resetForm}>
+                    <Button className="submit clear" onClick={this.resetForm}>
                       Clear
-                    </button>
+                    </Button>
                     {this.state.isLoading ? (
                       <SyncLoader size={8} margin={2} color={'var(--menu-sidebar-selected)'} loading={true} />
                     ) : (
-                      <button
+                      <Button
                         disabled={false}
                         className="submit"
                         onClick={e => {
@@ -397,7 +408,7 @@ export default class Proposal extends Component {
                         }}
                       >
                         Submit proposal
-                      </button>
+                      </Button>
                     )}
                   </div>
                 </form>

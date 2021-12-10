@@ -3,7 +3,7 @@
   width: 35%;
   min-width: 350px;
   margin: 0 auto;
-  margin-top: 70px;
+  margin-top: 30px;
   display: flex;
   flex-direction: column;
   background-color: white;
@@ -95,17 +95,18 @@
   border-radius: 0 8px 8px 0;
 }
 .switchButton {
-  width: 20%;
+  width: 20% !important;
   background: none;
-  font-family: Lato, sans-serif;
   height: 30px;
-  font-size: 11px;
-  font-weight: 300;
-  color: #580173;
+  font-size: 11px !important;
+  font-weight: 300 !important;
+  color: #580173 !important;
+  min-width: max-content !important;
+
 }
 .switched {
-  color: white;
-  background-color: #580173;
+  color: white !important;
+  background-color: #580173 !important;
 }
 
 /* Form */
@@ -118,11 +119,24 @@
 }
 .section {
   width: 100%;
-  margin: 2px 0;
+  margin: 8px 0;
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
 }
+
+@media (max-width: 479px) {
+  .section {
+    margin: 18px 0;
+    display: flex;
+    justify-content: space-between;
+  }
+}
+
+@media (max-width: 479px) {
+  .sectionLinkMobile {padding-top: 50px}
+}
+
 .sectionLabel {
   padding-left: 5px;
   width: 100%;
@@ -139,15 +153,11 @@
 .input,
 .textarea {
   width: 100%;
-  height: 30px;
   padding: 0 8px;
   font-size: 14px;
   line-height: 16px;
-  border: none;
-  color: #675f69;
-  border-radius: 8px;
-  border: 1px solid #dad0e6;
 }
+
 .section textarea {
   padding-top: 5px;
   padding-bottom: 5px;
@@ -163,8 +173,8 @@
   width: 48%;
 }
 /* Tokens */
-.section select {
-  width: 58%;
+.sectionHalf select {
+  width: 50%;
 }
 .number {
   width: 38%;
@@ -181,29 +191,33 @@
   justify-content: space-between;
   border-top: 1px solid #e0e0e0;
 }
+
 .submit {
-  height: 40px;
-  margin: 10px 0;
-  padding: 0 15px;
-  border: 1px solid #dad0e6;
-  border-radius: 20px;
-  background-color: #dad0e6;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  color: #580173;
-  font-size: 14px;
-  font-weight: 600;
+  height: 40px !important;
+  margin: 10px 0 !important;
+  padding: 0 15px!important ;
+  border: 1px solid #dad0e6 !important;
+  border-radius: 20px !important;
+  background-color: #dad0e6 !important;
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  color: #580173 !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
 }
+
 .submit:hover {
-  border: 1px solid #3d0351;
+  border: 1px solid #3d0351 !important;
 }
+
 .submit:active {
-  background-color: #3d0351;
-  color: white;
+  background-color: #3d0351 !important;
+  color: white !important;
 }
+
 .clear {
-  font-weight: 300;
+  font-weight: 300 !important;
 }
 
 /* SIDE BAR */

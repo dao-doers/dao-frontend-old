@@ -117,42 +117,78 @@ Open:
 http://localhost:3000/
 ```
 
-# Deploy to devnet
+# Deploy to testnet
 
-## 1. Start network
+## 1. Deploy smart contracts
 
-```
-cd ~/projects/godwoken-kicker
-make start
-```
-
-## 2. Start Graph Node
-
-Set correct ip in docker-compose.yml
+Make sure deployment-params TOKEN is set to dCKB SUDT-ERC20 proxy address on correct network you're deploying for (eg. testnet). Then in smart-contracts directory run:
 
 ```
-ip addr show
+npx hardhat moloch-deploy --network testnet
 ```
 
-Change it in docker-compose.yml, eg.:
+Example result:
+```
+Nothing to compile
+Deploying a new DAO to the network 
+Deployment parameters:
+   summoner: 0xd9066ff9f753a1898709b568119055660a77d9aae4d7a4ad677b8fb3d2a571e5 
+   token (dCKB): 0xC03Da4356B4030f0EC2494C18DCFA426574e10D5 
+   periodSeconds: 30 
+   votingPeriods: 35 
+   gracePeriods: 35 
+   abortPeriods: undefined 
+   proposalDeposit: 1000000000000000000 
+   dilutionBound: 3 
+   processingReward: 10000000000 
 
-```
-ethereum: 'local:no_eip1898,archive,traces:http://172.25.179.106:8024'
-```
+Deploying...
+...
 
+Moloch DAO deployed. Address: 0xCf168324aC360889Dc963793E15de30FcDc3EaeC
+Set this address in buidler.config.js's networks section to use the other tasks
 ```
-cd ~/projects/graph-node
-docker-compose -f docker/docker-compose.yml up
-```
-
-## 3. Deploy smart contracts
 
 ## 4. Deploy Subgraph
+
+Copy deployed Moloch DAO address eg. "0xCf168324aC360889Dc963793E15de30FcDc3EaeC" and change it in subgraph directory subraph.yml file (MolochV2.source.address). Eg. final code:
+```
+- kind: ethereum/contract
+    name: MolochV2
+    network: godwoken-testnet
+    source:
+      address: '0xCf168324aC360889Dc963793E15de30FcDc3EaeC'
+      abi: V2Moloch
+      startBlock: 1
+```
+
+Then run (in subgraph directory):
+```
+yarn build:all
+yarn remove:testnet
+yarn create:testnet
+yarn deploy:testnet
+```
+
+Example result:
+```
+✔ Upload subgraph to IPFS
+
+Build completed: QmcPHLC3KYu7kgxmPsniLnazPBQLifhggRLSS7UWzHHBP9
+
+Deployed to http://3.70.170.207:8000/subgraphs/name/odyssy-automaton/daohaus/graphql
+
+Subgraph endpoints:
+Queries (HTTP):     http://3.70.170.207:8000/subgraphs/name/odyssy-automaton/daohaus
+Subscriptions (WS): http://3.70.170.207:8001/subgraphs/name/odyssy-automaton/daohaus
+
+Done in 41.37s.
+```
 
 ## 5. Start website
 
 ```
-cd ~/projects/democracy-dapp
+cd ~/projects/dao-frontend
 npm run start
 ```
 
