@@ -42,6 +42,7 @@ export default function ({ availableTokens, tributeToken, tributeOffered, handle
           }}
           error={tributeToken === '0x0' || !tributeToken || error}
           helperText={(tributeToken === '0x0' ? 'Empty address | Tribute offered' : null) || helperText}
+          InputProps={{ inputProps: { min: 0, step: 1 } }}
         />
       </div>
       <div className="section">

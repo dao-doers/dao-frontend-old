@@ -278,6 +278,9 @@ export default class Proposal extends Component {
       value = { value, hasChanged: true };
     } else if (name === 'tributeOffered' && !/^[^.]+$/.test(value)) {
       this.setState({ helperText: 'Invalid format, please no decimals', error: true });
+      /* automatically filled up sharesRequested field base on tributeOffered field */
+    } else if (name === 'tributeOffered') {
+      this.setState({ sharesRequested: value })
     } else {
       value = e.target.type === 'number' && (e.target.value < 0 || e.target.value === '') ? 0 : value;
     }
