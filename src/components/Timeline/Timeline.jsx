@@ -267,7 +267,7 @@ const Feed = props => {
 
       const proposalValue = _getProposalValue(proposal);
       const abiLibrary = 'moloch2';
-
+console.log('proposal', proposal)
       return (
         <Post
           key={proposal.id}
