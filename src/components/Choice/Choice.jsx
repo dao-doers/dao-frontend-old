@@ -19,12 +19,15 @@ import logo from 'images/logo.png';
 import { getDescription } from 'components/Post/Post';
 import i18n from 'i18n';
 import 'styles/Dapp.css';
-
+import { Doughnut } from 'react-chartjs-2';
+import {Chart, ArcElement} from 'chart.js'
+Chart.register(ArcElement);
 const numbro = require('numbro');
 
 /**
  * @summary displays the contents of a poll
  */
+
 export default class Choice extends Component {
   static propTypes = {
     children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
@@ -40,6 +43,7 @@ export default class Choice extends Component {
     daoName: PropTypes.string,
     now: PropTypes.number,
     abi: PropTypes.string,
+    data: PropTypes.array,
   };
 
   constructor(props) {
@@ -140,8 +144,8 @@ export default class Choice extends Component {
       this.props.publicAddress,
     );
   };
-
   render() {
+    const bc = ['rgba(255, 99, 132, 1)', 'transparent'];
     return (
       <div className="poll-choice">
         <button className="button half choice" onClick={this.vote}>
@@ -160,6 +164,43 @@ export default class Choice extends Component {
             <div className={this.getlabelClass()}>{`${numbro(this.props.percentage).format('0.00')}%`}</div>
           </div>
         </button>
+          <Doughnut
+          data={{
+            labels: [i18n.t('yes'), i18n.t('no')],
+            datasets: [
+              {
+                data: this.props.data,
+                backgroundColor: [
+                  "#ff3d67",
+                  "#01c190",
+                ],
+                borderColor: bc,
+                borderWidth: 1,
+                cutout: '80%',
+                hoverOffset: 4
+              }
+            ],
+          }}
+          options={{
+            onClick: this.vote,
+            animation: {
+              animateScale: true
+            },
+            plugins: {
+              legend: {
+                display: true
+              },
+              tooltip: {
+                enabled: true
+              },
+              counter: {
+                fontColor: bc[0],
+                fontSize: 100,
+                fontFamily: 'sans-serif'
+              }
+            },
+          }}
+        />
       </div>
     );
   }

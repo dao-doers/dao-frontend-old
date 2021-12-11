@@ -344,7 +344,7 @@ const Feed = function (props) {
               icon={handIcon}
               iconActive={handIconActive}
             >
-              {isPoll ? (
+              {!isPoll ? (
                 <Poll>
                   <Countdown
                     now={timestamp}
@@ -360,15 +360,18 @@ const Feed = function (props) {
                       description={proposal.details}
                       proposalIndex={proposal.proposalIndex}
                       label={i18n.t('yes')}
-                      percentage={yesPercentage}
-                      voteValue={defaults.YES}
+                      percentage={yesPercentage || noPercentage}
+                      voteValue={defaults.YES || defaults.NO}
                       votingPeriodEnds={proposal.votingPeriodEnds}
                       votingPeriodBegins={proposal.votingPeriodStarts}
                       abi={abiLibrary}
+                      data={[70, 30]}
+                      // data={[yesPercentage, noPercentage]}
                     >
                       <Token quantity={proposal.yesShares} symbol="SHARES" />
+                      {/* <Token quantity={proposal.noShares} symbol="SHARES" /> */}
                     </Choice>
-                    <Choice
+                    {/* <Choice
                       now={timestamp}
                       accountAddress={connectedAccount}
                       publicAddress={proposal.moloch.id}
@@ -382,7 +385,7 @@ const Feed = function (props) {
                       abi={abiLibrary}
                     >
                       <Token quantity={proposal.noShares} symbol="SHARES" />
-                    </Choice>
+                    </Choice> */}
                   </Survey>
                   <Period
                     now={timestamp}
