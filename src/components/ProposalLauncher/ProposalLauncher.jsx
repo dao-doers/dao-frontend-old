@@ -34,6 +34,7 @@ import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import { FlagRounded } from '@material-ui/icons';
 import { Button, makeStyles } from '@material-ui/core';
+import BigNumber from 'bignumber.js/bignumber';
 
 const molochClient = new ApolloClient({
   uri: config.graph.moloch,

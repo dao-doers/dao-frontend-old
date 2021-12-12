@@ -21,6 +21,7 @@ import i18n from 'i18n';
 import 'styles/Dapp.css';
 import { Doughnut } from 'react-chartjs-2';
 import {Chart, ArcElement} from 'chart.js'
+import DChart from 'components/DChart/DChart';
 Chart.register(ArcElement);
 const numbro = require('numbro');
 
@@ -43,7 +44,17 @@ export default class Choice extends Component {
     daoName: PropTypes.string,
     now: PropTypes.number,
     abi: PropTypes.string,
-    data: PropTypes.array,
+    data: PropTypes.any,
+    TextYes: PropTypes.any,
+    TextMiddleYes: PropTypes.any,
+    TextBottomYes: PropTypes.any,
+    percentageYes: PropTypes.any,
+    nameYes: PropTypes.any,
+    TextNo: PropTypes.any,
+    TextMiddleNo: PropTypes.any,
+    TextBottomNo: PropTypes.any,
+    percentageNo: PropTypes.any,
+    nameNo: PropTypes.any
   };
 
   constructor(props) {
@@ -144,8 +155,9 @@ export default class Choice extends Component {
       this.props.publicAddress,
     );
   };
-  render() {
-    const bc = ['rgba(255, 99, 132, 1)', 'transparent'];
+  render(
+    
+  ) {
     return (
       <div className="poll-choice">
         <button className="button half choice" onClick={this.vote}>
@@ -169,38 +181,103 @@ export default class Choice extends Component {
             labels: [i18n.t('yes'), i18n.t('no')],
             datasets: [
               {
+                label: '# of Votes',
                 data: this.props.data,
                 backgroundColor: [
-                  "#ff3d67",
                   "#01c190",
+                  "#ff3d67",
                 ],
-                borderColor: bc,
+                cutout: '85%',
+                // hoverOffset: 4,
+                borderColor: '#fff',
                 borderWidth: 1,
-                cutout: '80%',
-                hoverOffset: 4
-              }
+                hoverBorderColor: ['#96ceff', '#424348'],
+                hoverBorderWidth: 5,
+   
+              },
             ],
           }}
+          plugins= {[{
+            id: 'text',
+            beforeDraw: function(chart, a, b) {
+              var width = chart.width,
+                height = chart.height,
+                ctx = chart.ctx;
+        
+              ctx.restore();
+              var fontSize = (height / 114).toFixed(2);
+              ctx.font = fontSize + "em sans-serif";
+              ctx.textBaseline = "middle";
+        
+              var text = `Voting`,
+                textX = Math.round((width - ctx.measureText(text).width) / 2),
+                textY = height / 2;
+        
+              ctx.fillText(text, textX, textY);
+              ctx.save();
+            }
+          }]}
+        
           options={{
+            layout: {
+              padding: 40
+          },
             onClick: this.vote,
-            animation: {
-              animateScale: true
-            },
+            responsive:true,
             plugins: {
-              legend: {
-                display: true
-              },
-              tooltip: {
-                enabled: true
-              },
-              counter: {
-                fontColor: bc[0],
-                fontSize: 100,
-                fontFamily: 'sans-serif'
-              }
+                labels: {
+                    render: 'percentage',
+                    precision: 2,
+                    showZero: true,
+                    fontSize: 30,
+                    fontColor: ['#2c405a', '#2c405a', 'white'],
+                    fontFamily: "PTSansBold",
+                }
             },
-          }}
+            animation: {
+                duration: 1000
+            },
+        //   tooltips: {
+        //     callbacks: {
+        //         label: (tooltipItem, data) => {
+        //             const dataset = data.datasets[tooltipItem.datasetIndex];
+        //             const meta = dataset._meta[Object.keys(dataset._meta)[0]];
+        //             const total = meta.total;
+        //             const currentValue = tooltipItem?.value;
+        //             const percentage = parseFloat((currentValue/total*100).toFixed(1));
+        //             return currentValue + ' (' + percentage + '%)';
+        //         },
+        //         title: tooltipItem =>
+        //             `${tooltipItem[0]?.label}`
+        //     }
+        // },
+        }}
         />
+                      {/* <DChart
+defaultTextTop= 'Users by posts'
+defaultTextMiddle= 'Vote now'
+defaultTextBottom= 'Please share'
+loadingAnimationDuration= {1000}
+size= {200}
+data={[
+  {
+    color: 'var(--positive-signal-color)',
+    textTop: 'yes',
+    textMiddle: 'yes',
+    textBottom: 'yes',
+    value: 40,
+    name: 'yes'
+  },
+  {
+    color: 'var(--negative-signal-color)',
+    textTop: 'no',
+    textMiddle: 'no',
+    textBottom: 'no',
+    value: 60,
+    name: 'no',
+  },
+]}
+        /> */}
       </div>
     );
   }
