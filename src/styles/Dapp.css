@@ -7264,12 +7264,18 @@ h4 {
   background: #e8e8e8;
   color: #000;
   border: 1px solid #000;
+  border-radius: 10px !important;
 }
 
 .period-unsponsored {
   background: #0073d82e;
   color: #0073d8;
-  border: 1px solid #0073d8;
+  border-radius: 10px !important;
+}
+
+.alert-style {
+  padding-top: 15px;
+  padding-bottom: 10px;
 }
 
 .period-complete {

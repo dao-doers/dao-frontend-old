@@ -17,7 +17,6 @@ import Contract from 'components/Contract/Contract';
 import Placeholder from 'components/Timeline/Placeholder';
 import Survey from 'components/Poll/Survey';
 import Social from 'components/Social/Social';
-import Flag from 'components/Flag/Flag';
 import Toggle from 'components/Toggle/Toggle';
 import Search from 'components/Search/Search';
 import Paginator from 'components/Paginator/Paginator';
@@ -44,6 +43,8 @@ import thumbDownActive from 'images/rejected-active.svg';
 
 import 'styles/Dapp.css';
 import { sponsorProposal } from 'components/ProposalLauncher/utils';
+import { Button } from '@material-ui/core';
+import Alert from '@material-ui/lab/Alert';
 
 /**
  * @summary retrieves the corresponding query for the timeline.
@@ -396,24 +397,39 @@ const Feed = function (props) {
               ) : null}
               {isUnsponsored ? (
                 <>
-                  <button onClick={() => sponsorProposal(connectedAccount, daoAddress, proposal.proposalId)}>
-                    Sponsor
-                  </button>
-                  <Flag
-                    styleClass="warning period period-unsponsored"
-                    url={url}
-                    label={i18n.t('moloch-flag-unsponsored')}
-                    tooltip={i18n.t('moloch-open-proposal')}
-                  />
+                  <div style={{ paddingTop: '10px' }}>
+                    <button
+                      className="submit-sponsor glow-on-hover"
+                      onClick={() => sponsorProposal(connectedAccount, daoAddress, proposal.proposalId)}
+                    >
+                      Sponsor proposal
+                    </button>
+                  </div>
+                  <div className="alert-style">
+                    <Alert
+                      className="warning period period-unsponsored"
+                      severity="warning"
+                      variant="standard"
+                      url={url}
+                      tooltip={i18n.t('moloch-open-proposal')}
+                    >
+                      {i18n.t('moloch-flag-unsponsored')}
+                    </Alert>
+                  </div>
                 </>
               ) : null}
               {proposal.cancelled ? (
-                <Flag
-                  styleClass="warning period period-cancelled"
-                  url={url}
-                  label={i18n.t('moloch-flag-cancelled')}
-                  tooltip={i18n.t('moloch-open-proposal')}
-                />
+                <div className="alertStyle">
+                  <Alert
+                    className="warning period period-cancelled"
+                    severity="error"
+                    variant="standard"
+                    url={url}
+                    tooltip={i18n.t('moloch-open-proposal')}
+                  >
+                    {i18n.t('moloch-flag-cancelled')}
+                  </Alert>
+                </div>
               ) : null}
             </Expand>
           </div>

@@ -916,7 +916,7 @@
   "no-memberships-found": "No proposals to a DAO found.",
   "no-proposals-found": "No proposals were found.",
   "search-post-preview": "{{title}} — {{description}}",
-  "moloch-flag-unsponsored": "Unsponsored Proposal ⚠️",
+  "moloch-flag-unsponsored": "Unsponsored Proposal",
   "moloch-proposal-conditions": "Proposal conditions.",
   "moloch-sponsored-by": "Sponsored By",
   "moloch-token-whitelist": "Token Whitelist",
