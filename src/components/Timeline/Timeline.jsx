@@ -43,7 +43,6 @@ import thumbDownActive from 'images/rejected-active.svg';
 
 import 'styles/Dapp.css';
 import { sponsorProposal } from 'components/ProposalLauncher/utils';
-import { Button } from '@material-ui/core';
 import Alert from '@material-ui/lab/Alert';
 
 /**
