@@ -33,7 +33,7 @@ import { noTokens } from './messages';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import { FlagRounded } from '@material-ui/icons';
-import { Button, makeStyles } from '@material-ui/core';
+import { Button } from '@material-ui/core';
 
 const molochClient = new ApolloClient({
   uri: config.graph.moloch,
@@ -172,7 +172,6 @@ export default class Proposal extends Component {
       error: false
     });
   };
-
   // Handlers
   handleSubmitProposal = async e => {
     e.preventDefault();
@@ -192,6 +191,12 @@ export default class Proposal extends Component {
     } = this.state;
     const { accountAddress, address } = this.props;
 
+    /* multiply value from input by 10^8 */
+    const exponentialValue = Math.pow( 10, 8);
+    const tributeOfferedToExponential = Number(tributeOffered) * exponentialValue
+    const paymentRequestedToExponential = Number(paymentRequested) * exponentialValue
+    const sharesRequestedToExponential = Number(sharesRequested) * exponentialValue
+
     // validations
     if (!notNull(title.value, description.value, link.value)) return;
     if (!applicant.validated) return;
@@ -204,11 +209,11 @@ export default class Proposal extends Component {
       version,
       address,
       /*Proposal information*/ applicant.address,
-      sharesRequested,
+      sharesRequestedToExponential,
       lootRequested,
-      tributeOffered,
+      tributeOfferedToExponential,
       tributeToken,
-      paymentRequested,
+      paymentRequestedToExponential,
       paymentToken,
       /* Details JSON */ { title: title.value, description: description.value, link: link.value },
     );
@@ -292,7 +297,8 @@ export default class Proposal extends Component {
     this.setState({ applicant: { address: this.props.accountAddress, validated: true } });
   }
 
-  render() {
+  render(
+  ) {
     const {
       isNewMember,
       isFunding,
