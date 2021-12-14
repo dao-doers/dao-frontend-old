@@ -34,6 +34,7 @@ export default function ({ availableTokens, paymentToken, paymentRequested, hand
               <TooltipWithChildren title="A payment request is a hyperlink, sent to a buyer by a seller" />
             </div>
           }
+          InputProps={{ inputProps: { min: 0 } }}
         />
       </div>
       <div className="section">
