@@ -154,22 +154,20 @@ export const submitProposal = async (
 
   const userBalance = new BigNumber(await token.methods.balanceOf(userPolyAddress).call());
   const allowance = new BigNumber(await token.methods.allowance(userPolyAddress, daoAddress).call());
-  const proposalDeposit = new BigNumber(await dao.methods.proposalDeposit().call());
   const tributeOfferedBN = new BigNumber(tributeOffered);
 
-  const requiredAllowance = tributeOfferedBN.plus(proposalDeposit);
+  const requiredAllowance = tributeOfferedBN;
 
   console.log({
     userBalance,
     allowance,
     requiredAllowance,
-    proposalDeposit,
     tributeOfferedBN,
     token,
   });
 
   if (userBalance.lt(requiredAllowance)) {
-    throw new Error('Not enough funds to pay for proposalDeposit.');
+    throw new Error('Not enough funds to pay the tribute.');
   }
 
   if (allowance.lt(requiredAllowance)) {
@@ -190,24 +188,17 @@ export const submitProposal = async (
     version,
   });
 
-  const proposal =
-    version === '2'
-      ? await dao.methods.submitProposal(
-          applicantPolyAddress,
-          sharesRequested,
-          lootRequested,
-          tributeOffered,
-          tributeToken,
-          paymentRequested,
-          paymentToken,
-          `{"title":"${details.title.value}","description":"${details.description}","link":"${details.link}"}`,
-        )
-      : await dao.methods.submitProposal(
-          applicantPolyAddress,
-          tributeToken,
-          sharesRequested,
-          `{"title":"${details.title.value}","description":"${details.description}","link":"${details.link}"}`,
-        );
+  const proposal = await dao.methods.submitProposal(
+    applicantPolyAddress,
+    sharesRequested,
+    lootRequested,
+    tributeOffered,
+    tributeToken,
+    paymentRequested,
+    paymentToken,
+    `{"title":"${details.title.value}","description":"${details.description}","link":"${details.link}"}`,
+  );
+
   const estimatedGas = await getEstimatedGas(proposal);
   const receipt = await getReceipt(proposal, user, estimatedGas);
   return receipt;
