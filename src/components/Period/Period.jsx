@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import i18n from 'i18n';
 
 import Flag from 'components/Flag/Flag';
+import Alert from '@material-ui/lab/Alert';
 
 import 'styles/Dapp.css';
 
@@ -43,12 +44,15 @@ export default class Period extends Component {
 
   render() {
     return (
-      <Flag
-        styleClass={this.getStyle()}
-        url={this.props.url}
-        label={this.getLabel()}
-        tooltip={i18n.t('moloch-open-proposal')}
-      />
+      <Alert
+          className={this.getStyle()}
+          severity="info"
+          variant="standard"
+          url={this.props.url}
+          tooltip={i18n.t('moloch-open-proposal')}
+        >
+          {this.getLabel()}
+        </Alert>
     );
   }
 }

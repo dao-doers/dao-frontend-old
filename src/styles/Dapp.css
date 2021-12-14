@@ -7233,44 +7233,41 @@ h4 {
 .period-queue {
   background: #eef1ff;
   color: #6577ff;
-  border: 1px solid #6577ff;
+  /* border: 1px solid #6577ff; */
 }
 
 .period-voting {
   color: #ffbe00;
-  border: 1px solid #ffbe00;
   background: #fff8e9;
 }
 
 .period-process {
   background: #eef1ff;
   color: #6577ff;
-  border: 1px solid #6577ff;
+  /* border: 1px solid #6577ff; */
 }
 
 .period-grace {
   background: #f6edf9;
   color: #b25dcc;
-  border: 1px solid #b25dcc;
+  /* border: 1px solid #b25dcc; */
 }
 
 .period-pending {
   background: #eef1ff;
   color: #6577ff;
-  border: 1px solid #6577ff;
+  /* border: 1px solid #6577ff; */
 }
 
 .period-cancelled {
   background: #e8e8e8;
   color: #000;
   border: 1px solid #000;
-  border-radius: 10px !important;
 }
 
 .period-unsponsored {
   background: #0073d82e;
   color: #0073d8;
-  border-radius: 10px !important;
 }
 
 .alert-style {
