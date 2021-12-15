@@ -25,6 +25,8 @@ export default function ({ sharesRequested, handleChanges }) {
             <TooltipWithChildren title="means the specific number of Shares for Option. Preferred with no decimals." />
           </div>
         }
+        InputProps={{ inputProps: { min: 0, step: 1 } }}
+        disabled
       />
     </div>
   );
