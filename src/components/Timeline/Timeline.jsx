@@ -344,7 +344,7 @@ const Feed = function (props) {
               icon={handIcon}
               iconActive={handIconActive}
             >
-              {!isPoll ? (
+              {isPoll ? (
                 <Poll>
                   <Countdown
                     now={timestamp}
@@ -375,7 +375,7 @@ const Feed = function (props) {
                       defaultTextTop="Proposal"
                       defaultTextMiddle="Vote now"
                       defaultTextBottom="Please share"
-                      loadingAnimationDuration={100}
+                      loadingAnimationDuration={1000}
                       size={200}
                       data={[
                         {

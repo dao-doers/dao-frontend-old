@@ -134,7 +134,8 @@ const DChart = (props) => {
         if (props.mouseOut) {
           props.mouseOut(d);
         }
-      }
+      },
+      onclick: () => { console.log('clicked')}
     },
     legend: {
       show: false
@@ -216,7 +217,6 @@ const DChart = (props) => {
     });
     generateTexts();
   });
-
   return (
       <div id="chart" style={styles} />
   );
