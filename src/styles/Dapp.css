@@ -7423,24 +7423,6 @@ h4 {
   margin: 10px 0px;
 }
 
-.transaction-action-passed {
-  background-color: var(--positive-signal-background-color);
-  color: var(--positive-signal-color);
-  border: 1px solid var(--positive-signal-color);
-  border-radius: 5px;
-  line-height: 20px;
-  padding: 5px 10px;
-}
-
-.transaction-action-rejected {
-  background-color: var(--negative-signal-background-color);
-  color: var(--negative-signal-color);
-  border: 1px solid var(--negative-signal-color);
-  border-radius: 5px;
-  line-height: 20px;
-  padding: 5px 10px;
-}
-
 .transaction-action.transaction-action-passed a {
   color: var(--positive-signal-color);
 }
