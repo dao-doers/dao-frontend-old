@@ -197,6 +197,9 @@ export default class Proposal extends Component {
     const paymentRequestedToExponential = Number(paymentRequested) * exponentialValue
     const sharesRequestedToExponential = Number(sharesRequested) * exponentialValue
 
+    /* send link without http or https */
+    const modifiedLink = link.value.replace(/(^\w+:|^)\/\//,  '')
+
     // validations
     if (!notNull(title.value, description.value, link.value)) return;
     if (!applicant.validated) return;
@@ -215,7 +218,7 @@ export default class Proposal extends Component {
       tributeToken,
       paymentRequestedToExponential,
       paymentToken,
-      /* Details JSON */ { title: title.value, description: description.value, link: link.value },
+      /* Details JSON */ { title: title.value, description: description.value, link: modifiedLink },
     );
 
     hideProposalLauncher();
@@ -226,6 +229,9 @@ export default class Proposal extends Component {
     this.setDetails();
     const { version, title, description, link, tokenToWhitelist } = this.state;
     const { accountAddress, address } = this.props;
+
+    /* send link without http or https */
+    const modifiedLink = link.value.replace(/(^\w+:|^)\/\//,  '')
 
     // validations
     if (!notNull(title.value, description.value, link.value, tokenToWhitelist)) return;
@@ -238,7 +244,7 @@ export default class Proposal extends Component {
       version,
       address,
       /*Proposal information*/ tokenToWhitelist,
-      /* Details JSON */ { title: title.value, description: description.value, link: link.value },
+      /* Details JSON */ { title: title.value, description: description.value, link: modifiedLink },
     );
 
     hideProposalLauncher();
@@ -249,6 +255,9 @@ export default class Proposal extends Component {
     this.setDetails();
     const { version, title, description, link, memberToKick } = this.state;
     const { accountAddress, address } = this.props;
+
+    /* send link without http or https */
+    const modifiedLink = link.value.replace(/(^\w+:|^)\/\//,  '')
 
     // validations
     if (!notNull(title.value, description.value, link.value)) return;
@@ -262,7 +271,7 @@ export default class Proposal extends Component {
       version,
       address,
       /*Proposal information*/ memberToKick.address,
-      /* Details JSON */ { title: title.value, description: description.value, link: link.value },
+      /* Details JSON */ { title: title.value, description: description.value, link: modifiedLink },
     );
 
     hideProposalLauncher();

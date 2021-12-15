@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import parser from 'html-react-parser';
-import { withRouter } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 
 import i18n from 'i18n';
 import { wrapURLs } from 'utils/strings';
@@ -115,7 +115,7 @@ class Post extends Component {
                 {this.props.link ? (
                   <div className="title-description">
                     <a
-                      href={this.props.href}
+                      href={`https://${this.props.link}`}
                       target="_blank"
                       rel="noopener noreferrer"
                       onClick={e => {
@@ -139,6 +139,7 @@ class Post extends Component {
 Post.propTypes = {
   href: PropTypes.string,
   title: PropTypes.string,
+  link: PropTypes.string,
   description: PropTypes.string,
   daoAddress: PropTypes.string,
   memberAddress: PropTypes.string,
