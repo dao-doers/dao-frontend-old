@@ -280,8 +280,15 @@ const Feed = function (props) {
           return {};
         }
 
-        const result = parseData(proposal.details);
-        // console.log('details', result);
+        let result;
+        if (proposal) {
+          try {
+            result = parseData(proposal.details);
+          } catch (e) {
+            return false;
+          }
+        }
+
         return (
           <Post
             key={proposal.id}
