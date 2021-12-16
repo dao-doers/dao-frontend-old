@@ -2985,6 +2985,8 @@ blockquote {
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 5px;
+  display: flex;
+  justify-content: space-between;
 }
 
 .vote-label {
@@ -5235,12 +5237,32 @@ blockquote {
 }
 
 .hero-home-button {
-  display: inline-block;
   float: left;
 }
 
 .hero-home-button:active {
   margin-top: 2px;
+}
+
+.hero-home-button-wrapper {
+  display: flex;
+  align-items: center;
+}
+
+.hero-home-text {
+  color: #fff;
+}
+
+@media (max-width: 440px) {
+  .hero-home-text {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 370px) {
+  .hero-home-text {
+    display: none;
+  }
 }
 
 .help {
