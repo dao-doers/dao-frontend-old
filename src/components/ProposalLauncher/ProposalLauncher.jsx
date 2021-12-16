@@ -1,6 +1,7 @@
 /* IMPORTS */
 // Config
 import React, { Component } from 'react';
+import BigNumber from 'bignumber.js/bignumber';
 import ApolloClient, { gql, InMemoryCache } from 'apollo-boost';
 // Components
 import { config } from '../../config';
@@ -192,10 +193,10 @@ export default class Proposal extends Component {
     const { accountAddress, address } = this.props;
 
     /* multiply value from input by 10^8 */
-    const exponentialValue = Math.pow( 10, 8);
-    const tributeOfferedToExponential = Number(tributeOffered) * exponentialValue
-    const paymentRequestedToExponential = Number(paymentRequested) * exponentialValue
-    const sharesRequestedToExponential = Number(sharesRequested) * exponentialValue
+    const exponentialValue = new BigNumber(Math.pow( 10, 8));
+    const tributeOfferedToExponential = new BigNumber(tributeOffered).multipliedBy(exponentialValue)
+    const paymentRequestedToExponential = new BigNumber(paymentRequested).multipliedBy(exponentialValue)
+    const sharesRequestedToExponential = new BigNumber(sharesRequested).multipliedBy(exponentialValue)
 
     /* send link without http or https */
     const modifiedLink = link.value.replace(/(^\w+:|^)\/\//,  '')
