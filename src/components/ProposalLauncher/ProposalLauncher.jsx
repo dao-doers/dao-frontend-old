@@ -193,7 +193,7 @@ export default class Proposal extends Component {
     const { accountAddress, address } = this.props;
 
     /* multiply value from input by 10^8 */
-    const exponentialValue = Math.pow( 10, 8);
+    const exponentialValue = new BigNumber(Math.pow( 10, 8));
     const tributeOfferedToExponential = new BigNumber(tributeOffered) * exponentialValue
     const paymentRequestedToExponential = new BigNumber(paymentRequested) * exponentialValue
     const sharesRequestedToExponential = new BigNumber(sharesRequested) * exponentialValue
