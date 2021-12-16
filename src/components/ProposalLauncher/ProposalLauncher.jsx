@@ -194,9 +194,9 @@ export default class Proposal extends Component {
 
     /* multiply value from input by 10^8 */
     const exponentialValue = new BigNumber(Math.pow( 10, 8));
-    const tributeOfferedToExponential = new BigNumber(tributeOffered * exponentialValue)
-    const paymentRequestedToExponential = new BigNumber(paymentRequested * exponentialValue)
-    const sharesRequestedToExponential = new BigNumber(sharesRequested * exponentialValue)
+    const tributeOfferedToExponential = new BigNumber(tributeOffered).multipliedBy(exponentialValue)
+    const paymentRequestedToExponential = new BigNumber(paymentRequested).multipliedBy(exponentialValue)
+    const sharesRequestedToExponential = new BigNumber(sharesRequested).multipliedBy(exponentialValue)
 
     /* send link without http or https */
     const modifiedLink = link.value.replace(/(^\w+:|^)\/\//,  '')
