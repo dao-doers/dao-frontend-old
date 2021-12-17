@@ -1,6 +1,7 @@
 /* IMPORTS */
 // Config
 import React, { Component } from 'react';
+import BigNumber from 'bignumber.js/bignumber';
 import ApolloClient, { gql, InMemoryCache } from 'apollo-boost';
 // Components
 import { config } from '../../config';
@@ -192,10 +193,13 @@ export default class Proposal extends Component {
     const { accountAddress, address } = this.props;
 
     /* multiply value from input by 10^8 */
-    const exponentialValue = Math.pow( 10, 8);
-    const tributeOfferedToExponential = Number(tributeOffered) * exponentialValue
-    const paymentRequestedToExponential = Number(paymentRequested) * exponentialValue
-    const sharesRequestedToExponential = Number(sharesRequested) * exponentialValue
+    const exponentialValue = new BigNumber(Math.pow( 10, 8));
+    const tributeOfferedToExponential = new BigNumber(tributeOffered).multipliedBy(exponentialValue)
+    const paymentRequestedToExponential = new BigNumber(paymentRequested).multipliedBy(exponentialValue)
+    const sharesRequestedToExponential = new BigNumber(sharesRequested).multipliedBy(exponentialValue)
+
+    /* send link without http or https */
+    const modifiedLink = link.value.replace(/(^\w+:|^)\/\//,  '')
 
     // validations
     if (!notNull(title.value, description.value, link.value)) return;
@@ -215,7 +219,7 @@ export default class Proposal extends Component {
       tributeToken,
       paymentRequestedToExponential,
       paymentToken,
-      /* Details JSON */ { title: title.value, description: description.value, link: link.value },
+      /* Details JSON */ { title: title.value, description: description.value, link: modifiedLink },
     );
 
     hideProposalLauncher();
@@ -226,6 +230,9 @@ export default class Proposal extends Component {
     this.setDetails();
     const { version, title, description, link, tokenToWhitelist } = this.state;
     const { accountAddress, address } = this.props;
+
+    /* send link without http or https */
+    const modifiedLink = link.value.replace(/(^\w+:|^)\/\//,  '')
 
     // validations
     if (!notNull(title.value, description.value, link.value, tokenToWhitelist)) return;
@@ -238,7 +245,7 @@ export default class Proposal extends Component {
       version,
       address,
       /*Proposal information*/ tokenToWhitelist,
-      /* Details JSON */ { title: title.value, description: description.value, link: link.value },
+      /* Details JSON */ { title: title.value, description: description.value, link: modifiedLink },
     );
 
     hideProposalLauncher();
@@ -249,6 +256,9 @@ export default class Proposal extends Component {
     this.setDetails();
     const { version, title, description, link, memberToKick } = this.state;
     const { accountAddress, address } = this.props;
+
+    /* send link without http or https */
+    const modifiedLink = link.value.replace(/(^\w+:|^)\/\//,  '')
 
     // validations
     if (!notNull(title.value, description.value, link.value)) return;
@@ -262,7 +272,7 @@ export default class Proposal extends Component {
       version,
       address,
       /*Proposal information*/ memberToKick.address,
-      /* Details JSON */ { title: title.value, description: description.value, link: link.value },
+      /* Details JSON */ { title: title.value, description: description.value, link: modifiedLink },
     );
 
     hideProposalLauncher();

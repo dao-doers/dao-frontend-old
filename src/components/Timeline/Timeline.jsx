@@ -1,4 +1,5 @@
-import React, { useEffect, useContext, useState } from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect, useContext } from 'react';
 import ApolloClient, { InMemoryCache } from 'apollo-boost';
 import { ApolloProvider, useLazyQuery } from '@apollo/react-hooks';
 
@@ -45,6 +46,7 @@ import thumbDownActive from 'images/rejected-active.svg';
 import 'styles/Dapp.css';
 import { sponsorProposal } from 'components/ProposalLauncher/utils';
 import DChart from 'components/DChart/DChart';
+
 const numbro = require('numbro');
 
 /**
@@ -184,8 +186,6 @@ const Feed = function (props) {
       data.proposals = _orderBy(uniqBy(data.asProposer.concat(data.asApplicant), 'id'), 'createdAt', 'desc');
     }
 
-    console.log(data);
-
     if (data.proposals.length === 0) {
       if (props.format === 'searchBar') {
         return <Search contextTag={{ id: param, text: i18n.t('search-default', { searchTerm: param }) }} />;
@@ -216,230 +216,250 @@ const Feed = function (props) {
       }
     }
 
-    const feed = data.proposals.map(proposal => {
-      const totalVoters = String(parseInt(Number(proposal.yesVotes) + Number(proposal.noVotes), 10));
-      const yesPercentage = String(_getPercentage(Number(proposal.yesShares), Number(proposal.noShares)));
-      const noPercentage = String(_getPercentage(Number(proposal.noShares), Number(proposal.yesShares)));
-      const daoAddress = proposal.moloch.id;
-      const isPoll = proposal.startingPeriod !== '0';
-      const isUnsponsored = !isPoll && proposal.molochVersion !== '1' && !proposal.sponsored && !proposal.cancelled;
-      const url = `/proposal/${proposal.id}`;
+    const feed =
+      data.proposals &&
+      data.proposals.length > 0 &&
+      data.proposals.map(proposal => {
+        const totalVoters = String(parseInt(Number(proposal.yesVotes) + Number(proposal.noVotes), 10));
+        const yesPercentage = String(_getPercentage(Number(proposal.yesShares), Number(proposal.noShares)));
+        const noPercentage = String(_getPercentage(Number(proposal.noShares), Number(proposal.yesShares)));
+        const daoAddress = proposal.moloch.id;
+        const isPoll = proposal.startingPeriod !== '0';
+        const isUnsponsored = !isPoll && proposal.molochVersion !== '1' && !proposal.sponsored && !proposal.cancelled;
+        const url = `/proposal/${proposal.id}`;
 
-      let status;
-      let handIcon = hand;
-      let handIconActive = handActive;
-      if (proposal.didPass && proposal.processed) {
-        status = 'PASSED';
-        handIcon = thumbUp;
-        handIconActive = thumbUpActive;
-      }
-      if (!proposal.didPass && proposal.processed) {
-        status = 'FAILED';
-        handIcon = thumbDown;
-        handIconActive = thumbDownActive;
-      }
-      if (!proposal.processed) {
-        status = 'PENDING';
-      }
-      if (proposal.cancelled) {
-        status = 'CANCELLED';
-        return null;
-      }
+        let status;
+        let handIcon = hand;
+        let handIconActive = handActive;
+        if (proposal.didPass && proposal.processed) {
+          status = 'PASSED';
+          handIcon = thumbUp;
+          handIconActive = thumbUpActive;
+        }
+        if (!proposal.didPass && proposal.processed) {
+          status = 'FAILED';
+          handIcon = thumbDown;
+          handIconActive = thumbDownActive;
+        }
+        if (!proposal.processed) {
+          status = 'PENDING';
+        }
+        if (proposal.cancelled) {
+          status = 'CANCELLED';
+          return null;
+        }
 
-      const noShares = proposal.sharesRequested === '0';
-      const noTribute = proposal.tributeOffered === '0';
-      const noPayment = proposal.paymentRequested === '0';
-      const noLoot = proposal.lootRequested === '0';
-      const noApplicant = proposal.applicant === '0x0000000000000000000000000000000000000000';
-      const noSponsor = !proposal.sponsored || proposal.molochVersion === '1';
-      const noConditions =
-        noShares &&
-        noTribute &&
-        noPayment &&
-        noApplicant &&
-        noSponsor &&
-        noLoot &&
-        !proposal.whitelist &&
-        !proposal.guildkick;
+        const noShares = proposal.sharesRequested === '0';
+        const noTribute = proposal.tributeOffered === '0';
+        const noPayment = proposal.paymentRequested === '0';
+        const noLoot = proposal.lootRequested === '0';
+        const noApplicant = proposal.applicant === '0x0000000000000000000000000000000000000000';
+        const noSponsor = !proposal.sponsored || proposal.molochVersion === '1';
+        const noConditions =
+          noShares &&
+          noTribute &&
+          noPayment &&
+          noApplicant &&
+          noSponsor &&
+          noLoot &&
+          !proposal.whitelist &&
+          !proposal.guildkick;
 
-      const voterLabel = Number(totalVoters) === 1 ? i18n.t('voter') : i18n.t('voters');
-      const voterCount =
-        Number(totalVoters) > 0 ? i18n.t('see-proposal-vote-count', { totalVoters, voterLabel }) : i18n.t('no-voters');
+        const voterLabel = Number(totalVoters) === 1 ? i18n.t('voter') : i18n.t('voters');
+        const voterCount =
+          Number(totalVoters) > 0
+            ? i18n.t('see-proposal-vote-count', { totalVoters, voterLabel })
+            : i18n.t('no-voters');
 
-      const proposalValue = _getProposalValue(proposal);
-      const abiLibrary = 'moloch2';
-      return (
-        <Post
-          key={proposal.id}
-          accountAddress={accountAddress}
-          href={url}
-          description={proposal.details}
-          memberAddress={proposal.proposer}
-          daoAddress={daoAddress}
-        >
-          <div className="expanders">
-            <Expand
-              url={url}
-              label={proposalValue}
-              open={props.view === routerView.PROPOSAL}
-              icon={ethereum}
-              iconActive={ethereumActive}
-            >
-              <Contract hidden={noConditions} view={props.view} href={url}>
-                {!noSponsor ? (
-                  <Parameter label={i18n.t('moloch-sponsored-by')}>
-                    <Account publicAddress={proposal.sponsor} width="16px" height="16px" />
-                  </Parameter>
-                ) : null}
-                {!noApplicant ? (
-                  <Parameter label={i18n.t('moloch-applicant')}>
-                    <Account publicAddress={proposal.applicant} width="16px" height="16px" />
-                  </Parameter>
-                ) : null}
-                {!noShares ? (
-                  <Parameter label={i18n.t('moloch-request')}>
-                    <Token quantity={String(proposal.sharesRequested)} symbol="SHARES" />
-                  </Parameter>
-                ) : null}
-                {!noLoot ? (
-                  <Parameter label={i18n.t('moloch-loot')}>
-                    <Token quantity={String(proposal.lootRequested)} symbol="SHARES" />
-                  </Parameter>
-                ) : null}
-                {!noTribute ? (
-                  <Parameter label={i18n.t('moloch-tribute')}>
-                    <Token
-                      quantity={proposal.tributeOffered}
-                      publicAddress={proposal.tributeToken}
-                      symbol={proposal.tributeTokenSymbol}
-                      decimals={proposal.tributeTokenDecimals}
-                    />
-                  </Parameter>
-                ) : null}
-                {!noPayment ? (
-                  <Parameter label={i18n.t('moloch-payment')}>
-                    <Token
-                      quantity={proposal.paymentRequested}
-                      publicAddress={proposal.paymentToken}
-                      symbol={proposal.paymentTokenSymbol}
-                      decimals={proposal.paymentTokenDecimals}
-                    />
-                  </Parameter>
-                ) : null}
-                {proposal.whitelist ? (
-                  <Parameter label={i18n.t('moloch-token-whitelist')}>
-                    <Toggle checked disabled />
-                  </Parameter>
-                ) : null}
-                {proposal.guildkick ? (
-                  <Parameter label={i18n.t('moloch-token-guildkick')}>
-                    <Toggle checked disabled />
-                  </Parameter>
-                ) : null}
-              </Contract>
-            </Expand>
-            <Expand
-              url={url}
-              label={voterCount}
-              open={props.view === routerView.PROPOSAL}
-              icon={handIcon}
-              iconActive={handIconActive}
-            >
-              {isPoll ? (
-                <Poll>
-                  <Countdown
-                    now={timestamp}
-                    votingPeriodBegins={proposal.votingPeriodStarts}
-                    votingPeriodEnds={proposal.votingPeriodEnds}
-                    gracePeriodEnds={proposal.gracePeriodEnds}
-                  />
-                  <Survey>
-                    <Choice
+        const proposalValue = _getProposalValue(proposal);
+        const abiLibrary = 'moloch2';
+
+        function parseData(dt) {
+          if (!dt) return {};
+          if (typeof dt === 'object') return dt;
+          if (typeof dt === 'string') return JSON.parse(dt);
+
+          return {};
+        }
+
+        let result;
+        if (proposal) {
+          try {
+            result = parseData(proposal.details);
+          } catch (e) {
+            return false;
+          }
+        }
+
+        return (
+          <Post
+            key={proposal.id}
+            accountAddress={accountAddress}
+            title={result.title}
+            description={result.description}
+            // href={url}
+            link={result.link}
+            memberAddress={proposal.proposer}
+            daoAddress={daoAddress}
+          >
+            <div className="expanders">
+              <Expand
+                url={url}
+                label={proposalValue}
+                open={props.view === routerView.PROPOSAL}
+                icon={ethereum}
+                iconActive={ethereumActive}
+              >
+                <Contract hidden={noConditions} view={props.view} href={url}>
+                  {!noSponsor ? (
+                    <Parameter label={i18n.t('moloch-sponsored-by')}>
+                      <Account publicAddress={proposal.sponsor} width="16px" height="16px" />
+                    </Parameter>
+                  ) : null}
+                  {!noApplicant ? (
+                    <Parameter label={i18n.t('moloch-applicant')}>
+                      <Account publicAddress={proposal.applicant} width="16px" height="16px" />
+                    </Parameter>
+                  ) : null}
+                  {!noShares ? (
+                    <Parameter label={i18n.t('moloch-request')}>
+                      <Token quantity={String(proposal.sharesRequested)} symbol="SHARES" />
+                    </Parameter>
+                  ) : null}
+                  {!noLoot ? (
+                    <Parameter label={i18n.t('moloch-loot')}>
+                      <Token quantity={String(proposal.lootRequested)} symbol="SHARES" />
+                    </Parameter>
+                  ) : null}
+                  {!noTribute ? (
+                    <Parameter label={i18n.t('moloch-tribute')}>
+                      <Token
+                        quantity={proposal.tributeOffered}
+                        publicAddress={proposal.tributeToken}
+                        symbol={proposal.tributeTokenSymbol}
+                        decimals={proposal.tributeTokenDecimals}
+                      />
+                    </Parameter>
+                  ) : null}
+                  {!noPayment ? (
+                    <Parameter label={i18n.t('moloch-payment')}>
+                      <Token
+                        quantity={proposal.paymentRequested}
+                        publicAddress={proposal.paymentToken}
+                        symbol={proposal.paymentTokenSymbol}
+                        decimals={proposal.paymentTokenDecimals}
+                      />
+                    </Parameter>
+                  ) : null}
+                  {proposal.whitelist ? (
+                    <Parameter label={i18n.t('moloch-token-whitelist')}>
+                      <Toggle checked disabled />
+                    </Parameter>
+                  ) : null}
+                  {proposal.guildkick ? (
+                    <Parameter label={i18n.t('moloch-token-guildkick')}>
+                      <Toggle checked disabled />
+                    </Parameter>
+                  ) : null}
+                </Contract>
+              </Expand>
+              <Expand
+                url={url}
+                label={voterCount}
+                open={props.view === routerView.PROPOSAL}
+                icon={handIcon}
+                iconActive={handIconActive}
+              >
+                {isPoll ? (
+                  <Poll>
+                    <Countdown
                       now={timestamp}
-                      accountAddress={connectedAccount}
-                      publicAddress={proposal.moloch.id}
-                      description={proposal.details}
-                      proposalIndex={proposal.proposalIndex}
-                      labelYes={i18n.t('yes')}
-                      labelNo={i18n.t('no')}
-                      percentage={yesPercentage || noPercentage}
-                      voteValue={defaults.YES || defaults.NO}
-                      votingPeriodEnds={proposal.votingPeriodEnds}
                       votingPeriodBegins={proposal.votingPeriodStarts}
-                      abi={abiLibrary}
-                      // data={[70, 30]}
-                      data={[yesPercentage, noPercentage]}
-                      componentChart={
-                        <DChart
-                          defaultTextTop="Proposal"
-                          defaultTextMiddle="Vote now"
-                          defaultTextBottom="Please share"
-                          loadingAnimationDuration={1000}
-                          size={200}
-                          data={[
-                            {
-                              color: 'var(--negative-signal-color)',
-                              textTop: i18n.t('no'),
-                              textMiddle: `${noPercentage}%`,
-                              textBottom: proposal.noShares,
-                              value: noPercentage,
-                              name: 'no',
-                            },
-                            {
-                              color: 'var(--positive-signal-color)',
-                              textTop: i18n.t('yes'),
-                              textMiddle: `${numbro(yesPercentage).format('0.00')}%`,
-                              textBottom: proposal.yesShares,
-                              value: yesPercentage,
-                              name: 'yes',
-                            },
-                          ]}
-                        />
-                      }
-                    >
+                      votingPeriodEnds={proposal.votingPeriodEnds}
+                      gracePeriodEnds={proposal.gracePeriodEnds}
+                    />
+                    <Survey>
+                      <Choice
+                        now={timestamp}
+                        url={url}
+                        status={status}
+                        votingPeriodBegins={proposal.votingPeriodStarts}
+                        abi={abiLibrary}
+                        // data={[70, 30]}
+                        data={[yesPercentage, noPercentage]}
+                        labelNo={i18n.t('no')}
+                        labelYes={i18n.t('yes')}
+                        componentChart={
+                          <DChart
+                            defaultTextTop="Proposal"
+                            defaultTextMiddle="Vote now"
+                            defaultTextBottom="Please share"
+                            loadingAnimationDuration={1000}
+                            size={200}
+                            data={[
+                              {
+                                color: 'var(--negative-signal-color)',
+                                textTop: i18n.t('no'),
+                                textMiddle: `${noPercentage}%`,
+                                textBottom: proposal.noShares,
+                                value: noPercentage,
+                                name: 'no',
+                              },
+                              {
+                                color: 'var(--positive-signal-color)',
+                                textTop: i18n.t('yes'),
+                                textMiddle: `${numbro(yesPercentage).format('0.00')}%`,
+                                textBottom: proposal.yesShares,
+                                value: yesPercentage,
+                                name: 'yes',
+                              },
+                            ]}
+                          />
+                        }
+                      >
                         {/* <Token quantity={proposal.yesShares} symbol="SHARES" />
                       <Token quantity={proposal.noShares} symbol="SHARES" /> */}
-                    </Choice>
-                  </Survey>
-                  <Period
-                    now={timestamp}
-                    url={url}
-                    status={status}
-                    votingPeriodBegins={proposal.votingPeriodStarts}
-                    votingPeriodEnds={proposal.votingPeriodEnds}
-                    gracePeriodEnds={proposal.gracePeriodEnds}
-                  />
-                </Poll>
-              ) : null}
-              {isUnsponsored ? (
-                <>
-                  <button onClick={() => sponsorProposal(connectedAccount, daoAddress, proposal.proposalId)}>
-                    Sponsor
-                  </button>
+                      </Choice>
+                    </Survey>
+                    <Period
+                      now={timestamp}
+                      url={url}
+                      status={status}
+                      votingPeriodBegins={proposal.votingPeriodStarts}
+                      votingPeriodEnds={proposal.votingPeriodEnds}
+                      gracePeriodEnds={proposal.gracePeriodEnds}
+                    />
+                  </Poll>
+                ) : null}
+                {isUnsponsored ? (
+                  <>
+                    <button onClick={() => sponsorProposal(connectedAccount, daoAddress, proposal.proposalId)}>
+                      Sponsor
+                    </button>
+                    <Flag
+                      styleClass="warning period period-unsponsored"
+                      url={url}
+                      label={i18n.t('moloch-flag-unsponsored')}
+                      tooltip={i18n.t('moloch-open-proposal')}
+                    />
+                  </>
+                ) : null}
+                {proposal.cancelled ? (
                   <Flag
-                    styleClass="warning period period-unsponsored"
+                    styleClass="warning period period-cancelled"
                     url={url}
-                    label={i18n.t('moloch-flag-unsponsored')}
+                    label={i18n.t('moloch-flag-cancelled')}
                     tooltip={i18n.t('moloch-open-proposal')}
                   />
-                </>
-              ) : null}
-              {proposal.cancelled ? (
-                <Flag
-                  styleClass="warning period period-cancelled"
-                  url={url}
-                  label={i18n.t('moloch-flag-cancelled')}
-                  tooltip={i18n.t('moloch-open-proposal')}
-                />
-              ) : null}
-            </Expand>
-          </div>
-          <Social url={url} description={proposal.details}>
-            <Stamp url={url} timestamp={proposal.createdAt} />
-          </Social>
-        </Post>
-      );
-    });
+                ) : null}
+              </Expand>
+            </div>
+            <Social url={url} description={proposal.details}>
+              <Stamp url={url} timestamp={proposal.createdAt} />
+            </Social>
+          </Post>
+        );
+      });
 
     return (
       <>
