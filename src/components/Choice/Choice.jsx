@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import Grid from "@material-ui/core/Grid";
 
 import { defaults } from 'lib/const';
 import {
@@ -14,7 +15,7 @@ import {
 import { abiLibrary } from 'lib/abi';
 import { canVote, hasVoted, execute } from './utils';
 
-import logo from 'images/logo.png';
+import logo from 'images/vote.svg';
 
 import { getDescription } from 'components/Post/Post';
 import i18n from 'i18n';
@@ -22,6 +23,7 @@ import 'styles/Dapp.css';
 import { Doughnut } from 'react-chartjs-2';
 import {Chart, ArcElement} from 'chart.js'
 import DChart from 'components/DChart/DChart';
+import { Button } from '@material-ui/core';
 Chart.register(ArcElement);
 const numbro = require('numbro');
 
@@ -34,7 +36,8 @@ export default class Choice extends Component {
     children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
     accountAddress: PropTypes.string,
     percentage: PropTypes.string,
-    label: PropTypes.string,
+    labelYes: PropTypes.string,
+    labelNo: PropTypes.string,
     voteValue: PropTypes.number,
     votingPeriodBegins: PropTypes.string,
     votingPeriodEnds: PropTypes.string,
@@ -44,17 +47,8 @@ export default class Choice extends Component {
     daoName: PropTypes.string,
     now: PropTypes.number,
     abi: PropTypes.string,
-    data: PropTypes.any,
-    TextYes: PropTypes.any,
-    TextMiddleYes: PropTypes.any,
-    TextBottomYes: PropTypes.any,
-    percentageYes: PropTypes.any,
-    nameYes: PropTypes.any,
-    TextNo: PropTypes.any,
-    TextMiddleNo: PropTypes.any,
-    TextBottomNo: PropTypes.any,
-    percentageNo: PropTypes.any,
-    nameNo: PropTypes.any
+    componentChart: PropTypes.any
+
   };
 
   constructor(props) {
@@ -158,127 +152,26 @@ export default class Choice extends Component {
   render(
     
   ) {
+
+    const style = {
+      borderRadius: 20,
+      height: 30,
+      width: 100,
+      color: 'var(--background-color)',
+      fontWeight: 'bold'
+    };
+
     return (
-      <div className="poll-choice">
-        <button className="button half choice" onClick={this.vote}>
-          <div className="checkbox-mini check-mini-unselected-box">
-            <div className="checkmark_kick check-mini-unselected-mark" />
-            <div className="checkmark_stem check-mini-unselected-mark" />
-          </div>
-          {this.props.label}
-          <div className="micro-button micro-button-feed no-underline micro-button-poll">
-            <div className="micro-label">{this.props.children}</div>
-          </div>
-          <div className="poll-score poll-score-button">
-            <div className="poll-score-bar">
-              <div className={this.getBarStyle()} style={{ width: `${this.props.percentage}%` }} />
-            </div>
-            <div className={this.getlabelClass()}>{`${numbro(this.props.percentage).format('0.00')}%`}</div>
-          </div>
-        </button>
-          <Doughnut
-          data={{
-            labels: [i18n.t('yes'), i18n.t('no')],
-            datasets: [
-              {
-                label: '# of Votes',
-                data: this.props.data,
-                backgroundColor: [
-                  "#01c190",
-                  "#ff3d67",
-                ],
-                cutout: '85%',
-                // hoverOffset: 4,
-                borderColor: '#fff',
-                borderWidth: 1,
-                hoverBorderColor: ['#96ceff', '#424348'],
-                hoverBorderWidth: 5,
-   
-              },
-            ],
-          }}
-          plugins= {[{
-            id: 'text',
-            beforeDraw: function(chart, a, b) {
-              var width = chart.width,
-                height = chart.height,
-                ctx = chart.ctx;
-        
-              ctx.restore();
-              var fontSize = (height / 114).toFixed(2);
-              ctx.font = fontSize + "em sans-serif";
-              ctx.textBaseline = "middle";
-        
-              var text = `Voting`,
-                textX = Math.round((width - ctx.measureText(text).width) / 2),
-                textY = height / 2;
-        
-              ctx.fillText(text, textX, textY);
-              ctx.save();
-            }
-          }]}
-        
-          options={{
-            layout: {
-              padding: 40
-          },
-            onClick: this.vote,
-            responsive:true,
-            plugins: {
-                labels: {
-                    render: 'percentage',
-                    precision: 2,
-                    showZero: true,
-                    fontSize: 30,
-                    fontColor: ['#2c405a', '#2c405a', 'white'],
-                    fontFamily: "PTSansBold",
-                }
-            },
-            animation: {
-                duration: 1000
-            },
-        //   tooltips: {
-        //     callbacks: {
-        //         label: (tooltipItem, data) => {
-        //             const dataset = data.datasets[tooltipItem.datasetIndex];
-        //             const meta = dataset._meta[Object.keys(dataset._meta)[0]];
-        //             const total = meta.total;
-        //             const currentValue = tooltipItem?.value;
-        //             const percentage = parseFloat((currentValue/total*100).toFixed(1));
-        //             return currentValue + ' (' + percentage + '%)';
-        //         },
-        //         title: tooltipItem =>
-        //             `${tooltipItem[0]?.label}`
-        //     }
-        // },
-        }}
-        />
-                      {/* <DChart
-defaultTextTop= 'Users by posts'
-defaultTextMiddle= 'Vote now'
-defaultTextBottom= 'Please share'
-loadingAnimationDuration= {1000}
-size= {200}
-data={[
-  {
-    color: 'var(--positive-signal-color)',
-    textTop: 'yes',
-    textMiddle: 'yes',
-    textBottom: 'yes',
-    value: 40,
-    name: 'yes'
-  },
-  {
-    color: 'var(--negative-signal-color)',
-    textTop: 'no',
-    textMiddle: 'no',
-    textBottom: 'no',
-    value: 60,
-    name: 'no',
-  },
-]}
-        /> */}
-      </div>
+      <>
+      <Grid container className="poll-choice" >
+          <Grid item className='pool-choice-button'>
+          <Button style={style} className="pool-choice-button-yes" onClick={this.vote} endIcon={this.props.children}><span className='pool-choice-button-label'></span>{this.props.labelYes}</Button>
+          <div className='pool-choice-space-between' />
+          <Button style={style} className="pool-choice-button-no" onClick={this.vote} endIcon={this.props.children}>{this.props.labelNo}</Button>
+          </Grid>
+          <Grid item>{this.props.componentChart}</Grid>
+      </Grid>
+      </>
     );
   }
 }

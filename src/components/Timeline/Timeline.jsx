@@ -45,6 +45,7 @@ import thumbDownActive from 'images/rejected-active.svg';
 import 'styles/Dapp.css';
 import { sponsorProposal } from 'components/ProposalLauncher/utils';
 import DChart from 'components/DChart/DChart';
+const numbro = require('numbro');
 
 /**
  * @summary retrieves the corresponding query for the timeline.
@@ -359,7 +360,8 @@ const Feed = function (props) {
                       publicAddress={proposal.moloch.id}
                       description={proposal.details}
                       proposalIndex={proposal.proposalIndex}
-                      label={i18n.t('yes')}
+                      labelYes={i18n.t('yes')}
+                      labelNo={i18n.t('no')}
                       percentage={yesPercentage || noPercentage}
                       voteValue={defaults.YES || defaults.NO}
                       votingPeriodEnds={proposal.votingPeriodEnds}
@@ -367,50 +369,37 @@ const Feed = function (props) {
                       abi={abiLibrary}
                       // data={[70, 30]}
                       data={[yesPercentage, noPercentage]}
+                      componentChart={
+                        <DChart
+                          defaultTextTop="Proposal"
+                          defaultTextMiddle="Vote now"
+                          defaultTextBottom="Please share"
+                          loadingAnimationDuration={1000}
+                          size={200}
+                          data={[
+                            {
+                              color: 'var(--negative-signal-color)',
+                              textTop: i18n.t('no'),
+                              textMiddle: `${noPercentage}%`,
+                              textBottom: proposal.noShares,
+                              value: noPercentage,
+                              name: 'no',
+                            },
+                            {
+                              color: 'var(--positive-signal-color)',
+                              textTop: i18n.t('yes'),
+                              textMiddle: `${numbro(yesPercentage).format('0.00')}%`,
+                              textBottom: proposal.yesShares,
+                              value: yesPercentage,
+                              name: 'yes',
+                            },
+                          ]}
+                        />
+                      }
                     >
-                      <Token quantity={proposal.yesShares} symbol="SHARES" />
-                      {/* <Token quantity={proposal.noShares} symbol="SHARES" /> */}
+                        {/* <Token quantity={proposal.yesShares} symbol="SHARES" />
+                      <Token quantity={proposal.noShares} symbol="SHARES" /> */}
                     </Choice>
-                    <DChart
-                      defaultTextTop="Proposal"
-                      defaultTextMiddle="Vote now"
-                      defaultTextBottom="Please share"
-                      loadingAnimationDuration={1000}
-                      size={200}
-                      data={[
-                        {
-                          color: 'var(--positive-signal-color)',
-                          textTop: i18n.t('yes'),
-                          textMiddle: `${yesPercentage}%`,
-                          textBottom: proposal.votingPeriodEnds,
-                          value: yesPercentage,
-                          name: 'yes',
-                        },
-                        {
-                          color: 'var(--negative-signal-color)',
-                          textTop: i18n.t('no'),
-                          textMiddle: `${noPercentage}%`,
-                          textBottom: proposal.votingPeriodEnds,
-                          value: noPercentage,
-                          name: 'no',
-                        },
-                      ]}
-                    />
-                    {/* <Choice
-                      now={timestamp}
-                      accountAddress={connectedAccount}
-                      publicAddress={proposal.moloch.id}
-                      description={proposal.details}
-                      proposalIndex={proposal.proposalIndex}
-                      label={i18n.t('no')}
-                      percentage={noPercentage}
-                      voteValue={defaults.NO}
-                      votingPeriodEnds={proposal.votingPeriodEnds}
-                      votingPeriodBegins={proposal.votingPeriodStarts}
-                      abi={abiLibrary}
-                    >
-                      <Token quantity={proposal.noShares} symbol="SHARES" />
-                    </Choice> */}
                   </Survey>
                   <Period
                     now={timestamp}
