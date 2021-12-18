@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useContext } from 'react';
+import React, { useEffect, useContext, useState } from 'react';
 import ApolloClient, { InMemoryCache } from 'apollo-boost';
 import { ApolloProvider, useLazyQuery } from '@apollo/react-hooks';
 
@@ -141,14 +141,22 @@ const Feed = function (props) {
     variables: { address, first, skip, orderBy, orderDirection, now, proposalId, param, dateBegin, dateEnd },
   });
 
+  const [loadingChart, setLoadingChart] = useState(true);
   let isMounted = true;
   useEffect(() => {
     if (isMounted) {
       getFeed();
     }
+    const timer = setTimeout(() => {
+      if (loadingChart) {
+        setLoadingChart(false);
+      }
+    });
+  
     return () => {
       // eslint-disable-next-line react-hooks/exhaustive-deps
       isMounted = false;
+      clearTimeout(timer);
     };
   }, []);
 
@@ -415,8 +423,8 @@ const Feed = function (props) {
                           />
                         }
                       >
-                        {/* <Token quantity={proposal.yesShares} symbol="SHARES" />
-                      <Token quantity={proposal.noShares} symbol="SHARES" /> */}
+                        {/* <Token quantity={proposal.yesShares} symbol="SHARES" /> */}
+                      {/* <Token quantity={proposal.noShares} symbol="SHARES" /> */}
                       </Choice>
                     </Survey>
                     <Period

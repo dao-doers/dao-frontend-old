@@ -165,8 +165,7 @@ export default class Choice extends Component {
       <>
       <Grid container className="poll-choice" >
           <Grid item className='pool-choice-button'>
-          <Button className="pool-choice-button-yes"style={style}  onClick={this.vote} endIcon={this.props.children} onMouseOver={this.props.onMouseEnter}
-        onMouseOut={outHandler}><span className='pool-choice-button-label'></span>{this.props.labelYes}</Button>
+          <Button className="pool-choice-button-yes" style={style}  onClick={this.vote} endIcon={this.props.children}><span className='pool-choice-button-label'></span>{this.props.labelYes}</Button>
           <div className='pool-choice-space-between' />
           <Button style={style} className="pool-choice-button-no" onClick={this.vote} endIcon={this.props.children}>{this.props.labelNo}</Button>
           </Grid>

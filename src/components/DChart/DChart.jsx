@@ -6,14 +6,14 @@ import './DChart.css';
 
 const DChart = (props) => {
   const [loading, setLoading] = useState(true);
-
+  
   useEffect(() => {
     const timer = setTimeout(() => {
       if (loading) {
         setLoading(false);
       }
     });
-
+  
     return () => {
       clearTimeout(timer);
     };
@@ -48,7 +48,7 @@ const DChart = (props) => {
     tempData = JSON.parse(JSON.stringify(data));
     // If animation should be visible, generate array with value 0 for all elements in chart
     if (props.loadingAnimationDuration) {
-      for (let i = 0; i < tempData && tempData.length; i += 1) {
+      for (let i = 0; i < tempData.length; i += 1) {
         tempData[i].splice(2, tempData.length);
         tempData[i][1] = 0;
       }
@@ -61,7 +61,7 @@ const DChart = (props) => {
    * get size from parent HTML element
    */
 
-  function getSize() {
+  function getSize(){
     if (!props.size) {
       const htmlChart = d3.select('#chart');
       if (htmlChart._groups[0][0]) {
@@ -134,8 +134,7 @@ const DChart = (props) => {
         if (props.mouseOut) {
           props.mouseOut(d);
         }
-      },
-      onclick: () => { console.log('clicked')}
+      }
     },
     legend: {
       show: false
@@ -217,6 +216,7 @@ const DChart = (props) => {
     });
     generateTexts();
   });
+
   return (
       <div id="chart" style={styles} />
   );
