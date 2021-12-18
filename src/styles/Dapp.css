@@ -6708,6 +6708,12 @@ h2 {
   }
 }
 
+@media (max-width: 407px) {
+  .pool-choice-button {
+    display: flex;
+  }
+}
+
 .pool-choice-button-yes {
   background-color: var(--positive-signal-color) !important;
 }

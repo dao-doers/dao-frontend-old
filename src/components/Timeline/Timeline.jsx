@@ -290,7 +290,6 @@ const Feed = function (props) {
             return false;
           }
         }
-
         return (
           <Post
             key={proposal.id}
@@ -385,32 +384,31 @@ const Feed = function (props) {
                         status={status}
                         votingPeriodBegins={proposal.votingPeriodStarts}
                         abi={abiLibrary}
-                        // data={[70, 30]}
-                        data={[yesPercentage, noPercentage]}
                         labelNo={i18n.t('no')}
                         labelYes={i18n.t('yes')}
                         componentChart={
                           <DChart
-                            defaultTextTop="Proposal"
+                            defaultTextTop={`Proposal #${proposal.proposalId}`}
                             defaultTextMiddle="Vote now"
-                            defaultTextBottom="Please share"
+                            defaultTextBottom={`Total: ${totalVoters}`}
                             loadingAnimationDuration={1000}
                             size={200}
+                            
                             data={[
                               {
                                 color: 'var(--negative-signal-color)',
                                 textTop: i18n.t('no'),
-                                textMiddle: `${noPercentage}%`,
-                                textBottom: proposal.noShares,
-                                value: noPercentage,
+                                textMiddle: `${numbro(noPercentage * 10).format('0')}%`,
+                                textBottom: `votes: ${proposal.noShares}`,
+                                value: proposal.noVotes,
                                 name: 'no',
                               },
                               {
                                 color: 'var(--positive-signal-color)',
                                 textTop: i18n.t('yes'),
-                                textMiddle: `${numbro(yesPercentage).format('0.00')}%`,
-                                textBottom: proposal.yesShares,
-                                value: yesPercentage,
+                                textMiddle: `${numbro(yesPercentage * 10).format('0')}%`,
+                                textBottom: `votes: ${proposal.yesShares}`,
+                                value: proposal.yesVotes,
                                 name: 'yes',
                               },
                             ]}

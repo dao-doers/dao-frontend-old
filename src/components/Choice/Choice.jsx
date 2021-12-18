@@ -26,6 +26,7 @@ import DChart from 'components/DChart/DChart';
 import { Button } from '@material-ui/core';
 Chart.register(ArcElement);
 const numbro = require('numbro');
+import * as d3 from 'd3';
 
 /**
  * @summary displays the contents of a poll
@@ -47,8 +48,8 @@ export default class Choice extends Component {
     daoName: PropTypes.string,
     now: PropTypes.number,
     abi: PropTypes.string,
-    componentChart: PropTypes.any
-
+    componentChart: PropTypes.any,
+    onMouseEnter: PropTypes.any
   };
 
   constructor(props) {
@@ -152,7 +153,6 @@ export default class Choice extends Component {
   render(
     
   ) {
-
     const style = {
       borderRadius: 20,
       height: 30,
@@ -165,7 +165,8 @@ export default class Choice extends Component {
       <>
       <Grid container className="poll-choice" >
           <Grid item className='pool-choice-button'>
-          <Button className="pool-choice-button-yes"style={style}  onClick={this.vote} endIcon={this.props.children}><span className='pool-choice-button-label'></span>{this.props.labelYes}</Button>
+          <Button className="pool-choice-button-yes"style={style}  onClick={this.vote} endIcon={this.props.children} onMouseOver={this.props.onMouseEnter}
+        onMouseOut={outHandler}><span className='pool-choice-button-label'></span>{this.props.labelYes}</Button>
           <div className='pool-choice-space-between' />
           <Button style={style} className="pool-choice-button-no" onClick={this.vote} endIcon={this.props.children}>{this.props.labelNo}</Button>
           </Grid>
