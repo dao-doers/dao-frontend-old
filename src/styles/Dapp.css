@@ -7255,31 +7255,30 @@ h4 {
 .period-queue {
   background: #eef1ff;
   color: #6577ff;
-  border: 1px solid #6577ff;
+  /* border: 1px solid #6577ff; */
 }
 
 .period-voting {
   color: #ffbe00;
-  border: 1px solid #ffbe00;
   background: #fff8e9;
 }
 
 .period-process {
   background: #eef1ff;
   color: #6577ff;
-  border: 1px solid #6577ff;
+  /* border: 1px solid #6577ff; */
 }
 
 .period-grace {
   background: #f6edf9;
   color: #b25dcc;
-  border: 1px solid #b25dcc;
+  /* border: 1px solid #b25dcc; */
 }
 
 .period-pending {
   background: #eef1ff;
   color: #6577ff;
-  border: 1px solid #6577ff;
+  /* border: 1px solid #6577ff; */
 }
 
 .period-cancelled {
@@ -7291,7 +7290,11 @@ h4 {
 .period-unsponsored {
   background: #0073d82e;
   color: #0073d8;
-  border: 1px solid #0073d8;
+}
+
+.alert-style {
+  padding-top: 15px;
+  padding-bottom: 10px;
 }
 
 .period-complete {
@@ -7440,24 +7443,6 @@ h4 {
   line-height: 20px;
   padding: 5px 10px;
   margin: 10px 0px;
-}
-
-.transaction-action-passed {
-  background-color: var(--positive-signal-background-color);
-  color: var(--positive-signal-color);
-  border: 1px solid var(--positive-signal-color);
-  border-radius: 5px;
-  line-height: 20px;
-  padding: 5px 10px;
-}
-
-.transaction-action-rejected {
-  background-color: var(--negative-signal-background-color);
-  color: var(--negative-signal-color);
-  border: 1px solid var(--negative-signal-color);
-  border-radius: 5px;
-  line-height: 20px;
-  padding: 5px 10px;
 }
 
 .transaction-action.transaction-action-passed a {

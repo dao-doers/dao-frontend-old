@@ -6,6 +6,7 @@ import i18n from 'i18n';
 import 'styles/Dapp.css';
 import { defaults } from 'lib/const';
 import { getDescription } from 'components/Post/Post';
+import Alert from '@material-ui/lab/Alert';
 
 const numbro = require('numbro');
 
@@ -20,17 +21,17 @@ export default class Transaction extends Component {
     switch (this.props.uintVote) {
       case defaults.YES:
         return (
-          <div href={this.props.uintVote} className="transaction-action transaction-action-passed">
+          <Alert severity='success' href={this.props.uintVote}>
             {parser(
               i18n.t('voted-yes', { shares: numbro(this.props.quantity).format('0,0'), label, proposal: title }),
             )}
-          </div>
+          </Alert>
         );
       case defaults.NO:
         return (
-          <div href={this.props.uintVote} className="transaction-action transaction-action-rejected">
+          <Alert severity='error' href={this.props.uintVote}>
             {parser(i18n.t('voted-no', { shares: numbro(this.props.quantity).format('0,0'), label, proposal: title }))}
-          </div>
+          </Alert>
         );
       default:
     }
