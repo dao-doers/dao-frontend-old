@@ -1,6 +1,7 @@
 /* IMPORTS */
 // Config
 import React, { Component } from 'react';
+import BigNumber from 'bignumber.js/bignumber';
 import ApolloClient, { gql, InMemoryCache } from 'apollo-boost';
 // Components
 import { config } from '../../config';
@@ -80,7 +81,7 @@ const INITIAL_STATE = {
   link: { value: '', hasChanged: false },
   /* Error handling */
   helperText: '',
-  error: false
+  error: false,
 };
 export default class Proposal extends Component {
   state = { ...INITIAL_STATE };
@@ -169,7 +170,7 @@ export default class Proposal extends Component {
       description: { value: '', hasChanged: false },
       link: { value: '', hasChanged: false },
       helperText: '',
-      error: false
+      error: false,
     });
   };
   // Handlers
@@ -192,10 +193,13 @@ export default class Proposal extends Component {
     const { accountAddress, address } = this.props;
 
     /* multiply value from input by 10^8 */
-    const exponentialValue = Math.pow( 10, 8);
-    const tributeOfferedToExponential = Number(tributeOffered) * exponentialValue
-    const paymentRequestedToExponential = Number(paymentRequested) * exponentialValue
-    const sharesRequestedToExponential = Number(sharesRequested) * exponentialValue
+    const exponentialValue = new BigNumber(Math.pow(10, 8));
+    const tributeOfferedToExponential = new BigNumber(tributeOffered).multipliedBy(exponentialValue);
+    const paymentRequestedToExponential = new BigNumber(paymentRequested).multipliedBy(exponentialValue);
+    const sharesRequestedToExponential = new BigNumber(sharesRequested).multipliedBy(exponentialValue);
+
+    /* send link without http or https */
+    const modifiedLink = link.value.replace(/(^\w+:|^)\/\//, '');
 
     // validations
     if (!notNull(title.value, description.value, link.value)) return;
@@ -215,7 +219,7 @@ export default class Proposal extends Component {
       tributeToken,
       paymentRequestedToExponential,
       paymentToken,
-      /* Details JSON */ { title: title.value, description: description.value, link: link.value },
+      /* Details JSON */ { title: title.value, description: description.value, link: modifiedLink },
     );
 
     hideProposalLauncher();
@@ -226,6 +230,9 @@ export default class Proposal extends Component {
     this.setDetails();
     const { version, title, description, link, tokenToWhitelist } = this.state;
     const { accountAddress, address } = this.props;
+
+    /* send link without http or https */
+    const modifiedLink = link.value.replace(/(^\w+:|^)\/\//, '');
 
     // validations
     if (!notNull(title.value, description.value, link.value, tokenToWhitelist)) return;
@@ -238,7 +245,7 @@ export default class Proposal extends Component {
       version,
       address,
       /*Proposal information*/ tokenToWhitelist,
-      /* Details JSON */ { title: title.value, description: description.value, link: link.value },
+      /* Details JSON */ { title: title.value, description: description.value, link: modifiedLink },
     );
 
     hideProposalLauncher();
@@ -249,6 +256,9 @@ export default class Proposal extends Component {
     this.setDetails();
     const { version, title, description, link, memberToKick } = this.state;
     const { accountAddress, address } = this.props;
+
+    /* send link without http or https */
+    const modifiedLink = link.value.replace(/(^\w+:|^)\/\//, '');
 
     // validations
     if (!notNull(title.value, description.value, link.value)) return;
@@ -262,14 +272,13 @@ export default class Proposal extends Component {
       version,
       address,
       /*Proposal information*/ memberToKick.address,
-      /* Details JSON */ { title: title.value, description: description.value, link: link.value },
+      /* Details JSON */ { title: title.value, description: description.value, link: modifiedLink },
     );
 
     hideProposalLauncher();
   };
 
   handleChanges = async e => {
-    
     const name = e.target.name;
     let value = e.target.value;
     let validated;
@@ -285,7 +294,7 @@ export default class Proposal extends Component {
       this.setState({ helperText: 'Invalid format, please no decimals', error: true });
       /* automatically filled up sharesRequested field base on tributeOffered field */
     } else if (name === 'tributeOffered') {
-      this.setState({ sharesRequested: value })
+      this.setState({ sharesRequested: value });
     } else {
       value = e.target.type === 'number' && (e.target.value < 0 || e.target.value === '') ? 0 : value;
     }
@@ -293,12 +302,13 @@ export default class Proposal extends Component {
   };
 
   componentDidMount() {
-    this.setDao(this.props.address).then(() => this.state.version === '2' && this.setTokens());
+    this.setDao(process.env.REACT_APP_NERVOS_LAYER2_DAO_ADDRESS).then(
+      () => this.state.version === '2' && this.setTokens(),
+    );
     this.setState({ applicant: { address: this.props.accountAddress, validated: true } });
   }
 
-  render(
-  ) {
+  render() {
     const {
       isNewMember,
       isFunding,
@@ -334,7 +344,7 @@ export default class Proposal extends Component {
             ) : (
               <div className="option-placeholder identity-placeholder daoPreloader" />
             )}
-            <IconButton style={{ padding: '0px'}} onClick={() => hideProposalLauncher()}>
+            <IconButton style={{ padding: '0px' }} onClick={() => hideProposalLauncher()}>
               <CloseIcon />
             </IconButton>
           </div>
@@ -342,9 +352,7 @@ export default class Proposal extends Component {
             {this.state.daoName ? (
               <>
                 <div className="title">
-                  <h2>
-                    {`New ${header} Proposal`}
-                  </h2>
+                  <h2>{`New ${header} Proposal`}</h2>
                 </div>
                 <div className="switch">
                   {TYPES.map((t, i) => (
@@ -363,10 +371,7 @@ export default class Proposal extends Component {
                   <Details title={title} description={description} link={link} handleChanges={this.handleChanges} />
                   {isFunding ? <Applicant applicant={applicant} handleChanges={this.handleChanges} /> : null}
                   {isFunding || isNewMember ? (
-                    <SharesRequested
-                      sharesRequested={sharesRequested}
-                      handleChanges={this.handleChanges}
-                    />
+                    <SharesRequested sharesRequested={sharesRequested} handleChanges={this.handleChanges} />
                   ) : null}
                   {isFunding || isNewMember || isTrade ? (
                     <TributeOffered

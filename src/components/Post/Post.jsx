@@ -7,7 +7,6 @@ import i18n from 'i18n';
 import { wrapURLs } from 'utils/strings';
 import { includeInSearch } from 'components/Search/Search';
 import Account from 'components/Account/Account';
-import DAO from 'components/DAO/DAO';
 import 'styles/Dapp.css';
 import { ToEthAddress } from 'components/ToEthAddress/ToEthAddress';
 
@@ -29,6 +28,11 @@ const _isJSON = str => {
  * @param {string} description with probable json information
  * @return {string} content
  */
+
+/* 
+TODO
+ /this.props.description with function _getDescription
+*/
 const _getDescription = description => {
   // content formatting
   let content;
@@ -44,7 +48,7 @@ const _getDescription = description => {
     content = {
       title: wrapURLs(description),
       description: null,
-      link: null,
+      href: null,
     };
   }
   return content;
@@ -57,7 +61,6 @@ class Post extends Component {
   _isMounted = false;
   constructor(props) {
     super(props);
-    this.state = _getDescription(this.props.description);
     this.state = {
       ethAddress: '',
       isFetching: false,
@@ -84,8 +87,8 @@ class Post extends Component {
   render() {
     const { ethAddress } = this.state;
     const searchCache = i18n.t('search-post-preview', {
-      title: typeof this.state.title === 'string' ? parser(this.state.title) : this.state.title,
-      description: typeof this.state.description === 'string' ? parser(this.state.description) : this.state.description,
+      title: typeof this.props.title === 'string' ? parser(this.props.title) : this.props.title,
+      description: typeof this.props.description === 'string' ? parser(this.props.description) : this.props.description,
     });
     includeInSearch(this.props.href, searchCache, 'search-contract');
 
@@ -94,32 +97,31 @@ class Post extends Component {
         <div className="checkbox checkbox-custom">
           <div className="meta meta-search meta-bar">
             <Account publicAddress={this.state.isFetching ? ethAddress : 'Loading...'} width="16px" height="16px" />
-            <DAO publicAddress={this.props.daoAddress} width="16px" height="16px" />
           </div>
           <div className="option-proposal">
             <div className="option-title option-link option-search title-input">
               <div className="title-input title-feed">
                 <div className="title-header">
-                  {typeof this.state.title === 'string' ? parser(this.state.title) : this.state.title}
+                  {typeof this.props.title === 'string' ? parser(this.props.title) : this.props.title}
                 </div>
-                {this.state.description ? (
+                {this.props.description ? (
                   <div className="title-description">
-                    {typeof this.state.description === 'string'
-                      ? parser(this.state.description)
-                      : this.state.description}
+                    {typeof this.props.description === 'string'
+                      ? parser(this.props.description)
+                      : this.props.description}
                   </div>
                 ) : null}
-                {this.state.link ? (
+                {this.props.link ? (
                   <div className="title-description">
                     <a
-                      href={this.state.link}
+                      href={`https://${this.props.link}`}
                       target="_blank"
                       rel="noopener noreferrer"
                       onClick={e => {
                         e.stopPropagation();
                       }}
                     >
-                      {this.state.link}
+                      {this.props.link}
                     </a>
                   </div>
                 ) : null}
@@ -135,6 +137,8 @@ class Post extends Component {
 
 Post.propTypes = {
   href: PropTypes.string,
+  title: PropTypes.string,
+  link: PropTypes.string,
   description: PropTypes.string,
   daoAddress: PropTypes.string,
   memberAddress: PropTypes.string,

@@ -196,7 +196,7 @@ export const submitProposal = async (
     tributeToken,
     paymentRequested,
     paymentToken,
-    details,
+    `{"title": "${details.title}", "description": "${details.description}", "link": "${details.link}"}`,
   );
 
   const estimatedGas = await getEstimatedGas(proposal);
