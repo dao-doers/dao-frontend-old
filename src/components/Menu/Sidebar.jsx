@@ -3,7 +3,6 @@ import { useQuery } from '@apollo/react-hooks';
 import PropTypes from 'prop-types';
 
 import Item from 'components/Item/Item';
-import DAO from 'components/DAO/DAO';
 
 import { query } from 'components/Menu/queries';
 import { reduce, sortBy } from 'lodash';
@@ -309,14 +308,6 @@ const MenuQuery = ({ accountAddress, address, scrollUp, view, proposalId, param 
     );
 
   const defaultMenu = _getMenu(view, data, address, param);
-  const sorted = _getDAOs(data);
-  const daoList = sorted.map((item, key) => {
-    return (
-      <Item key={key} href={`/dao/${item.id}`} score={null}>
-        <DAO publicAddress={item.id} width="16px" height="16px" format="plainText" />
-      </Item>
-    );
-  });
 
   const menuList = defaultMenu;
   const hasContent = _checkContent(view, menuList);
@@ -324,13 +315,6 @@ const MenuQuery = ({ accountAddress, address, scrollUp, view, proposalId, param 
   const daoMemberships = (
     <>
       <div className="separator">{_getHeadline('memberships', address, view)}</div>
-      {daoList.length > 0 ? (
-        <div className="submenu">{daoList}</div>
-      ) : (
-        <div className="submenu">
-          <div className="empty">{i18n.t('no-memberships-found')}</div>
-        </div>
-      )}
     </>
   );
 
@@ -424,23 +408,6 @@ export default class Sidebar extends Component {
   }
 
   render() {
-    if (
-      this.props.view !== routerView.HOME &&
-      this.props.view !== routerView.PERIOD &&
-      this.props.view !== routerView.SEARCH
-    ) {
-      return (
-        <MenuQuery
-          accountAddress={this.props.accountAddress}
-          address={this.props.address}
-          scrollUp={this.state.scrollUp}
-          view={this.props.view}
-          proposalId={this.props.proposalId}
-          param={this.props.param}
-        />
-      );
-    }
-
     const defaultMenu = _getMenu(routerView.HOME);
 
     return (
@@ -453,6 +420,14 @@ export default class Sidebar extends Component {
           ) : null}
           <div className="separator">{_getHeadline('proposals', this.props.address, this.props.view)}</div>
           {defaultMenu}
+          <button
+            onClick={() =>
+              this.props.accountAddress === '0x0' ? noAddress() : showProposalLauncher(this.props.address)
+            }
+            className="proposalButton"
+          >
+            Make a <span>proposal</span>
+          </button>
         </div>
       </div>
     );

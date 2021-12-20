@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import parser from 'html-react-parser';
-import { Link, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 
 import i18n from 'i18n';
 import { wrapURLs } from 'utils/strings';
 import { includeInSearch } from 'components/Search/Search';
 import Account from 'components/Account/Account';
-import DAO from 'components/DAO/DAO';
 import 'styles/Dapp.css';
 import { ToEthAddress } from 'components/ToEthAddress/ToEthAddress';
 
@@ -64,9 +63,10 @@ class Post extends Component {
     super(props);
     this.state = {
       ethAddress: '',
-      isFetching: false};
+      isFetching: false,
+    };
   }
- 
+
   componentDidMount() {
     this._isMounted = true;
 
@@ -97,7 +97,6 @@ class Post extends Component {
         <div className="checkbox checkbox-custom">
           <div className="meta meta-search meta-bar">
             <Account publicAddress={this.state.isFetching ? ethAddress : 'Loading...'} width="16px" height="16px" />
-            <DAO publicAddress={this.props.daoAddress} width="16px" height="16px" />
           </div>
           <div className="option-proposal">
             <div className="option-title option-link option-search title-input">

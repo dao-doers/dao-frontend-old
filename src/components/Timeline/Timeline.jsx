@@ -18,7 +18,6 @@ import Contract from 'components/Contract/Contract';
 import Placeholder from 'components/Timeline/Placeholder';
 import Survey from 'components/Poll/Survey';
 import Social from 'components/Social/Social';
-import Flag from 'components/Flag/Flag';
 import Toggle from 'components/Toggle/Toggle';
 import Search from 'components/Search/Search';
 import Paginator from 'components/Paginator/Paginator';
@@ -48,6 +47,7 @@ import { sponsorProposal } from 'components/ProposalLauncher/utils';
 import DChart from 'components/DChart/DChart';
 
 const numbro = require('numbro');
+import Alert from '@material-ui/lab/Alert';
 
 /**
  * @summary retrieves the corresponding query for the timeline.
@@ -427,45 +427,60 @@ const Feed = function (props) {
                       {/* <Token quantity={proposal.noShares} symbol="SHARES" /> */}
                       </Choice>
                     </Survey>
-                    <Period
-                      now={timestamp}
-                      url={url}
-                      status={status}
-                      votingPeriodBegins={proposal.votingPeriodStarts}
-                      votingPeriodEnds={proposal.votingPeriodEnds}
-                      gracePeriodEnds={proposal.gracePeriodEnds}
-                    />
-                  </Poll>
-                ) : null}
-                {isUnsponsored ? (
-                  <>
-                    <button onClick={() => sponsorProposal(connectedAccount, daoAddress, proposal.proposalId)}>
-                      Sponsor
-                    </button>
-                    <Flag
-                      styleClass="warning period period-unsponsored"
-                      url={url}
-                      label={i18n.t('moloch-flag-unsponsored')}
-                      tooltip={i18n.t('moloch-open-proposal')}
-                    />
-                  </>
-                ) : null}
-                {proposal.cancelled ? (
-                  <Flag
-                    styleClass="warning period period-cancelled"
+                  <Period
+                    now={timestamp}
                     url={url}
-                    label={i18n.t('moloch-flag-cancelled')}
-                    tooltip={i18n.t('moloch-open-proposal')}
+                    status={status}
+                    votingPeriodBegins={proposal.votingPeriodStarts}
+                    votingPeriodEnds={proposal.votingPeriodEnds}
+                    gracePeriodEnds={proposal.gracePeriodEnds}
                   />
-                ) : null}
-              </Expand>
-            </div>
-            <Social url={url} description={proposal.details}>
-              <Stamp url={url} timestamp={proposal.createdAt} />
-            </Social>
-          </Post>
-        );
-      });
+                </Poll>
+              ) : null}
+              {isUnsponsored ? (
+                <>
+                  <div style={{ paddingTop: '10px' }}>
+                    <button
+                      className="submit-sponsor glow-on-hover"
+                      onClick={() => sponsorProposal(connectedAccount, daoAddress, proposal.proposalId)}
+                    >
+                      Sponsor proposal
+                    </button>
+                  </div>
+                  <div className="alert-style">
+                    <Alert
+                      className="warning period period-unsponsored"
+                      severity="warning"
+                      variant="standard"
+                      url={url}
+                      tooltip={i18n.t('moloch-open-proposal')}
+                    >
+                      {i18n.t('moloch-flag-unsponsored')}
+                    </Alert>
+                  </div>
+                </>
+              ) : null}
+              {proposal.cancelled ? (
+                <div className="alertStyle">
+                  <Alert
+                    className="warning period period-cancelled"
+                    severity="error"
+                    variant="standard"
+                    url={url}
+                    tooltip={i18n.t('moloch-open-proposal')}
+                  >
+                    {i18n.t('moloch-flag-cancelled')}
+                  </Alert>
+                </div>
+              ) : null}
+            </Expand>
+          </div>
+          <Social url={url} description={proposal.details}>
+            <Stamp url={url} timestamp={proposal.createdAt} />
+          </Social>
+        </Post>
+      );
+    });
 
     return (
       <>
