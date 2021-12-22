@@ -14,6 +14,7 @@ import logo from 'images/logo.png';
 
 import i18n from 'i18n';
 import 'styles/Dapp.css';
+import DBadge from 'components/DBadge/DBadge';
 
 // scroll settings
 let lastScrollTop = 0;
@@ -131,7 +132,15 @@ class Browser extends Component {
               <div id="nav-home" className="hero-home-button">
                 <img className="hero-logo" alt="" src={logo} onClick={this.handleClick} />
               </div>
-              <span className="hero-home-text">Nervos Community DAO</span>
+              <DBadge
+                badgeBorderColor="#01c190"
+                badgeBorderStyle="solid"
+                badgeBorderWidth="2px"
+                badgeContent="Indexer status is: OK"
+                variant="standard"
+              >
+                <span className="hero-home-text">Nervos Community DAO</span>
+              </DBadge>
             </div>
             {this.connectedWallet() ? (
               <div className="hero-button hero-button-mobile hero-signin">

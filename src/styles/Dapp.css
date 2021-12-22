@@ -15,6 +15,13 @@
   --browser-button-color: #7d8499;
   --menu-sidebar-selected: #580173;
   --bar-tag: #f3e7f7;
+  --accent: #e60f5a;
+  --primary: #0f75db;
+  --info: #0c78a6;
+  --default: #5a7681;
+  --warn: #ffb500;
+  --default-darker: #14171a;
+  --white: #fff;
 }
 
 @-webkit-keyframes preloader-content {
