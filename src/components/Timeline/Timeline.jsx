@@ -44,9 +44,7 @@ import thumbDownActive from 'images/rejected-active.svg';
 
 import 'styles/Dapp.css';
 import { sponsorProposal } from 'components/ProposalLauncher/utils';
-import DChart from 'components/DChart/DChart';
 
-const numbro = require('numbro');
 import Alert from '@material-ui/lab/Alert';
 
 /**
@@ -141,22 +139,15 @@ const Feed = function (props) {
     variables: { address, first, skip, orderBy, orderDirection, now, proposalId, param, dateBegin, dateEnd },
   });
 
-  const [loadingChart, setLoadingChart] = useState(true);
   let isMounted = true;
   useEffect(() => {
     if (isMounted) {
       getFeed();
     }
-    const timer = setTimeout(() => {
-      if (loadingChart) {
-        setLoadingChart(false);
-      }
-    });
   
     return () => {
       // eslint-disable-next-line react-hooks/exhaustive-deps
       isMounted = false;
-      clearTimeout(timer);
     };
   }, []);
 
@@ -392,51 +383,20 @@ const Feed = function (props) {
                         status={status}
                         votingPeriodBegins={proposal.votingPeriodStarts}
                         abi={abiLibrary}
-                        labelNo={i18n.t('no')}
-                        labelYes={i18n.t('yes')}
-                        componentChart={
-                          <DChart
-                            defaultTextTop={`Proposal #${proposal.proposalId}`}
-                            defaultTextMiddle="Vote now"
-                            defaultTextBottom={`Total: ${totalVoters}`}
-                            loadingAnimationDuration={1000}
-                            size={200}
-                            
-                            data={[
-                              {
-                                color: 'var(--negative-signal-color)',
-                                textTop: i18n.t('no'),
-                                textMiddle: `${numbro(noPercentage * 10).format('0')}%`,
-                                textBottom: `votes: ${proposal.noShares}`,
-                                value: proposal.noVotes,
-                                name: 'no',
-                              },
-                              {
-                                color: 'var(--positive-signal-color)',
-                                textTop: i18n.t('yes'),
-                                textMiddle: `${numbro(yesPercentage * 10).format('0')}%`,
-                                textBottom: `votes: ${proposal.yesShares}`,
-                                value: proposal.yesVotes,
-                                name: 'yes',
-                              },
-                            ]}
-                          />
-                        }
-                      >
-                        {/* <Token quantity={proposal.yesShares} symbol="SHARES" /> */}
-                      {/* <Token quantity={proposal.noShares} symbol="SHARES" /> */}
-                      </Choice>
+                        data={[proposal.yesShares, proposal.noShares]}
+                        totalVotes={String(totalVoters)}
+                      />
                     </Survey>
-                  <Period
-                    now={timestamp}
-                    url={url}
-                    status={status}
-                    votingPeriodBegins={proposal.votingPeriodStarts}
-                    votingPeriodEnds={proposal.votingPeriodEnds}
-                    gracePeriodEnds={proposal.gracePeriodEnds}
-                  />
-                </Poll>
-              ) : null}
+                    <Period
+                      now={timestamp}
+                      url={url}
+                      status={status}
+                      votingPeriodBegins={proposal.votingPeriodStarts}
+                      votingPeriodEnds={proposal.votingPeriodEnds}
+                      gracePeriodEnds={proposal.gracePeriodEnds}
+                    />
+                  </Poll>
+                ) : null}
               {isUnsponsored ? (
                 <>
                   <div style={{ paddingTop: '10px' }}>
