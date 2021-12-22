@@ -6690,20 +6690,73 @@ h2 {
 }
 
 .poll-choice {
+  display: flex;
   padding: 5px;
-  display: inline-block;
   width: 50%;
+  justify-content: space-evenly;
+}
+
+.pool-choice-button {
+  align-self: center
+}
+
+@media (min-width: 992px) and (max-width: 1120px) {
+  .poll-survey {
+    padding-left: 5px !important;
+  }
+
+  .pool-choice-space-between {
+    display: none;
+  }
+
+  .pool-choice-button {
+    display: flex;
+    flex: 1;
+    justify-content: space-between;
+  }
 }
 
 @media (max-width: 767px) {
   .poll-choice {
     padding: 5px;
     clear: both;
-    /* display: inline-block; */
     width: 100%;
   }
 }
 
+@media (max-width: 517px) {
+  .poll-survey {
+    padding-left: 5px !important;
+  }
+
+  .pool-choice-space-between {
+    display: none;
+  }
+
+  .pool-choice-button {
+    display: flex;
+    flex: 1;
+    justify-content: space-between;
+  }
+}
+
+.pool-choice-Doughnut {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.pool-choice-button-yes {
+  background-color: var(--positive-signal-color) !important;
+}
+
+.pool-choice-space-between {
+  padding: 5px;
+  borderRadius: 8
+}
+
+.pool-choice-button-no {
+  background-color: var(--negative-signal-color) !important;
+}
 .choice {
   width: 100%;
   /* box-shadow: 0px 3px 6px 0px #88888826; */
@@ -7780,7 +7833,13 @@ h4 {
 .poll-survey {
   display: block;
   margin: 10px -5px -5px;
-  padding: 0px;
+  padding-bottom: 5px;
+}
+
+@media (min-width: 481px) {
+  .poll-survey {
+    padding-left: 40px;
+  }
 }
 
 .poll-score-bar.poll-sync {

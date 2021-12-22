@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useContext } from 'react';
+import React, { useEffect, useContext, useState } from 'react';
 import ApolloClient, { InMemoryCache } from 'apollo-boost';
 import { ApolloProvider, useLazyQuery } from '@apollo/react-hooks';
 
@@ -44,6 +44,7 @@ import thumbDownActive from 'images/rejected-active.svg';
 
 import 'styles/Dapp.css';
 import { sponsorProposal } from 'components/ProposalLauncher/utils';
+
 import Alert from '@material-ui/lab/Alert';
 
 /**
@@ -143,6 +144,7 @@ const Feed = function (props) {
     if (isMounted) {
       getFeed();
     }
+  
     return () => {
       // eslint-disable-next-line react-hooks/exhaustive-deps
       isMounted = false;
@@ -287,7 +289,6 @@ const Feed = function (props) {
             return false;
           }
         }
-
         return (
           <Post
             key={proposal.id}
@@ -382,41 +383,24 @@ const Feed = function (props) {
                         publicAddress={proposal.moloch.id}
                         description={proposal.details}
                         proposalIndex={proposal.proposalIndex}
-                        label={i18n.t('yes')}
-                        percentage={yesPercentage}
-                        voteValue={defaults.YES}
+                        voteValue={defaults.NO || defaults.YES}
+                        data={[proposal.yesShares, proposal.noShares]}
                         votingPeriodEnds={proposal.votingPeriodEnds}
                         votingPeriodBegins={proposal.votingPeriodStarts}
+                        totalVotes={String(totalVoters)}
                         abi={abiLibrary}
-                      >
-                        <Token quantity={proposal.yesShares} symbol="SHARES" />
-                      </Choice>
-                      <Choice
-                        now={timestamp}
-                        accountAddress={connectedAccount}
-                        publicAddress={proposal.moloch.id}
-                        description={proposal.details}
-                        proposalIndex={proposal.proposalIndex}
-                        label={i18n.t('no')}
-                        percentage={noPercentage}
-                        voteValue={defaults.NO}
-                        votingPeriodEnds={proposal.votingPeriodEnds}
-                        votingPeriodBegins={proposal.votingPeriodStarts}
-                        abi={abiLibrary}
-                      >
-                        <Token quantity={proposal.noShares} symbol="SHARES" />
-                      </Choice>
+                      />
                     </Survey>
-                  <Period
-                    now={timestamp}
-                    url={url}
-                    status={status}
-                    votingPeriodBegins={proposal.votingPeriodStarts}
-                    votingPeriodEnds={proposal.votingPeriodEnds}
-                    gracePeriodEnds={proposal.gracePeriodEnds}
-                  />
-                </Poll>
-              ) : null}
+                    <Period
+                      now={timestamp}
+                      url={url}
+                      status={status}
+                      votingPeriodBegins={proposal.votingPeriodStarts}
+                      votingPeriodEnds={proposal.votingPeriodEnds}
+                      gracePeriodEnds={proposal.gracePeriodEnds}
+                    />
+                  </Poll>
+                ) : null}
               {isUnsponsored ? (
                 <>
                   <div style={{ paddingTop: '10px' }}>
