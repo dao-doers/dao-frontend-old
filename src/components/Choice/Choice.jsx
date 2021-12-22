@@ -168,7 +168,7 @@ export default class Choice extends Component {
 
     return (
       <>
-        <Grid container className="poll-choice" justifyContent='center'>
+        <Grid container className="poll-choice" justifyContent='center' alignContent='center'>
           <Grid item className='pool-choice-button' >
             <Button className="pool-choice-button-yes" style={style}  onClick={this.vote} endIcon={this.props.data[0]}>{i18n.t('yes')}</Button>
             <div className='pool-choice-space-between' />
@@ -196,7 +196,7 @@ export default class Choice extends Component {
               plugins= {
                 [{
                 id: 'text',
-                beforeDraw: function(chart, a, b) {
+                beforeDraw: function(chart) {
                   var width = chart.width,
                     height = chart.height,
                     ctx = chart.ctx;
