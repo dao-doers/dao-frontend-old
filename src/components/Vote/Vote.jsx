@@ -82,7 +82,6 @@ const VoteQuery = props => {
         }}
       >
         <Account publicAddress={vote.memberAddress} width="16px" height="16px" />
-        <DAO publicAddress={vote.molochAddress} width="16px" height="16px" />
         <Transaction uintVote={vote.uintVote} description={vote.proposal.details} quantity={vote.member.shares} />
         <Stamp timestamp={vote.createdAt} format="timeSince" />
       </div>
