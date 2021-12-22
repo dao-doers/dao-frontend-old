@@ -6,7 +6,6 @@ import { ApolloProvider, useQuery } from '@apollo/react-hooks';
 import { useHistory } from 'react-router-dom';
 
 import Account from 'components/Account/Account';
-import DAO from 'components/DAO/DAO';
 import Stamp from 'components/Stamp/Stamp';
 import Transaction from 'components/Transaction/Transaction';
 
