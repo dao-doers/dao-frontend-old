@@ -379,12 +379,16 @@ const Feed = function (props) {
                     <Survey>
                       <Choice
                         now={timestamp}
-                        url={url}
-                        status={status}
-                        votingPeriodBegins={proposal.votingPeriodStarts}
-                        abi={abiLibrary}
+                        accountAddress={connectedAccount}
+                        publicAddress={proposal.moloch.id}
+                        description={proposal.details}
+                        proposalIndex={proposal.proposalIndex}
+                        voteValue={defaults.NO || defaults.YES}
                         data={[proposal.yesShares, proposal.noShares]}
+                        votingPeriodEnds={proposal.votingPeriodEnds}
+                        votingPeriodBegins={proposal.votingPeriodStarts}
                         totalVotes={String(totalVoters)}
+                        abi={abiLibrary}
                       />
                     </Survey>
                     <Period
