@@ -1,4 +1,4 @@
-name: checks
+name: Check build
 on: push
 jobs:
   eslint:
@@ -11,5 +11,5 @@ jobs:
           node-version: '14'
       - name: Install dependencies
         run: npm install
-      - name: Run eslint
-        run: npm run lint
+      - name: Test build
+        run: npm run build
