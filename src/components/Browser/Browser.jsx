@@ -17,6 +17,7 @@ import 'styles/Dapp.css';
 import DBadge from 'components/DBadge/DBadge';
 import ApolloClient, { gql, InMemoryCache } from 'apollo-boost';
 import { config } from '../../config';
+import { getBlockNumber } from 'components/ProposalLauncher/utils';
 
 // scroll settings
 let lastScrollTop = 0;
@@ -63,7 +64,8 @@ const _closeBurger = () => {
 };
 const INITIAL_STATE = {
   isLoading: false,
-  blockNumber: ''
+  blockNumber: '',
+  blockNumberLayer2: ''
 };
 /**
  * @summary displays the contents of a poll
@@ -75,18 +77,27 @@ class Browser extends Component {
     return molochClient
       .query({
         query: gql`{
-                      _meta {
-                        block {
-                          number
-                        }
-                      }
-                }`,
+          _meta {
+            block {
+              number
+            }
+          }
+        }`,
       })
       .then(res =>
         this.setState({
           blockNumber: res.data._meta.block.number
         }),)
       .catch(err => console.error('DAOs subgraph not available: ', err));
+  };
+
+  setLatestBlockFromLayer2 = () => {
+    return getBlockNumber
+      .then(res =>
+        this.setState({
+          blockNumberLayer2: res
+        }),)
+      .catch(err => console.error('Nervos Layer 2 not available: ', err));
   };
 
   constructor(props) {
@@ -155,10 +166,13 @@ class Browser extends Component {
 
   componentDidMount() {
     this.setLatestBlock()
+    this.setLatestBlockFromLayer2()
   }
 
   render() {
     console.log('blockNumber', this.state.blockNumber)
+    console.log('blockNumberLayer2', this.state.blockNumberLayer2)
+
     return (
       <>
         <div id="browser" className={this.getScrollClass()}>
@@ -171,7 +185,7 @@ class Browser extends Component {
                 badgeBorderColor="#01c190"
                 badgeBorderStyle="solid"
                 badgeBorderWidth="2px"
-                badgeContent="Indexer status is: OK"
+                badgeContent={this.state.blockNumber > this.state.blockNumberLayer2 ? `indexer status: ${this.state.blockNumber - this.state.blockNumberLayer2} blocks behind` : `indexer status: OK`}
                 variant="standard"
               >
                 <span className="hero-home-text">Nervos Community DAO</span>
