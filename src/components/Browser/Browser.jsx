@@ -15,9 +15,16 @@ import logo from 'images/logo.png';
 import i18n from 'i18n';
 import 'styles/Dapp.css';
 import DBadge from 'components/DBadge/DBadge';
+import ApolloClient, { gql, InMemoryCache } from 'apollo-boost';
+import { config } from '../../config';
 
 // scroll settings
 let lastScrollTop = 0;
+
+const molochClient = new ApolloClient({
+  uri: config.graph.moloch,
+  cache: new InMemoryCache(),
+});
 
 const _openBurger = () => {
   const dapp = document.getElementById('dapp');
@@ -54,11 +61,34 @@ const _closeBurger = () => {
     }
   }
 };
-
+const INITIAL_STATE = {
+  isLoading: false,
+  blockNumber: ''
+};
 /**
  * @summary displays the contents of a poll
  */
 class Browser extends Component {
+  state = { ...INITIAL_STATE };
+
+  setLatestBlock = () => {
+    return molochClient
+      .query({
+        query: gql`{
+                      _meta {
+                        block {
+                          number
+                        }
+                      }
+                }`,
+      })
+      .then(res =>
+        this.setState({
+          blockNumber: res.data._meta.block.number
+        }),)
+      .catch(err => console.error('DAOs subgraph not available: ', err));
+  };
+
   constructor(props) {
     super(props);
 
@@ -123,7 +153,12 @@ class Browser extends Component {
     return this.props.address !== defaults.EMPTY;
   }
 
+  componentDidMount() {
+    this.setLatestBlock()
+  }
+
   render() {
+    console.log('blockNumber', this.state.blockNumber)
     return (
       <>
         <div id="browser" className={this.getScrollClass()}>
