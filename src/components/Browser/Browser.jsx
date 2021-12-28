@@ -18,6 +18,7 @@ import DBadge from 'components/DBadge/DBadge';
 import ApolloClient, { gql, InMemoryCache } from 'apollo-boost';
 import { config } from '../../config';
 import { getBlockNumber } from 'components/ProposalLauncher/utils';
+import BigNumber from 'bignumber.js/bignumber';
 
 // scroll settings
 let lastScrollTop = 0;
@@ -62,17 +63,11 @@ const _closeBurger = () => {
     }
   }
 };
-const INITIAL_STATE = {
-  isLoading: false,
-  blockNumber: '',
-  blockNumberLayer2: ''
-};
+
 /**
  * @summary displays the contents of a poll
  */
 class Browser extends Component {
-  state = { ...INITIAL_STATE };
-
   setLatestBlock = () => {
     return molochClient
       .query({
@@ -86,8 +81,10 @@ class Browser extends Component {
       })
       .then(res =>
         this.setState({
-          blockNumber: res.data._meta.block.number
-        }),)
+          blockNumber: res.data._meta.block.number,
+          isLoading: res.loading,
+          isError: res.errors
+        }))
       .catch(err => console.error('DAOs subgraph not available: ', err));
   };
 
@@ -95,7 +92,8 @@ class Browser extends Component {
     return getBlockNumber
       .then(res =>
         this.setState({
-          blockNumberLayer2: res
+          blockNumberLayer2: res,
+          isLoadingFromLayer2: true
         }),)
       .catch(err => console.error('Nervos Layer 2 not available: ', err));
   };
@@ -107,6 +105,11 @@ class Browser extends Component {
       node: document.getElementById('browser'),
       mobileSidebar: false,
       scrollUp: false,
+      blockNumber: 0,
+      blockNumberLayer2: 0,
+      isLoading: false,
+      isLoadingFromLayer2: false,
+      isError: false
     };
 
     this.handleScroll = this.handleScroll.bind(this);
@@ -170,9 +173,13 @@ class Browser extends Component {
   }
 
   render() {
-    console.log('blockNumber', this.state.blockNumber)
-    console.log('blockNumberLayer2', this.state.blockNumberLayer2)
-
+    const {
+      isError,
+      blockNumber,
+      blockNumberLayer2,
+      isLoading,
+      isLoadingFromLayer2,
+    } = this.state;
     return (
       <>
         <div id="browser" className={this.getScrollClass()}>
@@ -181,15 +188,36 @@ class Browser extends Component {
               <div id="nav-home" className="hero-home-button">
                 <img className="hero-logo" alt="" src={logo} onClick={this.handleClick} />
               </div>
+              {!isError ?
+              blockNumber < blockNumberLayer2 ? 
               <DBadge
-                badgeBorderColor="#01c190"
-                badgeBorderStyle="solid"
-                badgeBorderWidth="2px"
-                badgeContent={this.state.blockNumber > this.state.blockNumberLayer2 ? `indexer status: ${this.state.blockNumber - this.state.blockNumberLayer2} blocks behind` : `indexer status: OK`}
+                style={{ width: 'max-content', height: 'auto' }}
+                badgeColor="var(--menu-sidebar-selected)"
+                borderColor="var(--main-headline-color)"
+                badgeContent={!isLoading && isLoadingFromLayer2 ? `indexer status: ${new BigNumber(blockNumberLayer2).minus(blockNumber)} blocks behind` : 'loading indexer status ..'}
                 variant="standard"
               >
                 <span className="hero-home-text">Nervos Community DAO</span>
-              </DBadge>
+              </DBadge> 
+              : 
+              <DBadge
+              badgeColor="var(--menu-sidebar-selected)"
+              borderColor="var(--main-headline-color)"
+              badgeContent={`indexer status: OK`}
+              variant="standard"
+            >
+              <span className="hero-home-text">Nervos Community DAO</span>
+            </DBadge>
+            :
+            <DBadge
+            badgeColor="var(--negative-signal-color)"
+            borderColor="var(--negative-signal-color)"
+            badgeContent={`indexer status: Error`}
+            variant="standard"
+          >
+            <span className="hero-home-text">Nervos Community DAO</span>
+          </DBadge>
+            }
             </div>
             {this.connectedWallet() ? (
               <div className="hero-button hero-button-mobile hero-signin">
