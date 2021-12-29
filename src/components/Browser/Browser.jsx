@@ -189,35 +189,34 @@ class Browser extends Component {
                 <img className="hero-logo" alt="" src={logo} onClick={this.handleClick} />
               </div>
               {!isError ?
-              blockNumber < blockNumberLayer2 ? 
-              <DBadge
-                style={{ width: 'max-content', height: 'auto' }}
-                badgeColor="var(--menu-sidebar-selected)"
-                borderColor="var(--main-headline-color)"
-                badgeContent={!isLoading && isLoadingFromLayer2 ? `indexer status: ${new BigNumber(blockNumberLayer2).minus(blockNumber)} blocks behind` : 'loading indexer status ..'}
-                variant="standard"
-              >
-                <span className="hero-home-text">Nervos Community DAO</span>
-              </DBadge> 
-              : 
-              <DBadge
-              badgeColor="var(--menu-sidebar-selected)"
-              borderColor="var(--main-headline-color)"
-              badgeContent={`indexer status: OK`}
-              variant="standard"
-            >
-              <span className="hero-home-text">Nervos Community DAO</span>
-            </DBadge>
-            :
-            <DBadge
-            badgeColor="var(--negative-signal-color)"
-            borderColor="var(--negative-signal-color)"
-            badgeContent={`indexer status: Error`}
-            variant="standard"
-          >
-            <span className="hero-home-text">Nervos Community DAO</span>
-          </DBadge>
-            }
+                blockNumber < blockNumberLayer2 ? 
+                <DBadge
+                  badgeColor="var(--menu-sidebar-selected)"
+                  borderColor="var(--main-headline-color)"
+                  badgeContent={isLoading && isLoadingFromLayer2 ? `indexer status: ${new BigNumber(blockNumberLayer2).minus(blockNumber)} blocks behind` : 'loading indexer status ..'}
+                  variant="standard"
+                >
+                  <span className="hero-home-text">Nervos Community DAO</span>
+                </DBadge> 
+                : 
+                <DBadge
+                  badgeColor="var(--menu-sidebar-selected)"
+                  borderColor="var(--main-headline-color)"
+                  badgeContent={`indexer status: OK`}
+                  variant="standard"
+                >
+                  <span className="hero-home-text">Nervos Community DAO</span>
+                </DBadge>
+                :
+                <DBadge
+                  badgeColor="var(--negative-signal-color)"
+                  borderColor="var(--negative-signal-color)"
+                  badgeContent={`indexer status: Error`}
+                  variant="standard"
+                >
+                  <span className="hero-home-text">Nervos Community DAO</span>
+                </DBadge>
+              }
             </div>
             {this.connectedWallet() ? (
               <div className="hero-button hero-button-mobile hero-signin">

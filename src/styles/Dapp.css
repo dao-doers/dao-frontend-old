@@ -5260,14 +5260,58 @@ blockquote {
   color: #fff;
 }
 
+/* MuiBadge class because only 1 component in project */
+.MuiBadge-anchorOriginTopRightRectangle {
+  transform: translate(110%, 5%) !important;
+}
+
+@media (max-width: 530px) {
+  .topbar {
+    height: 60px !important;
+  }
+}
+
+@media (max-width: 530px) {
+  .MuiBadge-anchorOriginTopRightRectangle {
+    transform: translate(-82%, 145%) !important;
+  }
+}
+
+@media (max-width: 440px) {
+  .MuiBadge-anchorOriginTopRightRectangle {
+    transform: translate(-41%, 140%) !important;
+  }
+}
+
 @media (max-width: 440px) {
   .hero-home-text {
     font-size: 14px;
   }
 }
 
-@media (max-width: 370px) {
+@media (max-width: 356px) {
   .hero-home-text {
+    max-width: 70px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .MuiBadge-anchorOriginTopRightRectangle {
+    transform: scale(0.80) translate(20%, 185%) !important;
+  }
+}
+
+@media (max-width: 272px) {
+  .hero-home-text {
+    display: none;
+  }
+  .MuiBadge-badge {
+    display: none !important;
+  }
+}
+
+@media (max-width: 202px) {
+  .identity {
     display: none;
   }
 }

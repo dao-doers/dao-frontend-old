@@ -3,7 +3,7 @@ import React from 'react';
 import { Badge as _Badge } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 
-var DBadge = function({
+const DBadge = function({
   invisible = false,
   badgeColor,
   badgeContent,
@@ -17,16 +17,18 @@ var DBadge = function({
   children}) {
   const CustomBadge = withStyles({
     badge: {
+      width: 'max-content',
+      height: 'auto',
       backgroundColor: badgeColor,
       color: contentColor || 'var(--white)',
       borderRadius: badgeRadius || '15px',
       paddingLeft: '10px',
       paddingRight: '10px',
-      paddingTop: '10px',
-      paddingBottom: '10px',
+      paddingTop: '2px',
+      paddingBottom: '0px',
+      fontSize: '10px',
       borderStyle: borderColor ? 'solid' : 'none',
       borderColor: borderColor,
-      transform: "scale(0.8) translate(120%, -5%)",
     }
   })(_Badge);
 
