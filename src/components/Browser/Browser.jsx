@@ -185,7 +185,7 @@ class Browser extends Component {
         <div id="browser" className={this.getScrollClass()}>
           <div className="topbar-max">
             <div className="hero-home-button-wrapper">
-              <div id="nav-home" className="hero-home-button">
+              <div style={{ pointerEvents: 'none' }} id="nav-home" className="hero-home-button">
                 <img className="hero-logo" alt="" src={logo} onClick={this.handleClick} />
               </div>
               {!isError ?
