@@ -309,27 +309,27 @@ const Feed = function (props) {
                 iconActive={ethereumActive}
               >
                 <Contract hidden={noConditions} view={props.view} href={url}>
-                  {!noSponsor ? (
+                  {noSponsor ? (
                     <Parameter label={i18n.t('moloch-sponsored-by')}>
                       <Account publicAddress={proposal.sponsor} width="16px" height="16px" />
                     </Parameter>
                   ) : null}
-                  {!noApplicant ? (
+                  {noApplicant ? (
                     <Parameter label={i18n.t('moloch-applicant')}>
                       <Account publicAddress={proposal.applicant} width="16px" height="16px" />
                     </Parameter>
                   ) : null}
-                  {!noShares ? (
+                  {noShares ? (
                     <Parameter label={i18n.t('moloch-request')}>
                       <Token quantity={String(proposal.sharesRequested)} symbol="SHARES" />
                     </Parameter>
                   ) : null}
-                  {!noLoot ? (
+                  {noLoot ? (
                     <Parameter label={i18n.t('moloch-loot')}>
                       <Token quantity={String(proposal.lootRequested)} symbol="SHARES" />
                     </Parameter>
                   ) : null}
-                  {!noTribute ? (
+                  {noTribute ? (
                     <Parameter label={i18n.t('moloch-tribute')}>
                       <Token
                         quantity={proposal.tributeOffered}
@@ -339,7 +339,7 @@ const Feed = function (props) {
                       />
                     </Parameter>
                   ) : null}
-                  {!noPayment ? (
+                  {noPayment ? (
                     <Parameter label={i18n.t('moloch-payment')}>
                       <Token
                         quantity={proposal.paymentRequested}
