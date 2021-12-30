@@ -951,6 +951,7 @@
   "failure-short": "😱",
   "proposal-submitted": "Proposal submitted",
   "proposal-submitted-successfully": "Your proposal was successfully submitted",
+  "wait-for-indexer": "wait for indexer (about few minutes) to process proposal",
   "api-error": "API error",
   "api-error-tokens": "ERC20 tokens information is not available at this time. Please try again later."
 }

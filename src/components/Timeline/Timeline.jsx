@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useContext, useState } from 'react';
+import React, { useEffect, useContext } from 'react';
 import ApolloClient, { InMemoryCache } from 'apollo-boost';
 import { ApolloProvider, useLazyQuery } from '@apollo/react-hooks';
 
@@ -43,7 +43,7 @@ import thumbDown from 'images/rejected.svg';
 import thumbDownActive from 'images/rejected-active.svg';
 
 import 'styles/Dapp.css';
-import { sponsorProposal } from 'components/ProposalLauncher/utils';
+import { hideAlert, sponsorProposal } from 'components/ProposalLauncher/utils';
 
 import Alert from '@material-ui/lab/Alert';
 
@@ -448,6 +448,7 @@ const Feed = function (props) {
 
     return (
       <>
+        {hideAlert()}
         {feed}
         {data.proposals.length >= props.first ? (
           <Paginator page={props.page}>

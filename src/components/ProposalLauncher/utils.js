@@ -35,6 +35,14 @@ export const showProposalLauncher = address => {
   window.showProposalLauncher.value = true;
 };
 
+export const hideAlert = () => {
+  window.showAlert = false;
+};
+
+export const showAlert = () => {
+  window.showAlert = true;
+};
+
 export const CLEARED_TYPES = {
   isNewMember: false,
   isFunding: false,
@@ -117,6 +125,7 @@ const getReceipt = async (proposal, user, estimatedGas) => {
   try {
     receipt = await proposal.send({ from: user, gas: estimatedGas }).on('receipt', receipt => {
       prposalSubmitted();
+      showAlert();
       console.log('RECEIPT: ', receipt);
       return receipt;
     });

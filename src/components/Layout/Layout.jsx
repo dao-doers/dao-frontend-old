@@ -14,6 +14,8 @@ import { view as routerView } from 'lib/const';
 import twitterCard from 'images/twitter-card.png';
 
 import 'styles/Dapp.css';
+import Alert from '@material-ui/lab/Alert';
+import { hideAlert, showAlert } from 'components/ProposalLauncher/utils';
 
 /**
  * @summary displays the contents of a poll
@@ -105,6 +107,13 @@ const Layout = props => {
         <div id="content" className="right">
           <div id="main-feed" className="split split-left split-landing">
             <div id="proposals" className="content content-feed max100">
+              <div style={{ paddingBottom: '15px' }}>
+                {showAlert() || hideAlert() ? (
+                  <Alert style={{ zIndex: 1, position: 'relative' }} severity="info">
+                   {i18n.t('wait-for-indexer')}
+                  </Alert>
+                ) : null}
+              </div>
               <div id="non-editable-feed">
                 <Timeline
                   address={renderAddress}
@@ -116,8 +125,8 @@ const Layout = props => {
                   first={25}
                   skip={0}
                   page={1}
-                  orderBy={'createdAt'}
-                  orderDirection={'desc'}
+                  orderBy="createdAt"
+                  orderDirection="desc"
                 />
               </div>
             </div>
