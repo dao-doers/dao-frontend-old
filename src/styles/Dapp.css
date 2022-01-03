@@ -6747,20 +6747,23 @@ h2 {
   justify-content: space-evenly;
 }
 
-.pool-choice-button {
-  align-self: center
+.pool-choice-content {
+  align-self: center;
+  padding-left: 75px;
 }
 
-@media (min-width: 992px) and (max-width: 1120px) {
-  .poll-survey {
-    padding-left: 5px !important;
+@media (min-width: 992px) and (max-width: 1180px) {
+  .pool-choice-content {
+    padding-left: 0px;
+    display: flex;
+    flex: 1;
+    justify-content: space-between;
   }
+}
 
-  .pool-choice-space-between {
-    display: none;
-  }
-
-  .pool-choice-button {
+@media (min-width: 768px) and (max-width: 802px) {
+  .pool-choice-content {
+    padding-left: 0px;
     display: flex;
     flex: 1;
     justify-content: space-between;
@@ -6775,39 +6778,31 @@ h2 {
   }
 }
 
-@media (max-width: 517px) {
-  .poll-survey {
-    padding-left: 5px !important;
-  }
-
-  .pool-choice-space-between {
-    display: none;
-  }
-
-  .pool-choice-button {
+@media (max-width: 552px) {
+  .pool-choice-content {
+    padding-left: 0px;
     display: flex;
     flex: 1;
     justify-content: space-between;
   }
 }
 
+@media (max-width: 300px) {
+  .pool-choice-content {
+    display: contents;
+  }
+}
+
+@media (max-width: 220px) {
+  .pool-choice-Doughnut {
+    transform: scale(0.8);
+  }
+}
 .pool-choice-Doughnut {
   padding-top: 10px;
   padding-bottom: 10px;
 }
 
-.pool-choice-button-yes {
-  background-color: var(--positive-signal-color) !important;
-}
-
-.pool-choice-space-between {
-  padding: 5px;
-  borderRadius: 8
-}
-
-.pool-choice-button-no {
-  background-color: var(--negative-signal-color) !important;
-}
 .choice {
   width: 100%;
   /* box-shadow: 0px 3px 6px 0px #88888826; */
@@ -7885,12 +7880,6 @@ h4 {
   display: block;
   margin: 10px -5px -5px;
   padding-bottom: 5px;
-}
-
-@media (min-width: 481px) {
-  .poll-survey {
-    padding-left: 40px;
-  }
 }
 
 .poll-score-bar.poll-sync {

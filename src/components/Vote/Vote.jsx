@@ -73,6 +73,7 @@ const VoteQuery = props => {
   }
 
   return data.votes.map(vote => {
+    window.showVotedIcon = vote.uintVote
     return (
       <div
         key={vote.id}

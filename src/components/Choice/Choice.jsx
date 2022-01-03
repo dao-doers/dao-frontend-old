@@ -20,15 +20,10 @@ import logo from 'images/vote.svg';
 import { getDescription } from 'components/Post/Post';
 import i18n from 'i18n';
 import 'styles/Dapp.css';
-import { Doughnut } from 'react-chartjs-2';
-import {Chart, ArcElement} from 'chart.js'
-import ChartDataLabels from "chartjs-plugin-datalabels";
 
 import { Button } from '@material-ui/core';
-Chart.register(
-  ArcElement, 
-  ChartDataLabels,
-);
+import DoneIcon from "@material-ui/icons/Done";
+
 
 /**
  * @summary displays the contents of a poll
@@ -39,8 +34,6 @@ export default class Choice extends Component {
     children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
     accountAddress: PropTypes.string,
     percentage: PropTypes.string,
-    labelYes: PropTypes.string,
-    labelNo: PropTypes.string,
     voteValue: PropTypes.number,
     votingPeriodBegins: PropTypes.string,
     votingPeriodEnds: PropTypes.string,
@@ -51,14 +44,15 @@ export default class Choice extends Component {
     now: PropTypes.number,
     abi: PropTypes.string,
     data: PropTypes.any,
-    totalVotes: PropTypes.any,
+    backgroundColor: PropTypes.string,
+    showVotedIcon: PropTypes.bool
   };
 
   constructor(props) {
     super(props);
 
     this.state = {
-      showModal: false,
+      showModal: false
     };
   }
 
@@ -109,6 +103,7 @@ export default class Choice extends Component {
 
     // already voted
     if (!(await hasVoted(this.props.accountAddress, this.props.proposalIndex, this.props.publicAddress))) {
+      this.setState({ showIcon: true })
       return alreadyVoted();
     }
 
@@ -160,100 +155,15 @@ export default class Choice extends Component {
       height: 30,
       width: 100,
       color: 'var(--background-color)',
-      fontWeight: 'bold'
+      fontWeight: 'bold',
+      backgroundColor: this.props.backgroundColor
     };
-
-    let sumArray = this.props.data.reduce((a, b) => a + b, 0)
-    let totalVotes = this.props.totalVotes
-
     return (
       <>
         <Grid container className="poll-choice" justifyContent='center' alignContent='center'>
-          <Grid item className='pool-choice-button' >
-            <Button className="pool-choice-button-yes" style={style}  onClick={this.vote} endIcon={this.props.data[0]}>{i18n.t('yes')}</Button>
-            <div className='pool-choice-space-between' />
-            <Button style={style} className="pool-choice-button-no" onClick={this.vote} endIcon={this.props.data[1]}>{i18n.t('no')}</Button>
+          <Grid item className='pool-choice-button'>
+            <Button startIcon={this.props.showVotedIcon ? <DoneIcon /> : null} style={style} onClick={this.vote} endIcon={this.props.data}>{this.props.label}</Button>
           </Grid>
-          <Grid item className='pool-choice-Doughnut'>
-            <Doughnut
-              data={{
-                labels: ['yes', 'no'],
-                datasets: [
-                  {
-                    label: ['yes', 'no'],
-                    data: sumArray === '000' ? [1,1] : this.props.data,
-                    backgroundColor: [
-                      "#01c190",
-                      "#ff3d67",
-                    ],
-                    cutout: '75%',
-                    hoverOffset: 3,
-                    borderColor: '#fff',
-                    hoverBorderColor: ['#e8f4fd'],
-                  },
-                ],
-              }}
-              plugins= {
-                [{
-                id: 'text',
-                beforeDraw: function(chart) {
-                  var width = chart.width,
-                    height = chart.height,
-                    ctx = chart.ctx;
-                  ctx.restore();
-                  var fontSize = (height / 200).toFixed(2);
-                  ctx.font = fontSize + "em sans-serif";
-                  ctx.textBaseline = "middle";
-
-                  var text = sumArray === '000' ? 'VOTE NOW' : `VOTES: ${totalVotes}`,
-                    textX = Math.round((width - ctx.measureText(text).width) / 2),
-                    textY = height / 2;
-
-                  ctx.fillText(text, textX, textY);
-                  ctx.save();
-                }
-              }]
-            }
-              options={{
-                // onClick: this.vote,
-                responsive:true,
-                maintainAspectRatio: false,
-                animation: {
-                  animateScale: true,
-                    duration: 1000
-                },
-                plugins: {
-                  ChartDataLabels,
-                  datalabels: {
-                    // backgroundColor: function(context) {
-                    //   return context.dataset.backgroundColor;
-                    // },
-                    formatter: (value, ctx) => {
-                      let sum = 0;
-                      let dataArr = ctx.chart.data.datasets[0].data;
-                      dataArr.map(data => {
-                          sum += data;
-                      });
-                      let percentage = (value*100 / sum).toFixed(0)+"%";
-                      return ctx.active ? percentage : null;
-                  },
-                    offset: 8,
-                    align: 'end',
-                    anchor: 'end',
-                    // borderColor: 'white',
-                    borderRadius: 50,
-                    borderWidth: 2,
-                    color: 'black',
-                    font: {
-                      weight: 'bold',
-                      size: 10
-                    },
-                    padding: 5,
-                  },
-                }
-            }}
-        />
-        </Grid>
       </Grid>
       </>
     );
