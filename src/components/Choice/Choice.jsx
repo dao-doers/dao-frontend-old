@@ -103,7 +103,6 @@ export default class Choice extends Component {
 
     // already voted
     if (!(await hasVoted(this.props.accountAddress, this.props.proposalIndex, this.props.publicAddress))) {
-      this.setState({ showIcon: true })
       return alreadyVoted();
     }
 
