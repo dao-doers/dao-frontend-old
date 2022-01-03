@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useContext, useState } from 'react';
+import React, { useEffect, useContext } from 'react';
 import ApolloClient, { InMemoryCache } from 'apollo-boost';
 import { ApolloProvider, useLazyQuery } from '@apollo/react-hooks';
 
@@ -44,8 +44,15 @@ import thumbDownActive from 'images/rejected-active.svg';
 
 import 'styles/Dapp.css';
 import { sponsorProposal } from 'components/ProposalLauncher/utils';
-
+import { Doughnut } from 'react-chartjs-2';
+import {Chart, ArcElement} from 'chart.js'
+import ChartDataLabels from "chartjs-plugin-datalabels";
+Chart.register(
+  ArcElement, 
+  ChartDataLabels,
+);
 import Alert from '@material-ui/lab/Alert';
+import { Grid } from '@material-ui/core';
 
 /**
  * @summary retrieves the corresponding query for the timeline.
@@ -144,7 +151,7 @@ const Feed = function (props) {
     if (isMounted) {
       getFeed();
     }
-  
+
     return () => {
       // eslint-disable-next-line react-hooks/exhaustive-deps
       isMounted = false;
@@ -272,6 +279,7 @@ const Feed = function (props) {
 
         const proposalValue = _getProposalValue(proposal);
         const abiLibrary = 'moloch2';
+        const sumArray = [proposal.yesShares, proposal.noShares].reduce((a, b) => a + b, 0);
 
         function parseData(dt) {
           if (!dt) return {};
@@ -289,6 +297,7 @@ const Feed = function (props) {
             return false;
           }
         }
+
         return (
           <Post
             key={proposal.id}
@@ -377,19 +386,113 @@ const Feed = function (props) {
                       gracePeriodEnds={proposal.gracePeriodEnds}
                     />
                     <Survey>
-                      <Choice
-                        now={timestamp}
-                        accountAddress={connectedAccount}
-                        publicAddress={proposal.moloch.id}
-                        description={proposal.details}
-                        proposalIndex={proposal.proposalIndex}
-                        voteValue={defaults.NO || defaults.YES}
-                        data={[proposal.yesShares, proposal.noShares]}
-                        votingPeriodEnds={proposal.votingPeriodEnds}
-                        votingPeriodBegins={proposal.votingPeriodStarts}
-                        totalVotes={String(totalVoters)}
-                        abi={abiLibrary}
-                      />
+                      <Grid container justifyContent="center">
+                        <Grid item className="pool-choice-content">
+                          <Choice
+                            now={timestamp}
+                            accountAddress={connectedAccount}
+                            publicAddress={proposal.moloch.id}
+                            description={proposal.details}
+                            proposalIndex={proposal.proposalIndex}
+                            label={i18n.t('yes')}
+                            voteValue={defaults.YES}
+                            showVotedIcon={proposal.votes[0]?.uintVote === 1 ? true : false}
+                            data={[proposal.yesShares]}
+                            backgroundColor="var(--positive-signal-color)"
+                            votingPeriodEnds={proposal.votingPeriodEnds}
+                            votingPeriodBegins={proposal.votingPeriodStarts}
+                            totalVotes={String(totalVoters)}
+                            abi={abiLibrary}
+                          />
+                          <Choice
+                            now={timestamp}
+                            accountAddress={connectedAccount}
+                            publicAddress={proposal.moloch.id}
+                            description={proposal.details}
+                            proposalIndex={proposal.proposalIndex}
+                            label={i18n.t('no')}
+                            voteValue={defaults.NO}
+                            showVotedIcon={proposal.votes[0]?.uintVote === 2 ? true : false}
+                            data={[proposal.noShares]}
+                            backgroundColor="var(--negative-signal-color)"
+                            votingPeriodEnds={proposal.votingPeriodEnds}
+                            votingPeriodBegins={proposal.votingPeriodStarts}
+                            abi={abiLibrary}
+                          />
+                        </Grid>
+                        <Grid item className="pool-choice-Doughnut">
+                          <Doughnut
+                            data={{
+                              labels: ['yes', 'no'],
+                              datasets: [
+                                {
+                                  label: ['yes', 'no'],
+                                  data: sumArray === '000' ? [1, 1] : [proposal.yesShares, proposal.noShares],
+                                  backgroundColor: ['#01c190', '#ff3d67'],
+                                  cutout: '75%',
+                                  hoverOffset: 3,
+                                  borderColor: '#fff',
+                                  hoverBorderColor: ['#e8f4fd'],
+                                },
+                              ],
+                            }}
+                            plugins={
+                              [{
+                              id: 'text',
+                              beforeDraw: function(chart) {
+                                var width = chart.width,
+                                  height = chart.height,
+                                  ctx = chart.ctx;
+                                ctx.restore();
+                                var fontSize = (height / 200).toFixed(2);
+                                ctx.font = fontSize + "em sans-serif";
+                                ctx.textBaseline = "middle";
+                      
+                                var text = sumArray === '000' ? 'VOTE NOW' : `VOTES: ${totalVoters}`,
+                                  textX = Math.round((width - ctx.measureText(text).width) / 2),
+                                  textY = height / 2;
+                      
+                                ctx.fillText(text, textX, textY);
+                                ctx.save();
+                              }
+                            }]
+                            }
+                            options={{
+                              responsive: true,
+                              maintainAspectRatio: false,
+                              animation: {
+                                animateScale: true,
+                                duration: 1000,
+                              },
+                              plugins: {
+                                ChartDataLabels,
+                                datalabels: {
+                                  formatter: (value, ctx) => {
+                                    let sum = 0;
+                                    let dataArr = ctx.chart.data.datasets[0].data;
+                                    dataArr.map(data => {
+                                      sum += data;
+                                    });
+                                    let percentage = (value*100 / sum).toFixed(0)+"%";
+                                    return ctx.active ? percentage : null;
+                                },
+                                  offset: 8,
+                                  align: 'end',
+                                  anchor: 'end',
+                                  borderRadius: 50,
+                                  borderWidth: 2,
+                                  color: 'black',
+                                  font: {
+                                    weight: 'bold',
+                                    size: 10,
+                                  },
+                                  padding: 5,
+                                },
+                              },
+                            }}
+                          />
+                        </Grid>
+                      </Grid>
                     </Survey>
                     <Period
                       now={timestamp}
